@@ -30,20 +30,20 @@
                 <form>
                     <h1>Crie sua Conta</h1>
                     <span>Use seu email para se registrar</span>
-                    <input type="text" placeholder="Nome">
-                    <input type="text" placeholder="Email">
-                    <input type="password" placeholder="Senha">
-                    <button type="button">Criar</button>
+                    <input type="text" id="input_nome" placeholder="Nome">
+                    <input type="text" id="input_email_cadastro"placeholder="Email">
+                    <input type="password" id="input_senha_cadastro" placeholder="Senha">
+                    <button type="button" onclick="cadastrar()">Criar</button>
                 </form>
             </div>
             <div class="form-container entrar">
                 <form>
                     <h1>Acesse sua Conta</h1>
                     <span>Acesse com Email e Senha</span>
-                    <input type="text" placeholder="Email">
-                    <input type="password" placeholder="Senha">
+                    <input type="text" id="input_email_login" placeholder="Email">
+                    <input type="password" id="input_senha_login" placeholder="Senha">
                     <a href="#">Esqueceu sua Senha?</a>
-                    <button type="button">Login</button>
+                    <button type="button" onclick="entrar()">Login</button>
                 </form>
             </div>
             <div class="mudanca-container">

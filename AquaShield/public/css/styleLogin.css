@@ -54,7 +54,10 @@ body {
 .header .container {
     justify-content: space-between;
     align-items: center;
-    height: 100%;
+    width: 90%; 
+    max-width: 1400px; 
+    margin: 0 auto; 
+    padding: 0 20px;
 }
 
 .titulo {
@@ -172,7 +175,7 @@ body {
 }
 
 .login-container button {
-    background-color: #00B89F;
+    background-color: #1f99ac;
     color: #fff;
     font-size: 12px;
     padding: 10px 45px;
@@ -271,7 +274,7 @@ body {
 }
 
 .mudanca {
-    background: linear-gradient(to right, #00B89F, #1B8576);
+    background: linear-gradient(to right, #32b9cd, #0e5d69);
     color: #fff;
     position: relative;
     left: -100%;
