@@ -5,77 +5,223 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>AquaTech | Página Inicial</title>
-
+ 
+    <title>AquaShield | Página Inicial</title>
+ 
     <script src="./js/sessao.js"></script>
-
-    <link rel="stylesheet" href="./css/estilo.css">
+ 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+ 
+    <link rel="stylesheet" href="./css/index.css">
     <link rel="icon" href="./assets/icon/favicon2.ico">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
 </head>
 
 <body>
+   <!-- HEADER -->
     <div class="header">
-      <div class="container">
-        <h1 class="titulo">AquaTech</h1>
-        <ul class="navbar">
-          <li class="agora">
-            <a href="#">Inicial</a>
-          </li>
-          <li>
-            <a href="simulador.html">Simulador</a>
-          </li>
-          <li>|</li>
-          <li>
-            <a href="login.html">Login</a>
-          </li>
-          <li>
-            <a href="cadastro.html">Cadastro</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  
-    <div class="banner">
-      <div class="container">
-        <p>Preservando <span>hoje</span> para existirem <span>amanhã</span>.</p>
-      </div>
-    </div>
-  
-    <div class="social">
-      <div class="container">
-        <div class="boxes">
-          <div class="box">
-            <img src="assets/imgs/planet-earth_color.png">
-            <h4>Missão</h4>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et, quas cupiditate asperiores provident magnam
-              vitae illum iusto fugiat atque deleniti nulla sed iure suscipit, laborum, aliquid accusantium cum dicta
-              minima.</p>
-          </div>
-          <div class="box">
-            <img src="assets/imgs/lightbulb_color.png">
-            <h4>Visão</h4>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et, quas cupiditate asperiores provident magnam
-              vitae illum iusto fugiat atque deleniti nulla sed iure suscipit, laborum, aliquid accusantium cum dicta
-              minima.</p>
-          </div>
-          <div class="box">
-            <img src="assets/imgs/growth_color.png">
-            <h4>Valores</h4>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et, quas cupiditate asperiores provident magnam
-              vitae illum iusto fugiat atque deleniti nulla sed iure suscipit, laborum, aliquid accusantium cum dicta
-              minima.</p>
-          </div>
+        <div class="container">
+            <h1 class="titulo"><img src="../public/assets/icon/LOGO .svg" alt=""></h1>
+            <ul class="navbar">
+                <li><a href="index.html">Inicial</a></li>
+                <li><a href="simulador.html">Simulador</a></li>
+                <li></li>
+                <li class="agora"><a href="login.html">Login</a></li>
+                <li><a href="#">Cadastro</a></li>
+            </ul>
         </div>
-      </div>
     </div>
   
-    <div class="footer">
-      <div class="container">
-        <h4>Feito com amor por aluno &hearts; SPTech &copy; 2023-2026</h4>
-      </div>
-    </div>
-  </body>
+    <main class="pagina">
+ 
+         
+        <section class="hero">
+          <video class="hero__video" autoplay muted loop playsinline
+           poster="./assets/imgs/bg-jelly-fish-para-home.png">
+        <source src="../public/assets/fundo-agua.mp4" type="video/mp4">
+          </video>
 
+        <h2 class="hero__titulo">AQUASHIELD</h2>
+           
+        </section>
+ 
+         
+        <section class="chamada" id="inicio">
+         <h2 class="chamada__subtitulo">
+          Monitoramento preventivo da infraestrutura computacional em sistemas de abastecimento de água.
+        </h2>
+
+        <hr class="divisor divisor--fino">
+
+        <p class="chamada__slogan">MONITORE. IDENTIFIQUE. PREVINA.</p>
+        <a href="#o-que-monitoramos" class="botao">Conheça a solução</a>
+      </section>
+ 
+        
+        <section class="sobre" id="sobre-nos">
+            <div class="sobre__texto">
+                <h3 class="sobre__titulo">SOBRE NÓS</h3>
+                <p>
+                    O AQUASHIELD é uma solução de software distribuída em arquitetura Client/Web, desenvolvida para a
+                    observabilidade e garantia de disponibilidade da infraestrutura computacional em Estações de
+                    Tratamento e Abastecimento de Água (ETA). A plataforma combina um agente local (Client) responsável
+                    pela extração contínua de telemetria do sistema operacional — como métricas de CPU, memória RAM,
+                    armazenamento e temperatura — com uma aplicação Web centralizada. Essa estrutura permite
+                    correlacionar dados do hardware, identificar desvios comportamentais e alertar sobre potenciais
+                    gargalos antes que causem a indisponibilidade dos sistemas de supervisão e controle (SCADA/IHM).
+                </p>
+            </div>
+        </section>
+ 
+         
+        <div class="faixa-imagem">
+            <img src="../public/assets/pexels-amine-km-936570-5712211.jpg">
+        </div>
+ 
+         
+        <section class="problema" id="suporte">
+            <div class="problema__coluna problema__coluna--esquerda">
+                <img class="problema__img problema__img--operador"
+                     src="./assets/imgs/operador-scada.jpg"
+                     alt="Operador acompanhando o sistema de supervisão da ETA">
+ 
+                <div class="bloco bloco--abaixo">
+                    <h3 class="bloco__titulo">Por que queremos enfrentar este problema?</h3>
+                    <p>
+                        O tratamento e o abastecimento de água dependem da estabilidade dos sistemas computacionais
+                        utilizados na supervisão das bombas nas Estações de Tratamento de Água. Quando o computador
+                        responsável pela supervisão apresenta lentidão, superaquecimento ou falhas de hardware, a equipe
+                        pode perder a visibilidade das condições da operação, dificultando a identificação de problemas
+                        e a tomada de decisões.
+                    </p>
+                    <p>
+                        Queremos enfrentar este problema para prevenir que falhas no hardware desses computadores se
+                        transformem em incidentes operacionais. Com o monitoramento contínuo de componentes como CPU,
+                        memória RAM, armazenamento e dispositivos USB, buscamos contribuir para uma infraestrutura mais
+                        estável e confiável, permitindo que os profissionais responsáveis pela operação atuem de forma
+                        mais rápida e segura.
+                    </p>
+                </div>
+            </div>
+ 
+            <div class="problema__coluna problema__coluna--direita">
+                <div class="bloco bloco--topo">
+                    <h3 class="bloco__titulo">Qual o problema que enfrentamos?</h3>
+                    <p>
+                        Nas Estações de Tratamento de Água, computadores utilizados na supervisão das bombas precisam
+                        funcionar de forma adequada para garantir o acompanhamento contínuo da operação. Problemas no
+                        hardware, como alto uso da CPU e memória, temperaturas elevadas, falta de espaço em disco ou
+                        falhas em dispositivos USB, podem comprometer o desempenho do sistema de supervisão. Sem um
+                        monitoramento contínuo, essas alterações podem ser identificadas tardiamente, dificultando a
+                        prevenção de incidentes.
+                    </p>
+                </div>
+ 
+                <img class="problema__img problema__img--agua"
+                     src="./assets/imgs/poluicao-agua.jpg"
+                     alt="Resíduos plásticos na água">
+            </div>
+        </section>
+ 
+        <hr class="divisor">
+ 
+         
+        <section class="monitoramos" id="o-que-monitoramos">
+            <div class="monitoramos__linha">
+                <img class="monitoramos__img"
+                     src="./assets/imgs/operador-monitores.jpg"
+                     alt="Operador diante dos monitores da sala de controle">
+ 
+                <div class="monitoramos__texto">
+                    <h3 class="bloco__titulo">O que monitoramos?</h3>
+                    <p>
+                        O AquaShield monitora os principais componentes de hardware dos computadores utilizados na
+                        supervisão industrial, acompanhando informações de CPU, memória RAM, armazenamento e
+                        dispositivos USB. Com dados atualizados em tempo real, a plataforma facilita a identificação de
+                        alterações no desempenho e possíveis situações de risco.
+                    </p>
+                </div>
+            </div>
+ 
+            <h3 class="componentes__titulo">COMPONENTES QUE MONITORAMOS</h3>
+            <div class="componentes">
+                <div class="componente">
+                    <span>CPU</span>
+                    <img src="./assets/imgs/icone-cpu.png" alt="Processador">
+                </div>
+                <div class="componente">
+                    <span>RAM</span>
+                    <img src="./assets/imgs/icone-ram.png" alt="Memória RAM">
+                </div>
+                <div class="componente">
+                    <span>DISCO</span>
+                    <img src="./assets/imgs/icone-disco.png" alt="Disco rígido">
+                </div>
+                <div class="componente">
+                    <span>USB</span>
+                    <img src="./assets/imgs/icone-usb.png" alt="Dispositivo USB">
+                </div>
+            </div>
+        </section>
+ 
+        <hr class="divisor">
+ 
+         
+        <section class="recursos">
+            <div class="recurso">
+                <div class="recurso__texto">
+                    <h3 class="bloco__titulo">Monitoramento em tempo real</h3>
+                    <p>
+                        As informações coletadas são apresentadas em uma <a href="#">dashboard</a>, permitindo
+                        acompanhar o desempenho dos computadores das ETAs de forma rápida e clara. A plataforma
+                        apresenta os principais indicadores de hardware, facilitando a identificação de alterações no
+                        desempenho e possíveis situações de risco.
+                    </p>
+                </div>
+                <img class="recurso__img"
+                     src="./assets/imgs/alerta-laptop.jpg"
+                     alt="Mãos em um notebook com ícones de alerta">
+            </div>
+ 
+            <div class="recurso recurso--invertido">
+                <img class="recurso__img"
+                     src="./assets/imgs/dashboard-graficos.jpg"
+                     alt="Gráficos de indicadores em uma dashboard">
+                <div class="recurso__texto recurso__texto--direita">
+                    <h3 class="bloco__titulo">Alertas inteligentes</h3>
+                    <p>
+                        Quando uma métrica apresenta uma condição fora dos parâmetros definidos,
+                        <a href="#">o sistema gera alertas automaticamente</a>, sinalizando a situação e sua
+                        prioridade. Dessa forma, os responsáveis conseguem identificar problemas com mais rapidez,
+                        acompanhar sua evolução e tomar providências antes que uma falha comprometa a supervisão da
+                        operação.
+                    </p>
+                </div>
+            </div>
+        </section>
+ 
+        <hr class="divisor">
+ 
+         
+        <section class="cta">
+            <p class="cta__titulo">INTERESSOU-SE?</p>
+            <a href="#" class="botao">Faça seu cadastro</a>
+        </section>
+ 
+    </main>
+ 
+     
+    <footer class="footer">
+        <p>&copy; 2026 AquaShield | Todos direitos reservados</p>
+    </footer>
+</body>
+ 
 </html>
+<script>
+    history.scrollRestoration = 'manual';
+    if (location.hash) {
+        history.replaceState(null, '', location.pathname);
+    }
+    window.scrollTo(0, 0);
+</script>
