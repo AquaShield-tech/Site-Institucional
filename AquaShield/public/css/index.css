@@ -4,7 +4,7 @@
     /* novas cores (Figma) */
     --azul-escuro: #2c3e50;
     --azul-destaque: #0f3a6b;
-    --azul-botao: #3a87d1;
+    --azul-botao: #2aa6b9;
     --azul-link: #3a87d1;
     --texto: #111;
     --fundo-footer: #0a1230;
@@ -246,7 +246,7 @@ body {
 }
 
 .botao:hover {
-    background: #2b72b6;
+    background: #177483;
     transform: translateY(-2px);
 }
 
