@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Máquinas</title>
+    <link rel="stylesheet" href="./css/maquinas.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+
+    <input type="radio" id="filtro-todos" name="categoria" checked>
+    <input type="radio" id="filtro-normal" name="categoria">
+    <input type="radio" id="filtro-alerta" name="categoria">
+    <input type="radio" id="filtro-critico" name="categoria">
+
+    <input type="checkbox" id="control-menu">
+
+    <nav class="sidebar">
+        <div class="logo">
+            AQUASHIELD
+            <!-- img src="logo_horizontal.png"> -->
+        </div>
+
+        <ul>
+            <li><a href="#"><i class="bi bi-house"></i>Início</a></li>
+            <li><a href="#"><i class="bi bi-grid"></i>Visão geral</a></li>
+            <li><a href="#"><i class="bi bi-display"></i>Máquinas</a></li>
+            <li><a href="#"><i class="bi bi-question-circle"></i>Suporte</a></li>
+            <li><a href="#"><i class="bi bi-gear"></i>Configurações</a></li>
+            <li><a href="#"><i class="bi bi-clock-history"></i>Histórico</a></li>
+        </ul>
+    </nav>
+
+
+    <div class="area-direita">
+
+        <header class="header">
+
+            <label for="control-menu" class="btn-menu">☰</label>
+
+            <!-- <div class="frase">
+                Sua operação, sempre protegida.
+            </div> -->
+
+            <div class="usuario">
+                <strong>Ana Costa</strong>
+                <span>Gestor</span>
+            </div>
+        </header>
+
+
+        <main class="conteudo">
+
+            <div class="topo">
+                <h2>Máquinas</h2>
+                <p class="subtitulo">Acompanhe a saúde e o desempenho das suas máquinas em um só lugar.</p>
+            </div>
+            <div class="cards">
+                <div class="card">
+
+                    <div class="titulo_card">
+                        <div class="icone_card">
+                            <i class="bi bi-pc-display"></i>
+                        </div>
+
+                        <p class="titulo">Máquinas em operação</p>
+                    </div>
+
+                    <span class="maquinas_utilizando">528<span class="maquinas_total">/ 600</span></span>
+                    <div class="informacoes_card">
+                        <span class="pequenas_info">88% da infraestrutura ativa</span>
+                        <span class="inativas">72 inativas</span>
+                    </div>
+                    <div class="barra">
+                        <div class="linha_azul"></div>
+                    </div>
+
+                </div>
+
+                <div class="card escuro">
+
+                    <div class="titulo_card">
+                        <div class="icone_card">
+                            <i class="bi bi-activity"></i>
+                        </div>
+
+                        <p class="titulo">Pico máximo de consumo</p>
+                    </div>
+
+                    <div class="dados_cpu">
+                        <span class="titulo_componente"><i class="bi bi-cpu"></i>CPU</span>
+                        <span class="dados_numericos">98<span class="pequenas_info">%</span></span>
+                    </div>
+                    <div class="dados_ram">
+                        <span class="titulo_componente"><i class="bi bi-sd-card"></i>RAM</span>
+                        <span class="dados_numericos">94<span class="pequenas_info">%</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filtros">
+
+                <label for="filtro-todos">
+                    Todas
+                </label>
+
+                <label for="filtro-normal">
+                    Normais
+                </label>
+
+                <label for="filtro-alerta">
+                    Em alerta
+                </label>
+
+                <label for="filtro-critico">
+                    Críticas
+                </label>
+
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Máquinas</th>
+                        <th>Status</th>
+                        <th>Uso de CPU</th>
+                        <th>Uso de RAM</th>
+                        <th>Última leitura</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="normal">
+                        <td><strong>Máquina 312</strong></td>
+                        <td><span class="status normal">Normal</span></td>
+                        <td>58%</td>
+                        <td>40%</td>
+                        <td>20/09/2026</td>
+                        <div class="table_icons">
+                            <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
+                        </div>
+                    </tr>
+
+                    <tr class="alerta">
+                        <td><strong>Máquina 394</strong></td>
+                        <td><span class="status alerta">Em alerta</span></td>
+                        <td>82%</td>
+                        <td>76%</td>
+                        <td>20/09/2026</td>
+                        <div class="table_icons">
+                            <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
+                        </div>
+                    </tr>
+
+                    <tr class="normal">
+                        <td><strong>Máquina 201</strong></td>
+                        <td><span class="status normal">Normal</span></td>
+                        <td>46%</td>
+                        <td>51%</td>
+                        <td>20/09/2026</td>
+                        <div class="table_icons">
+                            <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
+                        </div>
+                    </tr>
+
+                    <tr class="critica">
+                        <td><strong>Máquina 428</strong></td>
+                        <td><span class="status critica">Crítica</span></td>
+                        <td>94%</td>
+                        <td>91%</td>
+                        <td>20/09/2026</td>
+                        <div class="table_icons">
+                            <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
+                        </div>
+                    </tr>
+
+                    <tr class="normal">
+                        <td><strong>Máquina 156</strong></td>
+                        <td><span class="status normal">Normal</span></td>
+                        <td>35%</td>
+                        <td>42%</td>
+                        <td>20/09/2026</td>
+                        <div class="table_icons">
+                            <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
+                        </div>
+                    </tr>
+                </tbody>
+            </table>
+
+        </main>
+    </div>
+
+</body>
+
+</html>
