@@ -13,20 +13,34 @@ loginBtn.addEventListener('click', () =>{
 
     function entrar() {
         //aguardar();
+    var emailVar = input_email_login.value.trim();
+    var senhaVar = input_senha_login.value.trim();
 
-        var emailVar = input_email_login.value;
-        var senhaVar = input_senha_login.value;
+    let ax_erro = false;
 
-        if (emailVar == "" || senhaVar == "") {
-            cardErro.style.display = "block"
-            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
-            finalizarAguardar();
-            return false;
+    var validacao_email_login = document.getElementById("validacao_email_login");
+    var validacao_senha_login = document.getElementById("validacao_senha_login");
+
+    if (validacao_email_login) validacao_email_login.style.display = "none";
+    if (validacao_senha_login) validacao_senha_login.style.display = "none";
+
+    if (emailVar == '') {
+        if (validacao_email_login) {
+            validacao_email_login.innerHTML = "Campo Obrigatório";
+            validacao_email_login.style.display = "block";
         }
-        else {
-            setInterval(sumirMensagem, 5000)
-        }
+        ax_erro = true;
+    }
 
+    if (senhaVar == '') {
+        if (validacao_senha_login) {
+            validacao_senha_login.innerHTML = "Campo Obrigatório";
+            validacao_senha_login.style.display = "block";
+        }
+        ax_erro = true;
+    }
+
+    if (ax_erro == false) {
         console.log("FORM LOGIN: ", emailVar);
         console.log("FORM SENHA: ", senhaVar);
 
@@ -40,119 +54,165 @@ loginBtn.addEventListener('click', () =>{
                 senhaServer: senhaVar
             })
         }).then(function (resposta) {
-            console.log("ESTOU NO THEN DO entrar()!")
-
             if (resposta.ok) {
-                console.log(resposta);
-
                 resposta.json().then(json => {
-                    console.log(json);
-                    console.log(JSON.stringify(json));
                     sessionStorage.EMAIL_USUARIO = json.email;
                     sessionStorage.NOME_USUARIO = json.nome;
                     sessionStorage.ID_USUARIO = json.id;
-                    sessionStorage.AQUARIOS = JSON.stringify(json.aquarios)
 
                     setTimeout(function () {
                         window.location = "./dashboard/cards.html";
-                    }, 1000); // apenas para exibir o loading
-
+                    }, 1000);
                 });
-
             } else {
-
-                console.log("Houve um erro ao tentar realizar o login!");
-
-                resposta.text().then(texto => {
-                    console.error(texto);
-                    finalizarAguardar(texto);
-                });
+                alert("Houve um erro ao tentar realizar o login! Verifique suas credenciais.");
             }
-
         }).catch(function (erro) {
             console.log(erro);
-        })
-
-        return false;
+        });
     }
+
+    return false;
+}
 
     function sumirMensagem() {
         cardErro.style.display = "none"
     }
 
-    // Array para armazenar empresas cadastradas para validação de código de ativação 
-  let listaEmpresasCadastradas = [];
 
   function cadastrar() {
     // 1. Captura os valores digitados nos inputs
-    var nomeVar = input_nome.value;
-    var emailVar = input_email_cadastro.value;
-    var senhaVar = input_senha_cadastro.value;
+    var nomeVar = input_nome.value.trim();
+    var emailVar = input_email_cadastro.value.trim();
+    var senhaVar = input_senha_cadastro.value.trim();
+    var confSenhaVar = input_senha_confirmada.value.trim();
 
-    // 2. Valores fixos exigidos pela tabela Usuario
     var statusVar = "Ativo";
-    var fkEmpresaVar = 1; // ID da empresa já cadastrada na tabela Empresa
-    var fkCargoVar = 1;   // ID do cargo padrão (ex: Administrador / Operador)
+    var fkEmpresaVar = 1;
+    var fkCargoVar = 1;
 
-    // 3. Validação de campos vazios
-    if (nomeVar == "" || emailVar == "" || senhaVar == "") {
-        alert("Preencha todos os campos para se cadastrar!");
-        return false;
+    let qtdNumero = 0;
+    let caracterEspecial = '!@#$%&*';
+    let possuiCaracEspecial = false;
+    let ax_erro = false;
+
+    // Elementos de validação
+    var validacao_nome = document.getElementById("validacao_nome");
+    var validacao_email = document.getElementById("validacao_email");
+    var validacao_senha = document.getElementById("validacao_senha");
+    var validacao_confSenha = document.getElementById("validacao_confSenha");
+
+    if (validacao_nome) validacao_nome.style.display = "none";
+    if (validacao_email) validacao_email.style.display = "none";
+    if (validacao_senha) validacao_senha.style.display = "none";
+    if (validacao_confSenha) validacao_confSenha.style.display = "none";
+
+    // Validação Nome
+    if (nomeVar == '') {
+        if (validacao_nome) {
+            validacao_nome.innerHTML = "Campo Obrigatório";
+            validacao_nome.style.display = "block";
+        }
+        ax_erro = true;
     }
 
-    // 4. Envio para a API do web-data-viz
-    fetch("/usuarios/cadastrar", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            nomeServer: nomeVar,
-            emailServer: emailVar,
-            senhaServer: senhaVar,
-            statusServer: statusVar,
-            fkEmpresaServer: fkEmpresaVar,
-            fkCargoServer: fkCargoVar
-        })
-    }).then(function (resposta) {
-        if (resposta.ok) {
-            alert("Cadastro realizado com sucesso! Faça seu login.");
-            
-            // Limpa os campos e desliza a tela de volta para a aba de Login
-            input_nome.value = "";
-            input_email_cadastro.value = "";
-            input_senha_cadastro.value = "";
-            container.classList.remove("active");
-        } else {
-            alert("Houve um erro ao tentar realizar o cadastro!");
+    // Validação Email
+    if (emailVar == '') {
+        if (validacao_email) {
+            validacao_email.innerHTML = "Campo Obrigatório";
+            validacao_email.style.display = "block";
         }
-    }).catch(function (erro) {
-        console.log("#ERRO: ", erro);
-    });
+        ax_erro = true;
+    } else if (emailVar.indexOf('@') < 0) {
+        if (validacao_email) {
+            validacao_email.innerHTML = "Insira um e-mail válido";
+            validacao_email.style.display = "block";
+        }
+        ax_erro = true;
+    }
+
+    // Validação Senha
+    for (let ind = 0; ind < senhaVar.length; ind++) {
+        let caracAtual = senhaVar[ind];
+
+        if (caracAtual >= '0' && caracAtual <= '9') {
+            qtdNumero++;
+        } else if (caracterEspecial.indexOf(caracAtual) >= 0) {
+            possuiCaracEspecial = true;
+        }
+    }
+
+    if (senhaVar == '') {
+        if (validacao_senha) {
+            validacao_senha.innerHTML = "Campo Obrigatório";
+            validacao_senha.style.display = "block";
+        }
+        ax_erro = true;
+    } else if (senhaVar.length < 8) {
+        if (validacao_senha) {
+            validacao_senha.innerHTML = "Mínimo 8 caracteres";
+            validacao_senha.style.display = "block";
+        }
+        ax_erro = true;
+    } else if (qtdNumero < 2) {
+        if (validacao_senha) {
+            validacao_senha.innerHTML = "Insira ao menos 2 números";
+            validacao_senha.style.display = "block";
+        }
+        ax_erro = true;
+    } else if (!possuiCaracEspecial) {
+        if (validacao_senha) {
+            validacao_senha.innerHTML = "Insira ao menos 1 caractere especial (!@#$%&*)";
+            validacao_senha.style.display = "block";
+        }
+        ax_erro = true;
+    }
+
+    // Validação Confirmação de Senha
+    if (confSenhaVar == '') {
+        if (validacao_confSenha) {
+            validacao_confSenha.innerHTML = "Campo Obrigatório";
+            validacao_confSenha.style.display = "block";
+        }
+        ax_erro = true;
+    } else if (senhaVar != confSenhaVar) {
+        if (validacao_confSenha) {
+            validacao_confSenha.innerHTML = "As senhas não coincidem";
+            validacao_confSenha.style.display = "block";
+        }
+        ax_erro = true;
+    }
+
+    // Envio para API caso não existam erros
+    if (ax_erro == false) {
+        fetch("/usuarios/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nomeServer: nomeVar,
+                emailServer: emailVar,
+                senhaServer: senhaVar,
+                statusServer: statusVar,
+                fkEmpresaServer: fkEmpresaVar,
+                fkCargoServer: fkCargoVar
+            })
+        }).then(function (resposta) {
+            if (resposta.ok) {
+                alert("Cadastro realizado com sucesso! Faça seu login.");
+                input_nome.value = "";
+                input_email_cadastro.value = "";
+                input_senha_cadastro.value = "";
+                input_senha_confirmada.value = "";
+                container.classList.remove("active");
+            } else {
+                alert("Houve um erro ao tentar realizar o cadastro!");
+            }
+        }).catch(function (erro) {
+            console.log("#ERRO: ", erro);
+        });
+    }
 
     return false;
-  }
-
-  // Listando empresas cadastradas 
-  function listar() {
-    fetch("/empresas/listar", {
-      method: "GET",
-    })
-      .then(function (resposta) {
-        resposta.json().then((empresas) => {
-          empresas.forEach((empresa) => {
-            listaEmpresasCadastradas.push(empresa);
-
-            console.log("listaEmpresasCadastradas")
-            console.log(listaEmpresasCadastradas[0].codigo_ativacao)
-          });
-        });
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-      });
-  }
-
-  function sumirMensagem() {
-    cardErro.style.display = "none";
-  }
+}

@@ -319,3 +319,12 @@ body {
 .login-container.active .mudanca-direita {
     transform: translateX(200%);
 }
+
+.msg_validacao{
+    color: #fa5e5e;
+    font-size: 12px;
+    display: none;
+    margin-top: 5px;
+    text-align: left;
+    width: 100%;
+}

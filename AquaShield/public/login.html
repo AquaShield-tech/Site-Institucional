@@ -39,9 +39,17 @@
                     <h1>Crie sua Conta</h1>
                     <span>Use seu email para se registrar</span>
                     <input type="text" id="input_nome" placeholder="Nome">
+                    <span id="validacao_nome" class="msg_validacao"></span>
+
                     <input type="text" id="input_email_cadastro"placeholder="Email">
+                    <span id="validacao_email" class="msg_validacao"></span>
+
                     <input type="password" id="input_senha_cadastro" placeholder="Senha">
+                    <span id="validacao_senha" class="msg_validacao"></span>
+
                     <input type="password" id="input_senha_confirmada" placeholder="Confirme sua Senha">
+                    <span id="validacao_confSenha" class="msg_validacao"></span>
+                    
                     <button type="button" onclick="cadastrar()">Criar</button>
                 </form>
             </div>
@@ -50,7 +58,11 @@
                     <h1>Acesse sua Conta</h1>
                     <span>Acesse com Email e Senha</span>
                     <input type="text" id="input_email_login" placeholder="Email">
+                    <span id="validacao_email_login" class="msg_validacao"></span>
+
                     <input type="password" id="input_senha_login" placeholder="Senha">
+                    <span id="validacao_senha_login" class="msg_validacao"></span>
+
                     <a href="#">Esqueceu sua Senha?</a>
                     <button type="button" onclick="entrar()">Login</button>
                 </form>
