@@ -31,6 +31,8 @@ input[type="radio"],
     transition: all 0.3s ease;
     z-index: 10;
     position: relative;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .sidebar .logo {
@@ -39,13 +41,6 @@ input[type="radio"],
     margin: 0 12px 45px;
     color: white;
 }
-/* 
-.sidebar .logo {
-    width: 20%;
-    height: 20%;
-    display: flex;
-    justify-content: flex-start;
-} */
 
 .sidebar .logo span {
     display: block;
@@ -58,6 +53,7 @@ input[type="radio"],
 
 .sidebar ul {
     list-style: none;
+    margin-top: 10px;
 }
 
 .sidebar ul li a {
@@ -70,7 +66,7 @@ input[type="radio"],
     border-radius: 8px;
     font-size: 15px;
     transition: 0.2s;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .sidebar ul li.ativo a {
@@ -100,21 +96,20 @@ input[type="radio"],
 }
 
 .btn-menu {
-    color: #072f3f;
-    padding: 8px 14px;
-    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding: 15px 18px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    color: #a9c0c9;
     cursor: pointer;
     user-select: none;
-    font-weight: bold;
+    transition: 0.2s;
 }
 
-.btn-menu:hover {
-    background-color: #dee2e6;
-}
-
-.frase {
-    color: #72879a;
-    font-size: 13px;
+.btn-menu i {
+    font-size: 20px;
+    line-height: 1;
 }
 
 .usuario {
@@ -365,6 +360,31 @@ input[type="radio"],
     padding: 4px 7px;
     border-radius: 5px;
 }
+.header_table {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #dce5eb;
+}
+
+.filtros {
+    border-bottom: none;
+}
+
+.btn_cadastrar {
+    font-size: 14px;
+    color: white;
+    background-color: #008fc2;
+    padding: 10px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn_cadastrar:hover {
+    background-color: #1b627e;
+}
 
 #filtro-todos:checked ~ .area-direita .filtros label[for="filtro-todos"] {
     color: #008fc2;
@@ -392,8 +412,24 @@ table {
     background-color: white;
 }
 
-.table_icons {
-    gap: 10px;
+.action_icons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.icon_btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 20px;
+    color: #6b7c8f;
+}
+
+.icon_btn:hover {
+    color: #1a2b3c;
 }
 
 th,
@@ -457,7 +493,107 @@ td strong {
 }
 
 #control-menu:checked ~ .sidebar {
-    width: 0;
-    padding: 0;
+    width: 78px;
+    padding: 20px 10px;
     overflow: hidden;
-}   
+}
+
+#control-menu:checked ~ .sidebar ul li a span {
+    display: none;
+}
+
+#control-menu:checked ~ .sidebar ul li a {
+    justify-content: center;
+    padding: 15px 0;
+    gap: 0;
+}
+
+#control-menu:checked ~ .sidebar .logo {
+    display: none;
+}
+
+.modal {
+    border: none;
+    border-radius: 12px;
+    width: 420px;
+    max-width: 90vw;
+    margin: auto;               /* centraliza (o reset * { margin: 0 } quebra isso) */
+    box-shadow: 0 10px 40px rgba(7, 52, 66, 0.25);
+}
+
+.modal::backdrop {
+    background: rgba(7, 52, 66, 0.55);
+}
+
+.modal form {
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.modal h3 {
+    font-size: 20px;
+    color: #082f43;
+    margin-bottom: 8px;
+}
+
+.modal p {
+    font-size: 14px;
+    color: #506878;
+    line-height: 1.5;
+}
+
+.modal label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #6f8596;
+    margin-top: 8px;
+}
+
+.modal input {
+    padding: 10px 12px;
+    border: 1px solid #dce5eb;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #15394b;
+}
+
+.modal input:focus {
+    outline: none;
+    border-color: #008fc2;
+}
+
+.modal_acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.btn_secundario,
+.btn_perigo {
+    font-size: 14px;
+    padding: 10px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn_secundario {
+    background-color: #edf2f5;
+    color: #506878;
+}
+
+.btn_secundario:hover {
+    background-color: #dce5eb;
+}
+
+.btn_perigo {
+    background-color: #c65353;
+    color: white;
+}
+
+.btn_perigo:hover {
+    background-color: #a84141;
+}

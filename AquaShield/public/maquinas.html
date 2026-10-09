@@ -19,19 +19,21 @@
     <input type="checkbox" id="control-menu">
 
     <nav class="sidebar">
-        <div class="logo">
-            AQUASHIELD
-            <!-- img src="logo_horizontal.png"> -->
-        </div>
+        <label for="control-menu" class="btn-menu">
+            <i class="bi bi-list"></i>
+        </label>
 
-        <ul>
-            <li><a href="#"><i class="bi bi-house"></i>Início</a></li>
-            <li><a href="#"><i class="bi bi-grid"></i>Visão geral</a></li>
-            <li><a href="#"><i class="bi bi-display"></i>Máquinas</a></li>
-            <li><a href="#"><i class="bi bi-question-circle"></i>Suporte</a></li>
-            <li><a href="#"><i class="bi bi-gear"></i>Configurações</a></li>
-            <li><a href="#"><i class="bi bi-clock-history"></i>Histórico</a></li>
-        </ul>
+
+        <div class="menu_icones">
+            <ul>
+                <li><a href="#"><i class="bi bi-house"></i><span>Início</span></a></li>
+                <li><a href="#"><i class="bi bi-grid"></i><span>Visão geral</span></a></li>
+                <li><a href="#"><i class="bi bi-display"></i><span>Máquinas</span></a></li>
+                <li><a href="#"><i class="bi bi-question-circle"></i><span>Suporte</span></a></li>
+                <li><a href="#"><i class="bi bi-gear"></i><span>Configurações</span></a></li>
+                <li><a href="#"><i class="bi bi-clock-history"></i><span>Histórico</span></a></li>
+            </ul>
+        </div>
     </nav>
 
 
@@ -39,11 +41,9 @@
 
         <header class="header">
 
-            <label for="control-menu" class="btn-menu">☰</label>
-
-            <!-- <div class="frase">
-                Sua operação, sempre protegida.
-            </div> -->
+            <div class="logo">
+                <img src="assets/icon/LOGO .svg">
+            </div>
 
             <div class="usuario">
                 <strong>Ana Costa</strong>
@@ -101,25 +101,17 @@
                 </div>
             </div>
 
-            <div class="filtros">
+            <div class="header_table">
+                <div class="filtros">
+                    <label for="filtro-todos">Todas</label>
+                    <label for="filtro-normal">Normais</label>
+                    <label for="filtro-alerta">Em alerta</label>
+                    <label for="filtro-critico">Críticas</label>
+                </div>
 
-                <label for="filtro-todos">
-                    Todas
-                </label>
-
-                <label for="filtro-normal">
-                    Normais
-                </label>
-
-                <label for="filtro-alerta">
-                    Em alerta
-                </label>
-
-                <label for="filtro-critico">
-                    Críticas
-                </label>
-
+                <button class="btn_cadastrar" data-abrir="modal-cadastrar">+ Cadastrar Máquina</button>
             </div>
+
 
             <table>
                 <thead>
@@ -140,9 +132,14 @@
                         <td>58%</td>
                         <td>40%</td>
                         <td>20/09/2026</td>
-                        <div class="table_icons">
-                            <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
-                        </div>
+                        <td>
+                            <div class="action_icons">
+                                <button class="icon_btn" title="Editar" data-editar><i
+                                        class="bi bi-pencil-square"></i></button>
+                                <button class="icon_btn" title="Excluir" data-excluir><i
+                                        class="bi bi-trash3"></i></button>
+                            </div>
+                        </td>
                     </tr>
 
                     <tr class="alerta">
@@ -151,9 +148,14 @@
                         <td>82%</td>
                         <td>76%</td>
                         <td>20/09/2026</td>
-                        <div class="table_icons">
-                            <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
-                        </div>
+                        <td>
+                            <div class="action_icons">
+                                <button class="icon_btn" title="Editar" data-editar><i
+                                        class="bi bi-pencil-square"></i></button>
+                                <button class="icon_btn" title="Excluir" data-excluir><i
+                                        class="bi bi-trash3"></i></button>
+                            </div>
+                        </td>
                     </tr>
 
                     <tr class="normal">
@@ -162,9 +164,14 @@
                         <td>46%</td>
                         <td>51%</td>
                         <td>20/09/2026</td>
-                        <div class="table_icons">
-                            <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
-                        </div>
+                        <td>
+                            <div class="action_icons">
+                                <button class="icon_btn" title="Editar" data-editar><i
+                                        class="bi bi-pencil-square"></i></button>
+                                <button class="icon_btn" title="Excluir" data-excluir><i
+                                        class="bi bi-trash3"></i></button>
+                            </div>
+                        </td>
                     </tr>
 
                     <tr class="critica">
@@ -173,9 +180,14 @@
                         <td>94%</td>
                         <td>91%</td>
                         <td>20/09/2026</td>
-                        <div class="table_icons">
-                            <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
-                        </div>
+                        <td>
+                            <div class="action_icons">
+                                <button class="icon_btn" title="Editar" data-editar><i
+                                        class="bi bi-pencil-square"></i></button>
+                                <button class="icon_btn" title="Excluir" data-excluir><i
+                                        class="bi bi-trash3"></i></button>
+                            </div>
+                        </td>
                     </tr>
 
                     <tr class="normal">
@@ -184,9 +196,14 @@
                         <td>35%</td>
                         <td>42%</td>
                         <td>20/09/2026</td>
-                        <div class="table_icons">
-                            <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
-                        </div>
+                        <td>
+                            <div class="action_icons">
+                                <button class="icon_btn" title="Editar" data-editar><i
+                                        class="bi bi-pencil-square"></i></button>
+                                <button class="icon_btn" title="Excluir" data-excluir><i
+                                        class="bi bi-trash3"></i></button>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -194,6 +211,95 @@
         </main>
     </div>
 
+    <!-- CADASTRAR -->
+<dialog id="modal-cadastrar" class="modal">
+    <form id="form-cadastrar" method="post" action="#">
+        <h3>Cadastrar máquina</h3>
+
+        <label for="cad-nome">Nome da máquina</label>
+        <input type="text" id="cad-nome" name="nome" required>
+
+        <label for="cad-setor">Setor</label>
+        <input type="text" id="cad-setor" name="setor">
+
+        <div class="modal_acoes">
+            <button type="button" class="btn_secundario" data-fechar>Cancelar</button>
+            <button type="submit" class="btn_cadastrar">Cadastrar</button>
+        </div>
+    </form>
+</dialog>
+
+<!-- EDITAR -->
+<dialog id="modal-editar" class="modal">
+    <form id="form-editar" method="post" action="#">
+        <h3>Editar máquina</h3>
+
+        <label for="edit-nome">Nome da máquina</label>
+        <input type="text" id="edit-nome" name="nome" required>
+
+        <label for="edit-setor">Setor</label>
+        <input type="text" id="edit-setor" name="setor">
+
+        <div class="modal_acoes">
+            <button type="button" class="btn_secundario" data-fechar>Cancelar</button>
+            <button type="submit" class="btn_cadastrar">Salvar</button>
+        </div>
+    </form>
+</dialog>
+
+<!-- EXCLUIR -->
+<dialog id="modal-excluir" class="modal">
+    <form id="form-excluir" method="post" action="#">
+        <h3>Excluir máquina</h3>
+        <p>Tem certeza que deseja excluir <strong id="excluir-nome"></strong>? Essa ação não pode ser desfeita.</p>
+
+        <div class="modal_acoes">
+            <button type="button" class="btn_secundario" data-fechar>Cancelar</button>
+            <button type="submit" class="btn_perigo">Excluir</button>
+        </div>
+    </form>
+</dialog>
+
 </body>
 
 </html>
+
+<script>
+
+    // abrir modal de cadastro
+    document.querySelectorAll('[data-abrir]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.getElementById(btn.dataset.abrir).showModal();
+        });
+    });
+
+    // editar: preenche o formulário com os dados da linha
+    document.querySelectorAll('[data-editar]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const linha = btn.closest('tr');
+            document.getElementById('edit-nome').value = linha.cells[0].textContent.trim();
+            document.getElementById('modal-editar').showModal();
+        });
+    });
+
+    // excluir: mostra o nome da máquina na confirmação
+    document.querySelectorAll('[data-excluir]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const linha = btn.closest('tr');
+            document.getElementById('excluir-nome').textContent = linha.cells[0].textContent.trim();
+            document.getElementById('modal-excluir').showModal();
+        });
+    });
+
+    // botões "Cancelar"
+    document.querySelectorAll('[data-fechar]').forEach(btn => {
+        btn.addEventListener('click', () => btn.closest('dialog').close());
+    });
+
+    // clicar fora do modal (no fundo escuro) também fecha
+    document.querySelectorAll('dialog').forEach(modal => {
+        modal.addEventListener('click', e => {
+            if (e.target === modal) modal.close();
+        });
+    });
+</script>
