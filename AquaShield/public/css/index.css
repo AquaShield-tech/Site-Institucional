@@ -75,7 +75,7 @@ body {
     opacity: 1;
 }
 
-.navbar li:nth-child(3) {
+.navbar li:nth-child(3):not(.agora) {
     opacity: 0.4;
     margin: 0 6px;
 }

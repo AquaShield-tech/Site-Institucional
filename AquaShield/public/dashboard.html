@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dashboard | AquaShield</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js" defer></script>
+    <script src="./js/dashboard.js" defer></script>
+</head>
+
+<body>
+
+    <input type="radio" id="filtro-todos" name="categoria" checked>
+    <input type="radio" id="filtro-normal" name="categoria">
+    <input type="radio" id="filtro-alerta" name="categoria">
+    <input type="radio" id="filtro-critico" name="categoria">
+    <input type="checkbox" id="control-menu">
+
+    <nav class="sidebar">
+        <label for="control-menu" class="btn-menu"><i class="bi bi-list"></i></label>
+        <div class="menu_icones">
+            <ul>
+                <li><a href="#"><i class="bi bi-house"></i><span>Início</span></a></li>
+                <li class="#"><a href="#"><i class="bi bi-grid"></i><span>Visão geral</span></a></li>
+                <li><a href="maquinas.html"><i class="bi bi-display"></i><span>Máquinas</span></a></li>
+                <li><a href="#"><i class="bi bi-question-circle"></i><span>Suporte</span></a></li>
+                <li><a href="#"><i class="bi bi-gear"></i><span>Configurações</span></a></li>
+                <li><a href="#"><i class="bi bi-clock-history"></i><span>Histórico</span></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="area-direita">
+
+        <header class="header">
+            <div class="logo"><img src="assets/icon/LOGO .svg" alt="AquaShield"></div>
+            <div class="usuario">
+                <div class="usuario-info">
+                    <strong>Ana Costa</strong>
+                    <span>Gestor</span>
+                 
+            </div>
+        </header>
+
+        <main class="area-monitoramento">
+            <div class="titulo-pagina">
+                <div>
+                    <h1>Monitoramento em tempo real</h1>
+                    <p>Atualiza a cada 5 segundos</p>
+                </div>
+            </div>
+
+            <section class="kpis">
+                <article class="kpi">
+                    <div class="kpi-icone alerta-icone"><i class="bi bi-exclamation-triangle"></i></div>
+                    <div class="kpi-texto">
+                        <div class="kpi-titulo">Componentes em alerta</div>
+                        <div class="kpi-descricao">Uso acima de 70%</div>
+                    </div>
+                    <div class="kpi-valor" id="componentes-alerta">0</div>
+                </article>
+
+                <article class="kpi">
+                    <div class="kpi-icone"><i class="bi bi-cpu"></i></div>
+                    <div class="kpi-texto">
+                        <div class="kpi-titulo">Componentes monitorados</div>
+                        <div class="kpi-descricao">CPU, RAM, Disco e Rede</div>
+                    </div>
+                    <div class="kpi-valor" id="componentes-monitorados">4</div>
+                </article>
+            </section>
+
+            <section class="dashboard-hardware">
+
+                <article class="dashboard-componente cpu">
+                    <div class="dashboard-cabecalho">
+                        <div class="componente-titulo">
+                            <div class="icone-componente"><i class="bi bi-cpu"></i></div>
+                            <div><h2>CPU</h2><p>Uso do processador</p></div>
+                        </div>
+                        <div class="status-componente" id="status-cpu"><span></span>Normal</div>
+                    </div>
+                    <div class="valor-componente">
+                        <div>
+                            <span class="rotulo-uso">Uso atual</span>
+                            <strong id="cpu-valor">0%</strong>
+                        </div>
+                    </div>
+                    <div class="historico-componente">
+                        <div class="grafico-container"><canvas id="grafico-cpu"></canvas></div>
+                    </div>
+                </article>
+
+                <article class="dashboard-componente ram">
+                    <div class="dashboard-cabecalho">
+                        <div class="componente-titulo">
+                            <div class="icone-componente"><i class="bi bi-memory"></i></div>
+                            <div><h2>Memória RAM</h2><p>Uso da memória</p></div>
+                        </div>
+                        <div class="status-componente" id="status-ram"><span></span>Normal</div>
+                    </div>
+                    <div class="valor-componente">
+                        <div>
+                            <span class="rotulo-uso">Uso atual</span>
+                            <strong id="ram-valor">0%</strong>
+                        </div>
+                    </div>
+                    <div class="historico-componente">
+                        <div class="grafico-container"><canvas id="grafico-ram"></canvas></div>
+                    </div>
+                </article>
+
+                <article class="dashboard-componente disco">
+                    <div class="dashboard-cabecalho">
+                        <div class="componente-titulo">
+                            <div class="icone-componente"><i class="bi bi-hdd"></i></div>
+                            <div><h2>Disco</h2><p>Uso do armazenamento</p></div>
+                        </div>
+                        <div class="status-componente" id="status-disco"><span></span>Normal</div>
+                    </div>
+                    <div class="valor-componente">
+                        <div>
+                            <span class="rotulo-uso">Uso atual</span>
+                            <strong id="disco-valor">0%</strong>
+                        </div>
+                    </div>
+                    <div class="historico-componente">
+                        <div class="grafico-container"><canvas id="grafico-disco"></canvas></div>
+                    </div>
+                </article>
+
+                <article class="dashboard-componente rede">
+                    <div class="dashboard-cabecalho">
+                        <div class="componente-titulo">
+                            <div class="icone-componente"><i class="bi bi-wifi"></i></div>
+                            <div><h2>Rede</h2><p>Uso da rede</p></div>
+                        </div>
+                        <div class="status-componente" id="status-rede"><span></span>Normal</div>
+                    </div>
+                    <div class="valor-componente">
+                        <div>
+                            <span class="rotulo-uso">Uso atual</span>
+                            <strong id="rede-valor">0%</strong>
+                        </div>
+                    </div>
+                    <div class="historico-componente">
+                        <div class="grafico-container"><canvas id="grafico-rede"></canvas></div>
+                    </div>
+                </article>
+
+            </section>
+        </main>
+    </div>
+
+</body>
+
+</html>
