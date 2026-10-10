@@ -517,7 +517,7 @@ td strong {
     border-radius: 12px;
     width: 420px;
     max-width: 90vw;
-    margin: auto;               /* centraliza (o reset * { margin: 0 } quebra isso) */
+    margin: auto;
     box-shadow: 0 10px 40px rgba(7, 52, 66, 0.25);
 }
 
