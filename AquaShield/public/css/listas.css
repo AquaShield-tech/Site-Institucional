@@ -432,6 +432,17 @@ table {
     color: #1a2b3c;
 }
 
+.ver_dashboard {
+    text-decoration: none;
+    color: #008fc2;
+    font-weight: bold;
+}
+
+.ver_dashboard:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
 th,
 td {
     padding: 15px 16px;
