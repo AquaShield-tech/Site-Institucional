@@ -212,93 +212,190 @@
     </div>
 
     <!-- CADASTRAR -->
-<dialog id="modal-cadastrar" class="modal">
-    <form id="form-cadastrar" method="post" action="#">
-        <h3>Cadastrar máquina</h3>
+    <dialog id="modal-cadastrar" class="modal">
+        <form id="form-cadastrar" method="post" action="#">
 
-        <label for="cad-nome">Nome da máquina</label>
-        <input type="text" id="cad-nome" name="nome" required>
+            <h3>Cadastrar máquina</h3>
 
-        <label for="cad-setor">Setor</label>
-        <input type="text" id="cad-setor" name="setor">
+            <label for="cad-nome">Identificação da máquina</label>
+            <input type="text" id="cad-nome" name="nome" placeholder="Id da máquina">
 
-        <div class="modal_acoes">
-            <button type="button" class="btn_secundario" data-fechar>Cancelar</button>
-            <button type="submit" class="btn_cadastrar">Cadastrar</button>
-        </div>
-    </form>
-</dialog>
+            <label for="cad-hostname">Hostname</label>
+            <input type="text" id="cad-hostname" name="hostname" placeholder="Hostname do computador">
 
-<!-- EDITAR -->
-<dialog id="modal-editar" class="modal">
-    <form id="form-editar" method="post" action="#">
-        <h3>Editar máquina</h3>
+            <label for="cad-macaddress">Mac address</label>
+            <input type="text" id="cad-macaddress" name="mac_address" placeholder="Mac address do computador">
 
-        <label for="edit-nome">Nome da máquina</label>
-        <input type="text" id="edit-nome" name="nome" required>
+            <label for="cad-so">Sistema operacional (SO)</label>
+            <input type="text" id="cad-so" name="so" placeholder="SO do computador">
 
-        <label for="edit-setor">Setor</label>
-        <input type="text" id="edit-setor" name="setor">
+            <label for="cad-verSO">Versão SO</label>
+            <input type="text" id="cad-verSO" name="ver_so" placeholder="Versão do SO do computador">
 
-        <div class="modal_acoes">
-            <button type="button" class="btn_secundario" data-fechar>Cancelar</button>
-            <button type="submit" class="btn_cadastrar">Salvar</button>
-        </div>
-    </form>
-</dialog>
 
-<!-- EXCLUIR -->
-<dialog id="modal-excluir" class="modal">
-    <form id="form-excluir" method="post" action="#">
-        <h3>Excluir máquina</h3>
-        <p>Tem certeza que deseja excluir <strong id="excluir-nome"></strong>? Essa ação não pode ser desfeita.</p>
+            <h4>Especificações dos componentes</h4>
 
-        <div class="modal_acoes">
-            <button type="button" class="btn_secundario" data-fechar>Cancelar</button>
-            <button type="submit" class="btn_perigo">Excluir</button>
-        </div>
-    </form>
-</dialog>
+            <!-- CPU -->
+            <div class="componente">
+                <h5><i class="bi bi-cpu"></i> Processador (CPU)</h5>
 
+                <label for="cpu-total">Capacidade total</label>
+                <input type="number" id="cpu-total" name="cpu-total" min="1" placeholder="Ex.: 8">
+            </div>
+
+            <!-- MEMÓRIA RAM -->
+            <div class="componente">
+                <h5><i class="bi bi-memory"></i> Memória RAM</h5>
+
+                <label for="memoria-total">Capacidade total</label>
+                <input type="number" id="memoria-total" name="memoria-total" min="1" placeholder="Ex.: 16">
+            </div>
+
+            <!-- DISCO -->
+            <div class="componente">
+                <h5><i class="bi bi-hdd"></i> Armazenamento (Disco)</h5>
+
+                <label for="disco-total">Capacidade total</label>
+                <input type="number" id="disco-total" name="disco-total" min="1" placeholder="Ex.: 500">
+            </div>
+
+            <!-- REDE -->
+            <div class="componente">
+                <h5><i class="bi bi-ethernet"></i> Rede</h5>
+
+                <label for="cad-rede">Velocidade nominal (Mbps)</label>
+                <input type="number" id="cad-rede" name="rede" min="1" placeholder="Ex.: 1000">
+            </div>
+
+            <div class="modal_acoes">
+                <button type="button" class="btn_secundario" id="data-fechar">Cancelar</button>
+                <button type="button" class="btn_cadastrar" id="abrir-cadastrar">Cadastrar</button>
+            </div>
+
+        </form>
+    </dialog>
+
+    <!-- EDITAR -->
+    <dialog id="modal-editar" class="modal">
+        <form id="form-editar" method="post" action="#">
+
+            <h3>Editar máquina</h3>
+
+            <label for="cad-nome">Identificação da máquina</label>
+            <input type="text" id="cad-nome" name="nome" placeholder="Id da máquina">
+
+            <label for="cad-hostname">Hostname</label>
+            <input type="text" id="cad-hostname" name="hostname" placeholder="Hostname do computador">
+
+            <label for="cad-macaddress">Mac address</label>
+            <input type="text" id="cad-macaddress" name="mac_address" placeholder="Mac address do computador">
+
+            <label for="cad-so">Sistema operacional (SO)</label>
+            <input type="text" id="cad-so" name="so" placeholder="SO do computador">
+
+            <label for="cad-verSO">Versão SO</label>
+            <input type="text" id="cad-verSO" name="ver_so" placeholder="Versão do SO do computador">
+
+
+            <h4>Especificações dos componentes</h4>
+
+            <!-- CPU -->
+            <div class="componente">
+                <h5><i class="bi bi-cpu"></i> Processador (CPU)</h5>
+
+                <label for="cpu-total">Capacidade total</label>
+                <input type="number" id="cpu-total" name="cpu-total" min="1" placeholder="Ex.: 8">
+            </div>
+
+            <!-- MEMÓRIA RAM -->
+            <div class="componente">
+                <h5><i class="bi bi-memory"></i> Memória RAM</h5>
+
+                <label for="memoria-total">Capacidade total</label>
+                <input type="number" id="memoria-total" name="memoria-total" min="1" placeholder="Ex.: 16">
+            </div>
+
+            <!-- DISCO -->
+            <div class="componente">
+                <h5><i class="bi bi-hdd"></i> Armazenamento (Disco)</h5>
+
+                <label for="disco-total">Capacidade total</label>
+                <input type="number" id="disco-total" name="disco-total" min="1" placeholder="Ex.: 500">
+            </div>
+
+            <!-- REDE -->
+            <div class="componente">
+                <h5><i class="bi bi-ethernet"></i> Rede</h5>
+
+                <label for="cad-rede">Velocidade nominal (Mbps)</label>
+                <input type="number" id="cad-rede" name="rede" min="1" placeholder="Ex.: 1000">
+            </div>
+
+            <div class="modal_acoes">
+                <button type="button" class="btn_secundario" id="data-fechar">Cancelar</button>
+                <button type="submit" class="btn_cadastrar">Salvar</button>
+            </div>
+
+        </form>
+    </dialog>
+
+    <!-- EXCLUIR -->
+    <dialog id="modal-excluir" class="modal">
+        <form id="form-excluir" method="post" action="#">
+            <h3>Excluir máquina</h3>
+            <p>Tem certeza que deseja excluir <strong id="excluir-nome"></strong>? Essa ação não pode ser desfeita.</p>
+
+            <div class="modal_acoes">
+                <button type="button" class="btn_secundario" data-fechar>Cancelar</button>
+                <button type="submit" class="btn_perigo">Excluir</button>
+            </div>
+        </form>
+    </dialog>
+
+
+
+    <script>
+        // Abrir o modal de cadastro
+        const botoesAbrir = document.querySelectorAll("[data-abrir]");
+
+        botoesAbrir.forEach(function (botao) {
+            botao.addEventListener("click", function () {
+                const idModal = botao.getAttribute("data-abrir");
+                const modal = document.getElementById(idModal);
+
+                modal.showModal();
+            });
+        });
+
+        // Seleciona todos os botões Cancelar
+        const botoesCancelar = document.querySelectorAll(".btn_secundario");
+
+        // Fecha o modal ao clicar em Cancelar
+        botoesCancelar.forEach(function (botao) {
+            botao.addEventListener("click", function () {
+                const modal = botao.closest("dialog");
+                modal.close();
+            });
+        });
+
+        // Abrir o modal de edição
+        const botoesEditar = document.querySelectorAll("[data-editar]");
+
+        botoesEditar.forEach(function (botao) {
+            botao.addEventListener("click", function () {
+                document.getElementById("modal-editar").showModal();
+            });
+        });
+
+        // Abrir o modal de exclusão
+        const botoesExcluir = document.querySelectorAll("[data-excluir]");
+
+        botoesExcluir.forEach(function (botao) {
+            botao.addEventListener("click", function () {
+                document.getElementById("modal-excluir").showModal();
+            });
+        });
+    </script>
 </body>
+
 </html>
-
-<script>
-
-    // abrir modal de cadastro
-    document.querySelectorAll('[data-abrir]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.getElementById(btn.dataset.abrir).showModal();
-        });
-    });
-
-    // editar: preenche o formulário com os dados da linha
-    document.querySelectorAll('[data-editar]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const linha = btn.closest('tr');
-            document.getElementById('edit-nome').value = linha.cells[0].textContent.trim();
-            document.getElementById('modal-editar').showModal();
-        });
-    });
-
-    // excluir: mostra o nome da máquina na confirmação
-    document.querySelectorAll('[data-excluir]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const linha = btn.closest('tr');
-            document.getElementById('excluir-nome').textContent = linha.cells[0].textContent.trim();
-            document.getElementById('modal-excluir').showModal();
-        });
-    });
-
-    // botões "Cancelar"
-    document.querySelectorAll('[data-fechar]').forEach(btn => {
-        btn.addEventListener('click', () => btn.closest('dialog').close());
-    });
-
-    // clicar fora do modal (no fundo escuro) também fecha
-    document.querySelectorAll('dialog').forEach(modal => {
-        modal.addEventListener('click', e => {
-            if (e.target === modal) modal.close();
-        });
-    });
-</script>
