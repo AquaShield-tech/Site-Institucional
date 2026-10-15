@@ -9,7 +9,7 @@ function autenticar(email, senha) {
             u.email, 
             u.fk_empresa, 
             u.fk_cargo 
-        FROM Usuario u 
+        FROM usuario u 
         WHERE u.email = '${email}' AND u.senha = '${senha}';
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
