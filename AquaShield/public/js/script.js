@@ -61,7 +61,7 @@ loginBtn.addEventListener('click', () =>{
                     sessionStorage.ID_USUARIO = json.id;
 
                     setTimeout(function () {
-                        window.location = "./dashboard/cards.html";
+                        window.location = "../inicio.html";
                     }, 1000);
                 });
             } else {
