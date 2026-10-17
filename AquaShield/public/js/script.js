@@ -41,6 +41,13 @@ loginBtn.addEventListener('click', () =>{
     }
 
     if (ax_erro == false) {
+
+        if (emailVar == "suporte@aquashield.com" && senhaVar == "12345678!") {
+            sessionStorage.NOME_USUARIO = "Equipe de Suporte";
+            window.location = "cadastro_empresa.html"; 
+            return false;
+        }
+
         console.log("FORM LOGIN: ", emailVar);
         console.log("FORM SENHA: ", senhaVar);
 
@@ -81,7 +88,7 @@ loginBtn.addEventListener('click', () =>{
 
 
   function cadastrar() {
-    // 1. Captura os valores digitados nos inputs
+   
     var nomeVar = input_nome.value.trim();
     var emailVar = input_email_cadastro.value.trim();
     var senhaVar = input_senha_cadastro.value.trim();

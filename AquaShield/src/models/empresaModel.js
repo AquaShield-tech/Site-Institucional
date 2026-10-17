@@ -18,10 +18,36 @@ function buscarPorCnpj(cnpj) {
   return database.executar(instrucaoSql);
 }
 
-function cadastrar(razaoSocial, cnpj) {
-  var instrucaoSql = `INSERT INTO empresa (razao_social, cnpj) VALUES ('${razaoSocial}', '${cnpj}')`;
-
-  return database.executar(instrucaoSql);
+function cadastrarEmpresa(razaoSocial, nomeFantasia, cnpj) {
+    var instrucaoSql = `
+        INSERT INTO empresa (razao_social, nome_fantasia, cnpj, data_cadastro) 
+        VALUES ('${razaoSocial}', '${nomeFantasia}', '${cnpj}', NOW());
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
-module.exports = { buscarPorCnpj, buscarPorId, cadastrar, listar };
+function cadastrarCco(nome, pais, cep, uf, fkEmpresa) {
+    var instrucaoSql = `
+        INSERT INTO cco (nome, pais, CEP, uf, fk_empresa) 
+        VALUES ('${nome}', '${pais}', '${cep}', '${uf}', ${fkEmpresa});
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function cadastrarGestor(nome, email, senha, fkEmpresa, fkCargo) {
+    var instrucaoSql = `
+        INSERT INTO usuario (nome, email, senha, data_cadastro, status_atual, fk_empresa, fk_cargo) 
+        VALUES ('${nome}', '${email}', '${senha}', NOW(), 'Ativo', ${fkEmpresa}, ${fkCargo});
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+module.exports = {
+    buscarPorCnpj,
+    cadastrarEmpresa,
+    cadastrarCco,
+    cadastrarGestor
+};
