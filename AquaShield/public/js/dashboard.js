@@ -3,9 +3,9 @@ const graficos = {};
 
 const cores = {
     cpu: "#19a99a",
-    ram: "#277bd3",
-    disco: "#f19a18",
-    rede: "#6244c7"
+    ram: "#4c2cdd",
+    disco: "#00d9ff",
+    rede: "#8c00ff"
 };
 
 const faixas = {
