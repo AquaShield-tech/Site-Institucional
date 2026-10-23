@@ -29,7 +29,11 @@
                 <li><a href="maquinas.html"><i class="bi bi-display"></i><span>Máquinas</span></a></li>
                 <li><a href="suporte.html"><i class="bi bi-question-circle"></i><span>Suporte</span></a></li>
                 <li><a href="configuracoes.html"><i class="bi bi-gear"></i><span>Configurações</span></a></li>
+                <li><a href="funcionario.html"><i class="bi bi-person-plus"></i><span>Cadastro de funcionario</span></a></li>
                 <li><a href="historico.html"><i class="bi bi-clock-history"></i><span>Histórico</span></a></li>
+                <li> <a href="#" onclick="deslogar()"
+            style="color: #ffffff; text-decoration: none; font-weight: bold; font-family: 'Segoe UI', sans-serif; font-size: 12px; margin-left: 15px; text-transform: uppercase; letter-spacing: 1px;">
+            Sair da Conta</a></li>
             </ul>
         </div>
     </nav>
@@ -157,5 +161,12 @@
     </div>
 
 </body>
+    <script>
+        function deslogar(){
 
+        sessionStorage.clear
+        alert("Sessão encerrada com sucesso.")
+        window.location = "index.html"
+    }
+    </script>
 </html>

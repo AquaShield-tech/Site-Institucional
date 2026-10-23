@@ -43,10 +43,11 @@ loginBtn.addEventListener('click', () =>{
     if (ax_erro == false) {
 
         if (emailVar == "suporte@aquashield.com" && senhaVar == "12345678!") {
-            sessionStorage.NOME_USUARIO = "Equipe de Suporte";
-            window.location = "cadastro_empresa.html"; 
-            return false;
-        }
+        sessionStorage.EMAIL_USUARIO = emailVar;
+        sessionStorage.NOME_USUARIO = "Equipe de Suporte";
+        window.location = "cadastro_empresa.html";
+        return false;
+    }
 
         console.log("FORM LOGIN: ", emailVar);
         console.log("FORM SENHA: ", senhaVar);
@@ -80,6 +81,7 @@ loginBtn.addEventListener('click', () =>{
     }
 
     return false;
+    
 }
 
     function sumirMensagem() {
@@ -222,4 +224,5 @@ loginBtn.addEventListener('click', () =>{
     }
 
     return false;
+    
 }

@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 :root {
     --tamanho-header: 73px;
 }
@@ -8,23 +7,179 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 body {
-    background: linear-gradient(to right, #e2e2e2, #cbddec);
+    display: flex;
     min-height: 100vh;
+    width: 100%;
+    background-color: #f4f7f9;
+    overflow: hidden;
+}
+
+ 
+input[type="radio"],
+#control-menu {
+    display: none;
+}
+
+.sidebar {
+    width: 258px;
+    height: 100vh;
+    flex-shrink: 0;
+    background-color: #073442;
+    color: white;
+    padding: 20px 14px;
+    transition: width 0.3s ease;
+    z-index: 10;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.sidebar .logo {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 12px 45px;
+    color: white;
+}
+
+.sidebar .logo span {
+    display: block;
+    font-size: 7px;
+    letter-spacing: 2px;
+    color: #46bdd8;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+.sidebar ul {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.sidebar ul li a {
+    color: #a9c0c9;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 15px 18px;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: 0.2s;
+    margin-bottom: 20px;
+}
+
+.sidebar ul li.ativo a {
+    background-color: #0d84b2;
+    color: white;
+}
+
+.sidebar ul li a:hover {
+    background-color: #0d84b2;
+    color: white;
+}
+
+.area-direita {
+    flex: 1;
     display: flex;
     flex-direction: column;
+    min-width: 0;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.header {
+    height: 66px;
+    flex-shrink: 0;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    border-bottom: 1px solid #e0e7eb;
+}
+.login-container h1 {
+    font-size: 28px;
+    color: #102f43;
+    margin-bottom: 8px;
+}
+.login-container span {
+    color: #8294a2;
+    margin-bottom: 12px;
 }
 
 .conteudo {
+    padding: 32px;
     flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+     
+}
+
+
+.usuario {
+    margin-left: auto;
+    text-align: right;
+    color: #112d40;
+    font-size: 13px;
+}
+
+.usuario strong {
+    display: block;
+    font-weight: 600;
+}
+
+.usuario span {
+    display: block;
+    color: #8294a2;
+    font-size: 10px;
+    margin-top: 4px;
+}   
+
+.btn-menu {
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 20px;
+    padding: 15px 18px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    color: #a9c0c9;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.2s;
 }
+
+.btn-menu i {
+    font-size: 20px;
+    line-height: 1;
+}
+
+#control-menu:checked ~ .sidebar {
+    width: 78px;
+    padding: 20px 10px;
+    overflow: hidden;
+}
+
+#control-menu:checked ~ .sidebar ul li a span {
+    display: none;
+}
+
+#control-menu:checked ~ .sidebar ul li a {
+    justify-content: center;
+    padding: 15px 0;
+    gap: 0;
+}
+
+#control-menu:checked ~ .sidebar .logo {
+    display: none;
+}
+
+
+ 
 
 .login-container {
     background-color: #fff;

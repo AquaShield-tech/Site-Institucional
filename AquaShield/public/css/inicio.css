@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+:root {
+    --tamanho-header: 73px;
+}
 
 * {
     margin: 0;
@@ -16,7 +19,7 @@ body {
     overflow: hidden;
 }
 
-/* Esconde os botões radio do filtro da tabela */
+ 
 input[type="radio"],
 #control-menu {
     display: none;
