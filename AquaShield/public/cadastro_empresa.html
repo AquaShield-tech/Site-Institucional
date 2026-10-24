@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>AquaShield | Cadastro de Empresa</title>
     <link rel="stylesheet" href="./css/cadastro_suporte.css">
     <link rel="icon" href="./assets/icon/favicon2.ico">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -12,19 +12,19 @@
     
     <div class="header">
         <div class="container">
-            <h1 class="titulo"><img src="./assets/icon/LOGO .svg" alt=""></h1>
+            <h1 class="titulo"><img src="./assets/icon/LOGO .svg" alt="Logo"></h1>
             <ul class="navbar">
-                <li ><a href="index.html">Inicial</a></li>
+                <li><a href="index.html">Inicial</a></li>
                 <li></li>
-                <li ><a href="login.html">Login</a></li>
+                <li><a href="login.html">Login</a></li>
             </ul>
         </div>
     </div>
 
-<main class="conteudo">
+    <main class="conteudo">
         <div class="container-cadastro">
             
-            <!-- Passos do Cadastro -->
+            <!-- Cadastro Cabeçalho -->
             <div class="cabecalho-etapas">
                 <div class="indicador-etapa" id="indicador_etapa_1">
                     <div class="circulo-etapa" id="circulo_etapa_1" style="background-color: #1f99ac; color: #fff;">1</div>
@@ -33,20 +33,14 @@
                 <div class="linha-etapa"></div>
                 <div class="indicador-etapa" id="indicador_etapa_2">
                     <div class="circulo-etapa" id="circulo_etapa_2">2</div>
-                    <span id="texto_etapa_2">CCO</span>
-                </div>
-                <div class="linha-etapa"></div>
-                <div class="indicador-etapa" id="indicador_etapa_3">
-                    <div class="circulo-etapa" id="circulo_etapa_3">3</div>
-                    <span id="texto_etapa_3">Gestor</span>
+                    <span id="texto_etapa_2">Gestor</span>
                 </div>
             </div>
 
-            <!-- Formulário -->
             <div class="container-formulario">
                 <form id="form_cadastro_empresa">
                     
-                    <!-- ETAPA 1: Empresa -->
+                    <!-- Cadastro Empresa -->
                     <div class="bloco-etapa" id="etapa_empresa">
                         <h1>Dados da Empresa</h1>
                         <span>Insira os dados jurídicos da Empresa</span>
@@ -65,30 +59,7 @@
                         </div>
                     </div>
 
-                    <!-- ETAPA 2: CCO -->
-                    <div class="bloco-etapa" id="etapa_cco" style="display: none;">
-                        <h1>Estrutura Inicial</h1>
-                        <span>Configure o Centro de Controle e localização</span>
-                        
-                        <input type="text" id="input_nome_cco" placeholder="Nome do CCO (ex: CCO SP)">
-                        <span id="validacao_cco" class="msg_validacao"></span>
-
-                        <input type="text" id="input_cep_cco" placeholder="CEP">
-                        <span id="validacao_cep" class="msg_validacao"></span>
-                        
-                        <div class="grupo-inputs">
-                            <input type="text" id="input_uf_cco" placeholder="UF" maxlength="2">
-                            <input type="text" id="input_pais_cco" placeholder="País" value="Brasil">
-                        </div>
-                        <span id="validacao_uf" class="msg_validacao"></span>
-
-                        <div class="botoes-etapa">
-                            <button type="button" class="btn-voltar" onclick="voltarEtapa1()">&larr; Voltar</button>
-                            <button type="button" onclick="avancarEtapa3()">Avançar &rarr;</button>
-                        </div>
-                    </div>
-
-                    <!-- ETAPA 3: Gestor -->
+                    <!-- Cadastro Gestor -->
                     <div class="bloco-etapa" id="etapa_gestor" style="display: none;">
                         <h1>Gestor Responsável</h1>
                         <span>Credenciais para o primeiro acesso à plataforma</span>
@@ -103,7 +74,7 @@
                         <span id="validacao_senha_gestor" class="msg_validacao"></span>
 
                         <div class="botoes-etapa">
-                            <button type="button" class="btn-voltar" onclick="voltarEtapa2()">&larr; Voltar</button>
+                            <button type="button" class="btn-voltar" onclick="voltarEtapa1()">&larr; Voltar</button>
                             <button type="button" onclick="cadastrarEmpresa()">Concluir Cadastro</button>
                         </div>
                     </div>
@@ -117,4 +88,3 @@
     <script src="./js/cadastro_empresa.js"></script>
 </body>
 </html>
-
