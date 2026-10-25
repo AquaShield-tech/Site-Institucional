@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,31 +10,16 @@
     <link rel="icon" href="./assets/icon/favicon2.ico">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    
-    <script>
-    (function () {
-        var email = (sessionStorage.EMAIL_USUARIO || "").toLowerCase();
-
-        if (!email) {
-            window.location.replace("login.html");
-        } else if (email != "gestorana@aquashield.com") {
-            alert("Permissão negada! Apenas o gestor pode acessar esta área.");
-            window.location.replace("inicio.html");
-        }
-    })();
-</script>
 
 </head>
- 
-<body>
+
+<body onload="validarSessao()">
     <input type="checkbox" id="control-menu">
 
     <nav class="sidebar">
-
         <label for="control-menu" class="btn-menu">
             <i class="bi bi-list"></i>
         </label>
-
 
         <div class="menu_icones">
             <ul>
@@ -41,72 +27,65 @@
                 <li><a href="#"><i class="bi bi-grid"></i><span>Visão geral</span></a></li>
                 <li><a href="maquinas.html"><i class="bi bi-display"></i><span>Máquinas</span></a></li>
                 <li><a href="suporte.html"><i class="bi bi-question-circle"></i><span>Suporte</span></a></li>
-                <li><a href="configuracoes.html"><i class="bi bi-gear"></i><span>Configurações</span></a></li>
-                <li><a href="funcionario.html"><i class="bi bi-person-plus"></i><span>Cadastro de funcionario</span></a></li>
+                <li><a href="funcionario.html"><i class="bi bi-person-plus"></i><span>Cadastro de funcionário</span></a></li>
+                <li><a href="cadastro_cco.html"><i class="bi-building-add"></i><span>Cadastro de CCO</span></a></li>
                 <li><a href="historico.html"><i class="bi bi-clock-history"></i><span>Histórico</span></a></li>
-                <li> <a href="#" onclick="deslogar()"
-            style="color: #ffffff; text-decoration: none; font-weight: bold; font-family: 'Segoe UI', sans-serif; font-size: 12px; margin-left: 15px; text-transform: uppercase; letter-spacing: 1px;">
-            Sair da Conta</a></li>
+                <li><a href="configuracoes.html"><i class="bi bi-gear"></i><span>Configurações</span></a></li>
+                  <li class="item-sair">
+                    <a href="#" onclick="deslogar()">
+                        <i class="bi bi-box-arrow-left"></i>
+                        <span>Sair da Conta</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>
+
     <div class="area-direita">
         <header class="header">
-
             <div class="logo">
-                <img src="assets/icon/LOGO .svg">
-            </div>    
-            <div class="usuario">
-                <strong>Ana Costa</strong>
-                <span>Gestor</span>
+                <img src="assets/icon/LOGO .svg" alt="Logo">
             </div>
-        
-         
+            <div class="usuario">
+                <strong id="b_usuario">Nome</strong>
+                <span id="b_cargo">Cargo</span>
+            </div>
         </header>
+
         <div class="conteudo">
-        <div class="login-container" id="container">
-            <div class="form-container registrar">
-                <form>
-                    <h1>Cadastro de Funcionário</h1>
-                    <span>Preencha as informações para realizar o cadastro</span>
-                    <input type="text" id="input_nome" placeholder="Nome Completo">
-                    <input type="text" id="input_email_cadastro" placeholder="Email Corporativo">
-                    <input type="text" id="input_cpf" placeholder="CPF">
-                    <input type="text" id="input_codigo_cargo"placeholder="Código de Verificação de Cargo">
-                    <input type="password" id="input_senha_provisoria" placeholder="Senha Provisória">
-                    <button type="button" onclick="cadastrar()">Criar</button>
-                </form>
-            </div> 
+            <div class="login-container" id="container">
+                <div class="form-container registrar">
+                    <form id="form_funcionario">
+                        <h1>Cadastro de Funcionário</h1>
+                        <span>Preencha as informações para realizar o cadastro</span>
+
+                        <input type="text" id="input_nome" placeholder="Nome Completo">
+                        <span id="validacao_nome" class="msg_validacao"></span>
+
+                        <input type="text" id="input_email_cadastro" placeholder="Email Corporativo">
+                        <span id="validacao_email" class="msg_validacao"></span>
+
+                        <input type="text" id="input_telefone" placeholder="Telefone (ex: 11999998888)" maxlength="11">
+                        <span id="validacao_telefone" class="msg_validacao"></span>
+
+                        <select id="select_cargo" class="input-select">
+                            <option value="" disabled selected>Selecione o Cargo/Função</option>
+                            <option value="1">Gestor</option>
+                            <option value="2">Operador / Analista</option>
+                        </select>
+                        <span id="validacao_cargo" class="msg_validacao"></span>
+
+                        <input type="password" id="input_senha_provisoria" placeholder="Senha Provisória">
+                        <span id="validacao_senha" class="msg_validacao"></span>
+
+                        <button type="button" onclick="cadastrarFuncionario()">Criar</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-    </div>
-     
-
 </body>
-<script>
-    
-     function validarSessao() {
-            var idUsuario = sessionStorage.ID_USUARIO;
-            var nomeUsuario = sessionStorage.NOME_USUARIO;
-            if ( emailVar != "gestorAna@aquashield.com" && senhaVar != "123"
-            ) {
-                alert("Área restrita!");
-                window.location = "inicio.html";
-            } else {
 
-                document.getElementById("b_usuario").innerHTML = nomeUsuario.toUpperCase();
-            }
-        } 
-
-         function deslogar() {
-
-            sessionStorage.clear();
-
-
-            alert("Sessão encerrada com sucesso.");
-
-
-            window.location = "index.html";
-        } 
-</script>
 </html>
+
+<script src="./js/funcionario.js"></script>

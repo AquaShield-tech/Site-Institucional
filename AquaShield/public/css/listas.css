@@ -25,14 +25,17 @@ input[type="radio"],
 .sidebar {
     width: 258px;
     height: 100vh;
+    flex-shrink: 0;
     background-color: #073442;
     color: white;
     padding: 20px 14px;
-    transition: all 0.3s ease;
+    transition: width 0.3s ease;
     z-index: 10;
     position: relative;
     overflow: hidden;
     white-space: nowrap;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar .logo {
@@ -54,6 +57,9 @@ input[type="radio"],
 .sidebar ul {
     list-style: none;
     margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .sidebar ul li a {
@@ -78,6 +84,12 @@ input[type="radio"],
     background-color: #0d84b2;
     color: white;
 }
+
+.item-sair {
+    margin-top: auto; /* Empurra este elemento para o final do espaço disponível */
+    margin-bottom: 0 !important;
+}
+
 
 .area-direita {
     flex: 1;

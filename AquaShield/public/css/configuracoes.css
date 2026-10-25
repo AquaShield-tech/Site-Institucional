@@ -34,6 +34,8 @@ input[type="radio"],
     position: relative;
     overflow: hidden;
     white-space: nowrap;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar .logo {
@@ -55,6 +57,9 @@ input[type="radio"],
 .sidebar ul {
     list-style: none;
     margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .sidebar ul li a {
@@ -78,6 +83,11 @@ input[type="radio"],
 .sidebar ul li a:hover {
     background-color: #0d84b2;
     color: white;
+}
+
+.item-sair {
+    margin-top: auto; /* Empurra este elemento para o final do espaço disponível */
+    margin-bottom: 0 !important;
 }
 
 .area-direita {

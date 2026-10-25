@@ -82,7 +82,30 @@ function cadastrar(req, res) {
     }
 }
 
+function cadastrarFuncionario(req, res) {
+    var nome = req.body.nomeServer;
+    var email = req.body.emailServer;
+    var telefone = req.body.telefoneServer;
+    var senha = req.body.senhaServer;
+    var fkEmpresa = req.body.fkEmpresaServer;
+    var fkCargo = req.body.fkCargoServer;
+
+    if (nome == undefined || email == undefined || telefone == undefined || senha == undefined || fkEmpresa == undefined || fkCargo == undefined) {
+        res.status(400).send("Faltam dados para o cadastro!");
+    } else {
+        usuarioModel.cadastrarFuncionario(nome, email, telefone, senha, fkEmpresa, fkCargo)
+            .then(function (resultado) {
+                res.status(201).json(resultado);
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    cadastrarFuncionario
 }

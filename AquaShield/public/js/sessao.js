@@ -1,20 +1,39 @@
 // sessão
 function validarSessao() {
-    var email = sessionStorage.EMAIL_USUARIO;
-    var nome = sessionStorage.NOME_USUARIO;
+    var fkCargo = sessionStorage.FK_CARGO;
+    var nomeUsuario = sessionStorage.NOME_USUARIO;
 
-    var b_usuario = document.getElementById("b_usuario");
-
-    if (email != null && nome != null) {
-        b_usuario.innerHTML = nome;
+    if (!fkCargo || fkCargo != "1") {
+        alert("Permissão negada! Apenas gestores podem cadastrar um CCO.");
+        window.location.replace("inicio.html");
     } else {
-        window.location = "../login.html";
+        var elementUsuario = document.getElementById("b_usuario");
+        if (elementUsuario && nomeUsuario) {
+            elementUsuario.innerHTML = nomeUsuario;
+        }
+    }
+
+    var elementCargo = document.getElementById("b_cargo");
+    if (elementCargo && fkCargo) {
+        if (fkCargo == "1") {
+            elementCargo.innerHTML = "Gestor";
+        } else if (fkCargo == "2") {
+            elementCargo.innerHTML = "Analista";
+        } else if(fkCargo == "3"){
+            elementCargo.innerHTML = "Operador";
+        }
     }
 }
 
 function limparSessao() {
     sessionStorage.clear();
     window.location = "../login.html";
+}
+
+function deslogar() {
+    sessionStorage.clear();
+    alert("Sessão encerrada com sucesso.");
+    window.location = "index.html";
 }
 
 // carregamento (loading)

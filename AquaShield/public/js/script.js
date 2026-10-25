@@ -67,7 +67,9 @@ loginBtn.addEventListener('click', () =>{
                     sessionStorage.EMAIL_USUARIO = json.email;
                     sessionStorage.NOME_USUARIO = json.nome;
                     sessionStorage.ID_USUARIO = json.id;
-
+                    sessionStorage.FK_EMPRESA = json.fk_empresa;
+                    sessionStorage.FK_CARGO = json.fk_cargo;
+                    
                     setTimeout(function () {
                         window.location = "../inicio.html";
                     }, 1000);

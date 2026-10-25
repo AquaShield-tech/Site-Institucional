@@ -12,7 +12,7 @@
     <script src="./js/dashboard.js" defer></script>
 </head>
 
-<body>
+<body onload="validarSessao()">
 
     <input type="radio" id="filtro-todos" name="categoria" checked>
     <input type="radio" id="filtro-normal" name="categoria">
@@ -28,12 +28,16 @@
                 <li><a href="#"><i class="bi bi-grid"></i><span>Visão geral</span></a></li>
                 <li><a href="maquinas.html"><i class="bi bi-display"></i><span>Máquinas</span></a></li>
                 <li><a href="suporte.html"><i class="bi bi-question-circle"></i><span>Suporte</span></a></li>
-                <li><a href="configuracoes.html"><i class="bi bi-gear"></i><span>Configurações</span></a></li>
                 <li><a href="funcionario.html"><i class="bi bi-person-plus"></i><span>Cadastro de funcionario</span></a></li>
+                <li><a href="cadastro_cco.html"><i class="bi-building-add"></i><span>Cadastro de CCO</span></a></li>
                 <li><a href="historico.html"><i class="bi bi-clock-history"></i><span>Histórico</span></a></li>
-                <li> <a href="#" onclick="deslogar()"
-            style="color: #ffffff; text-decoration: none; font-weight: bold; font-family: 'Segoe UI', sans-serif; font-size: 12px; margin-left: 15px; text-transform: uppercase; letter-spacing: 1px;">
-            Sair da Conta</a></li>
+                <li><a href="configuracoes.html"><i class="bi bi-gear"></i><span>Configurações</span></a></li>
+                <li class="item-sair">
+                    <a href="#" onclick="deslogar()">
+                        <i class="bi bi-box-arrow-left"></i>
+                        <span>Sair da Conta</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -43,11 +47,10 @@
         <header class="header">
             <div class="logo"><img src="assets/icon/LOGO .svg" alt="AquaShield"></div>
             <div class="usuario">
-                <div class="usuario-info">
-                    <strong>Ana Costa</strong>
-                    <span>Gestor</span>
-                 
-            </div>
+                <div class="usuario">
+                    <strong id="b_usuario">Nome</strong>
+                    <span id="b_cargo">Cargo</span>
+                </div>
         </header>
 
         <main class="area-monitoramento">
@@ -84,7 +87,10 @@
                     <div class="dashboard-cabecalho">
                         <div class="componente-titulo">
                             <div class="icone-componente"><i class="bi bi-cpu"></i></div>
-                            <div><h2>CPU</h2><p>Uso do processador</p></div>
+                            <div>
+                                <h2>CPU</h2>
+                                <p>Uso do processador</p>
+                            </div>
                         </div>
                         <div class="status-componente" id="status-cpu"><span></span>Normal</div>
                     </div>
@@ -103,7 +109,10 @@
                     <div class="dashboard-cabecalho">
                         <div class="componente-titulo">
                             <div class="icone-componente"><i class="bi bi-memory"></i></div>
-                            <div><h2>Memória RAM</h2><p>Uso da memória</p></div>
+                            <div>
+                                <h2>Memória RAM</h2>
+                                <p>Uso da memória</p>
+                            </div>
                         </div>
                         <div class="status-componente" id="status-ram"><span></span>Normal</div>
                     </div>
@@ -122,7 +131,10 @@
                     <div class="dashboard-cabecalho">
                         <div class="componente-titulo">
                             <div class="icone-componente"><i class="bi bi-hdd"></i></div>
-                            <div><h2>Disco</h2><p>Uso do armazenamento</p></div>
+                            <div>
+                                <h2>Disco</h2>
+                                <p>Uso do armazenamento</p>
+                            </div>
                         </div>
                         <div class="status-componente" id="status-disco"><span></span>Normal</div>
                     </div>
@@ -141,7 +153,10 @@
                     <div class="dashboard-cabecalho">
                         <div class="componente-titulo">
                             <div class="icone-componente"><i class="bi bi-wifi"></i></div>
-                            <div><h2>Rede</h2><p>Uso da rede</p></div>
+                            <div>
+                                <h2>Rede</h2>
+                                <p>Uso da rede</p>
+                            </div>
                         </div>
                         <div class="status-componente" id="status-rede"><span></span>Normal</div>
                     </div>
@@ -161,12 +176,5 @@
     </div>
 
 </body>
-    <script>
-        function deslogar(){
-
-        sessionStorage.clear
-        alert("Sessão encerrada com sucesso.")
-        window.location = "index.html"
-    }
-    </script>
+<script src="cadastro_cco.html"></script>
 </html>
