@@ -309,12 +309,17 @@
         // Abrir o modal de cadastro
         const botoesAbrir = document.querySelectorAll("[data-abrir]");
         botoesAbrir.forEach(function (botao) {
-            botao.addEventListener("click", function () {
-                const idModal = botao.getAttribute("data-abrir");
-                const modal = document.getElementById(idModal);
-                if (modal) modal.showModal();
-            });
+        botao.addEventListener("click", function () {
+
+        if (!validarSessaoMaquina()) {
+            return; // não é gestor, não abre o modal
+        }
+
+        const idModal = botao.getAttribute("data-abrir");
+        const modal = document.getElementById(idModal);
+        if (modal) modal.showModal();
         });
+    });
 
         // Seleciona todos os botões Cancelar para fechar modais
         const botoesCancelar = document.querySelectorAll(".btn_secundario");
@@ -500,8 +505,8 @@
             var fkCargo = sessionStorage.FK_CARGO;
             var nomeUsuario = sessionStorage.NOME_USUARIO;
 
-            if (!fkCargo || fkCargo != "1") {
-                alert("Permissão negada! Apenas gestores podem cadastrar um CCO.");
+            if (!fkCargo) {
+                alert("Permissão negada! Apenas gestores podem cadastrar uma maquina.");
                 window.location.replace("inicio.html");
             } else {
                 var elementUsuario = document.getElementById("b_usuario");
@@ -522,6 +527,16 @@
             }
         }
 
+    function validarSessaoMaquina() {
+    var fkCargo = sessionStorage.FK_CARGO;
+
+    if (fkCargo != "1") {
+        alert("Permissão negada! Apenas gestores podem cadastrar uma máquina.");
+        return false;
+    }
+
+    return true;
+}
     </script>
 </body>
 

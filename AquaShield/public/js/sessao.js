@@ -3,8 +3,8 @@ function validarSessao() {
     var fkCargo = sessionStorage.FK_CARGO;
     var nomeUsuario = sessionStorage.NOME_USUARIO;
 
-    if (!fkCargo || fkCargo != "1") {
-        alert("Permissão negada! Apenas gestores podem cadastrar um CCO.");
+    if (!fkCargo) {
+        alert("Permissão negada!");
         window.location.replace("inicio.html");
     } else {
         var elementUsuario = document.getElementById("b_usuario");
