@@ -23,14 +23,9 @@ function buscarPorId(req, res) {
 }
 
 function cadastrar(req, res) {
-  var razaoSocial = req.body.razaoSocialServer;
+    var razaoSocial = req.body.razaoSocialServer;
     var nomeFantasia = req.body.nomeFantasiaServer;
     var cnpj = req.body.cnpjServer;
-
-    var nomeCco = req.body.nomeCcoServer;
-    var cepCco = req.body.cepCcoServer;
-    var ufCco = req.body.ufCcoServer;
-    var paisCco = req.body.paisCcoServer;
 
     var nomeGestor = req.body.nomeGestorServer;
     var emailGestor = req.body.emailGestorServer;
@@ -53,20 +48,12 @@ function cadastrar(req, res) {
                 empresaModel.cadastrarEmpresa(razaoSocial, nomeFantasia, cnpj).then(function (resultadoEmpresa) {
                     var idEmpresa = resultadoEmpresa.insertId;
 
-                    // Cadastra o CCO
-                    empresaModel.cadastrarCco(nomeCco, paisCco, cepCco, ufCco, idEmpresa).then(function () {
-
-                        // Cadastra o Gestor
-                        empresaModel.cadastrarGestor(nomeGestor, emailGestor, senhaGestor, idEmpresa, fkCargo).then(function (resultadoGestor) {
-                            res.status(201).json(resultadoGestor);
-                        }).catch(function (erroGestor) {
-                            console.log(erroGestor);
-                            res.status(500).json(erroGestor.sqlMessage);
-                        });
-
-                    }).catch(function (erroCco) {
-                        console.log(erroCco);
-                        res.status(500).json(erroCco.sqlMessage);
+                    // Cadastra o Gestor DIRETAMENTE após a empresa
+                    empresaModel.cadastrarGestor(nomeGestor, emailGestor, senhaGestor, idEmpresa, fkCargo).then(function (resultadoGestor) {
+                        res.status(201).json(resultadoGestor);
+                    }).catch(function (erroGestor) {
+                        console.log(erroGestor);
+                        res.status(500).json(erroGestor.sqlMessage);
                     });
 
                 }).catch(function (erroEmpresa) {
