@@ -75,7 +75,7 @@ input[type="radio"],
     border-radius: 8px;
     font-size: 15px;
     transition: 0.2s;
-    margin-bottom: 20px;
+    margin-bottom: 8px
 }
 
 .sidebar ul li.ativo a {

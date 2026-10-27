@@ -56,7 +56,6 @@ input[type="radio"],
 
 .sidebar ul {
     list-style: none;
-    margin-top: 10px;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -72,7 +71,7 @@ input[type="radio"],
     border-radius: 8px;
     font-size: 15px;
     transition: 0.2s;
-    margin-bottom: 20px;
+    margin-bottom: 8px
 }
 
 .sidebar ul li.ativo a {
@@ -229,7 +228,7 @@ input[type="radio"],
 
 .linha-cabecalho {
     display: grid;
-    grid-template-columns: 60px repeat(3, 1fr);
+    grid-template-columns: 60px repeat(2, 1fr);
     text-align: center;
     font-size: 13px;
     font-weight: 600;
@@ -239,7 +238,7 @@ input[type="radio"],
 
 .linha-input {
     display: grid;
-    grid-template-columns: 60px repeat(3, 1fr);
+    grid-template-columns: 60px repeat(2, 1fr);
     align-items: center;
     gap: 10px;
 }
