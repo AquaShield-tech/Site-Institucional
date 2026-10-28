@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dashboard de ocorrencias | AquaShield</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./css/dash_principal.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js" defer></script>
+    <script src="./js/dash_principal.js" defer></script>
+</head>
+<body>
+    <input type="radio" id="filtro-todos" name="categoria" checked>
+    <input type="radio" id="filtro-normal" name="categoria">
+    <input type="radio" id="filtro-alerta" name="categoria">
+    <input type="radio" id="filtro-critico" name="categoria">
+    <input type="checkbox" id="control-menu">
+
+    <nav class="sidebar">
+        <label for="control-menu" class="btn-menu"><i class="bi bi-list"></i></label>
+        <div class="menu_icones">
+            <ul>
+                <li><a href="inicio.html"><i class="bi bi-house"></i><span>Início</span></a></li>
+                <li><a href="dash_principal.html"><i class="bi bi-grid"></i><span>Visão geral</span></a></li>
+                <li><a href="maquinas.html"><i class="bi bi-display"></i><span>Máquinas</span></a></li>
+                <li><a href="suporte.html"><i class="bi bi-question-circle"></i><span>Suporte</span></a></li>
+                <li><a href="funcionario.html"><i class="bi bi-person-plus"></i><span>Cadastro de funcionario</span></a></li>
+                <li><a href="cadastro_cco.html"><i class="bi-building-add"></i><span>Cadastro de CCO</span></a></li>
+                <li><a href="historico.html"><i class="bi bi-clock-history"></i><span>Histórico</span></a></li>
+                <li><a href="configuracoes.html"><i class="bi bi-gear"></i><span>Configurações</span></a></li>
+                <li class="item-sair">
+                    <a href="#" onclick="deslogar()">
+                        <i class="bi bi-box-arrow-left"></i>
+                        <span>Sair da Conta</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="area-direita">
+
+        <header class="header">
+            <div class="logo"><img src="assets/icon/LOGO .svg" alt="AquaShield"></div>
+            <div class="usuario">
+                <div class="usuario">
+                    <strong id="b_usuario">Nome</strong>
+                    <span id="b_cargo">Cargo</span>
+                </div>
+        </header>
+
+        <main class="area-monitoramento">
+            <div class="titulo-pagina">
+                <div>
+                    <h1>Monitoramento em tempo real</h1>
+                </div>
+            </div>
+       
+
+        <div class="conteudo-dash">
+
+   
+    <section class="kpis">
+        <article class="kpi kpi-cpu">
+            <h3>Máquinas em sobrecarga de CPU por mais de 20 min</h3>
+            <div class="kpi-valor">
+                <strong id="kpi_cpu">0</strong>
+              
+            </div>
+        </article>
+
+        <article class="kpi kpi-ram">
+            <h3>Máquinas em sobrecarga de RAM por mais de 20 min</h3>
+            <div class="kpi-valor">
+                <strong id="kpi_ram">0</strong>
+                 
+            </div>
+        </article>
+
+        <article class="kpi kpi-disco">
+            <h3>Discos em estado crítico</h3>
+            <div class="kpi-valor">
+                <strong id="kpi_disco">0</strong>
+                
+            </div>
+        </article>
+
+        <article class="kpi kpi-desc">
+            <h3>Máquinas desconectadas</h3>
+            <div class="kpi-valor">
+                <strong id="kpi_desc">0</strong>
+                
+            </div>
+        </article>
+    </section>
+
+    
+    <section class="grade-dash">
+
+        <article class="card card-linha">
+            <header class="card-topo">
+                <div>
+                    <h2>Histórico de ocorrências</h2>
+                    <p>Quantidade de alertas por período</p>
+                </div>
+                <div class="filtro-periodo">
+                    <button type="button" class="btn-periodo" data-periodo="24h">24h</button>
+                    <button type="button" class="btn-periodo ativo" data-periodo="7d">7d</button>
+                    <button type="button" class="btn-periodo" data-periodo="30d">30d</button>
+                </div>
+            </header>
+            <div class="grafico-linha">
+                <canvas id="grafico_linha"></canvas>
+            </div>
+        </article>
+
+        <article class="card card-lateral">
+            <div class="bloco-donut">
+                <h2>Quantidade de avisos</h2>
+                <p>Soma dos últimos 30 dias</p>
+                <div class="grafico-donut">
+                    <canvas id="grafico_donut"></canvas>
+                </div>
+            </div>
+        </article>
+
+    </section>
+
+    <section class="card card-historico">
+        <header class="card-topo">
+            <div>
+                <h2>Histórico</h2>
+                <p>Últimas ocorrências registradas</p>
+            </div>
+        </header>
+        <div class="tabela-wrap">
+            <table class="tabela-historico">
+                <thead>
+                    <tr>
+                        <th>Data e hora</th>
+                        <th>Máquina</th>
+                        <th>Componente</th>
+                        <th>Ocorrência</th>
+                        <th>Nível</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>27/10/2026 09:42</td>
+                        <td>Máquina 741</td>
+                        <td>CPU</td>
+                        <td>Uso acima de 90% por 25 min</td>
+                        <td><span class="tag tag-critico">Crítico</span></td>
+                        <td>Em aberto</td>
+                    </tr>
+                    <tr>
+                        <td>27/10/2026 09:15</td>
+                        <td>Máquina 5123</td>
+                        <td>RAM</td>
+                        <td>Uso acima de 75% por 22 min</td>
+                        <td><span class="tag tag-alerta">Alerta</span></td>
+                        <td>Em aberto</td>
+                    </tr>
+                    <tr>
+                        <td>27/10/2026 08:57</td>
+                        <td>Máquina 81237</td>
+                        <td>Disco</td>
+                        <td>Erro na leitura</td>
+                        <td><span class="tag tag-critico">Crítico</span></td>
+                        <td>Em análise</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</div>
+
+
+    </main>
+    </div>   
+</body>
+</html>
+
+
+
+    
+</body>
+</html>
