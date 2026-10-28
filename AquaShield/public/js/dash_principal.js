@@ -1,3 +1,40 @@
+function carregarUsuario() {
+    var fkCargo = sessionStorage.FK_CARGO;
+    var nomeUsuario = sessionStorage.NOME_USUARIO;
+
+    // Sem login: volta para a tela inicial
+    if (!fkCargo || !nomeUsuario) {
+        window.location.replace("index.html");
+        return;
+    }
+
+    var elementUsuario = document.getElementById("b_usuario");
+    var elementCargo = document.getElementById("b_cargo");
+
+    if (elementUsuario) {
+        elementUsuario.innerHTML = nomeUsuario;
+    }
+
+    if (elementCargo) {
+        if (fkCargo == "1") {
+            elementCargo.innerHTML = "Gestor";
+        } else if (fkCargo == "2") {
+            elementCargo.innerHTML = "Analista";
+        } else if (fkCargo == "3") {
+            elementCargo.innerHTML = "Operador";
+        }
+    }
+}
+
+function deslogar() {
+    sessionStorage.clear();
+    alert("Sessão encerrada com sucesso.");
+    window.location = "index.html";
+}
+
+carregarUsuario();
+
+
 const COR_CRITICO = '#dc2626';
 const COR_ALERTA = '#f59e0b';
 
