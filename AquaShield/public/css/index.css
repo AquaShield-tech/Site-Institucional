@@ -489,4 +489,104 @@ html {
     .hero {
         height: 300px;
     }
+
+/* Responsovidade para celulares até 768px */
+@media (max-width: 768px) {
+    .container,
+    .chamada,
+    .sobre,
+    .problema,
+    .monitoramos,
+    .recursos,
+    .faixa-imagem {
+        width: 100% !important;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+
+    .header .container {
+        flex-direction: column;
+        height: auto;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        gap: 12px;
+    }
+
+    .header {
+        height: auto;
+    }
+
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 4px;
+    }
+
+    .navbar a {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .hero {
+        height: 380px;
+        margin-top: 0;
+        padding-top: 0;
+    }
+
+    .hero__titulo {
+        text-align: center;
+        font-size: clamp(32px, 10vw, 48px);
+    }
+
+    .faixa-imagem img {
+        height: auto;
+        min-height: 250px;
+        aspect-ratio: 16 / 9;
+    }
+
+    .problema {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    .problema__img--operador,
+    .problema__img--agua {
+        height: 220px;
+    }
+
+    .componentes {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .recurso__img {
+        height: 200px;
+    }
+
+    .chamada {
+        padding-top: 32px;
+        padding-bottom: 32px;
+    }
+
+    .chamada__subtitulo {
+        font-size: 20px;
+    }
+
+    .chamada__slogan {
+        font-size: 18px !important;
+    }
+
+    .botao {
+        width: 100%;
+        text-align: center;
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+
+    .footer {
+        height: auto;
+        padding: 16px 20px;
+        text-align: center;
+    }
+}
 }

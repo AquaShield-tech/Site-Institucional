@@ -291,3 +291,93 @@ input[type="radio"],
     color: #333;
     cursor: pointer;
 }
+
+/* Resposividade para telas até 768px */
+@media (max-width: 768px) {
+    body {
+        overflow: auto !important;
+        height: auto !important;
+    }
+
+    .area-direita {
+        height: auto !important;
+        overflow: visible !important;
+        width: 100%;
+    }
+
+    .btn-menu {
+        display: flex !important;
+        position: fixed;
+        top: 12px;
+        left: 16px;
+        z-index: 1001;
+        padding: 8px 10px;
+        margin-bottom: 0;
+        background: #e8f5f9;
+        border-radius: 8px;
+        color: #073442;
+    }
+
+    .header {
+        padding: 0 16px 0 65px;
+        justify-content: flex-end;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 270px !important;
+        height: 100vh;
+        z-index: 1000;
+        padding-top: 65px !important;
+        transition: left 0.3s ease;
+        box-shadow: 4px 0 16px rgba(0, 0, 0, 0.3);
+    }
+
+    #control-menu:checked ~ .sidebar {
+        left: 0;
+    }
+
+    #control-menu:checked ~ .sidebar ul li a span {
+        display: inline !important;
+    }
+
+    #control-menu:checked ~ .sidebar ul li a {
+        justify-content: flex-start !important;
+        padding: 12px 16px !important;
+        gap: 16px !important;
+    }
+
+    #control-menu:checked ~ .sidebar .logo {
+        display: block !important;
+        margin-bottom: 20px !important;
+    }
+
+    .conteudo {
+        padding: 20px 16px;
+        overflow: visible !important;
+    }
+
+    .login-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 30px 16px !important;
+        border-radius: 16px;
+    }
+
+    .login-container form {
+        padding: 0 10px !important;
+    }
+
+    .login-container h1 {
+        font-size: 22px !important;
+        text-align: center;
+    }
+
+    .login-container button {
+        width: 100% !important;
+        padding: 12px 0 !important;
+        font-size: 13px !important;
+    }
+}

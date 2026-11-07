@@ -16,18 +16,18 @@
 </head>
 
 <body>
-        <div class="header">
+    <div class="header">
         <div class="container">
             <h1 class="titulo"><img src="./assets/icon/LOGO .svg" alt=""></h1>
             <ul class="navbar">
-                <li ><a href="index.html">Inicial</a></li>
+                <li><a href="index.html">Inicial</a></li>
                 <li></li>
-                <li class ="agora"><a href="login.html">Login</a></li>
+                <li class="agora"><a href="login.html">Login</a></li>
             </ul>
         </div>
     </div>
 
-    
+
     <main class="conteudo">
         <div class="login-container" id="container">
             <div class="form-container registrar">
@@ -37,7 +37,7 @@
                     <input type="text" id="input_nome" placeholder="Empresa Representante">
                     <span id="validacao_nome" class="msg_validacao"></span>
 
-                    <input type="text" id="input_email_cadastro"placeholder="Email">
+                    <input type="text" id="input_email_cadastro" placeholder="Email">
                     <span id="validacao_email" class="msg_validacao"></span>
 
                     <input type="password" id="input_senha_cadastro" placeholder="Senha">
@@ -45,8 +45,13 @@
 
                     <input type="password" id="input_senha_confirmada" placeholder="Confirme sua Senha">
                     <span id="validacao_confSenha" class="msg_validacao"></span>
-                    
+
                     <button type="button" onclick="cadastrar()">Criar</button>
+
+                    <a href="#" class="btn-alternar-mobile"
+                        onclick="document.querySelector('.login-container').classList.remove('active')">
+                        Já tem conta? Entrar
+                    </a>
                 </form>
             </div>
             <div class="form-container entrar">
@@ -61,6 +66,11 @@
 
                     <a href="#">Esqueceu sua Senha?</a>
                     <button type="button" onclick="entrar()">Login</button>
+                    
+                    <a href="#" class="btn-alternar-mobile"
+                        onclick="document.querySelector('.login-container').classList.add('active')">Não tem conta?
+                        Cadastre-se
+                    </a>
                 </form>
             </div>
             <div class="mudanca-container">
@@ -80,9 +90,9 @@
         </div>
     </main>
 
-    
+
     <script src="./js/script.js"></script>
 
 </body>
- 
+
 </html>

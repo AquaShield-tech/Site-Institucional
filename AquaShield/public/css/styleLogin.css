@@ -325,3 +325,124 @@ body {
     text-align: left;
     width: 100%;
 }
+
+/* Responsividade tela de 768px */
+
+@media (max-width: 768px) {
+
+    .entrar,
+    .registrar {
+        width: 100% !important;
+        left: 0 !important;
+    }
+
+    .login-container form {
+        width: 100% !important;
+        padding: 24px 20px;
+    }
+    
+    .header .container {
+        flex-direction: column;
+        height: auto;
+        padding: 8px 16px;
+        gap: 8px;
+    }
+
+    .header {
+        height: auto;
+    }
+
+    .navbar a {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+
+    .conteudo {
+        padding: 12px 10px;
+    }
+
+    .login-container {
+        width: 100%;
+        min-height: auto;
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    .mudanca-container {
+        display: none;
+    }
+
+    .form-container {
+        position: relative;
+        width: 100% !important;
+        height: auto;
+        left: 0 !important;
+        transform: none !important;
+    }
+
+    .entrar {
+        display: flex;
+    }
+
+    .registrar {
+        display: none;
+    }
+
+    .login-container.active .entrar {
+        display: none;
+    }
+
+    .login-container.active .registrar {
+        display: flex;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .login-container form {
+        padding: 24px 20px;
+    }
+
+    .login-container h1 {
+        font-size: 20px;
+        margin-bottom: 4px;
+    }
+
+    .login-container p {
+        margin: 6px 0 12px;
+        font-size: 12px;
+    }
+
+    .login-container input {
+        margin: 4px 0;
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .login-container button {
+        margin-top: 10px;
+        padding: 10px 20px;
+        font-size: 13px;
+        width: 100%;
+    }
+
+    .login-container a {
+        margin: 8px 0 4px;
+        font-size: 12px;
+    }
+
+    .btn-alternar-mobile {
+        display: block !important;
+        margin-top: 16px !important;
+        color: #1f99ac !important;
+        font-size: 13px !important;
+        font-weight: 600;
+        text-decoration: underline !important;
+        cursor: pointer;
+        background: none;
+        border: none;
+    }
+}
+
+.btn-alternar-mobile {
+    display: none;
+}

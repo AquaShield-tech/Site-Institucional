@@ -383,3 +383,118 @@ input[type="radio"],
     .card-lateral { height: auto; }
     .bloco-donut { min-height: 300px; }
 }
+
+/* ---------- RESPONSIVIDADE DA DASHBOARD PRINCIPAL (Mobile e Tablet) ---------- */
+@media (max-width: 768px) {
+    /* Libera a rolagem da página */
+    body {
+        overflow: auto !important;
+        height: auto !important;
+    }
+
+    .area-direita {
+        height: auto !important;
+        overflow: visible !important;
+        width: 100%;
+    }
+
+    /* Botão Hambúrguer Fixo no Header */
+    .btn-menu {
+        display: flex !important;
+        position: fixed;
+        top: 12px;
+        left: 16px;
+        z-index: 1001; /* Fica acima da barra lateral */
+        padding: 8px 10px;
+        margin-bottom: 0;
+        background: #e8f5f9;
+        border-radius: 8px;
+        color: #073442;
+    }
+
+    .header {
+        padding: 0 16px 0 65px; /* Espaço para o botão hambúrguer no canto esquerdo */
+        justify-content: flex-end;
+    }
+
+    /* Sidebar em Modo Gaveta Overlay */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%; /* Escondida fora da tela */
+        width: 270px !important;
+        height: 100vh;
+        z-index: 1000;
+        padding-top: 65px !important; /* Espaço pro botão não cobrir os itens */
+        transition: left 0.3s ease;
+        box-shadow: 4px 0 16px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Ao Clicar no Menu Hambúrguer (Checkbox Marcado) */
+    #control-menu:checked ~ .sidebar {
+        left: 0;
+    }
+
+    #control-menu:checked ~ .sidebar ul li a span {
+        display: inline !important;
+    }
+
+    #control-menu:checked ~ .sidebar ul li a {
+        justify-content: flex-start !important;
+        padding: 12px 16px !important;
+        gap: 16px !important;
+    }
+
+    #control-menu:checked ~ .sidebar .logo {
+        display: block !important;
+        margin-bottom: 20px !important;
+    }
+
+    /* Ajuste nos Conteúdos e Gráficos */
+    .area-monitoramento {
+        padding: 16px;
+        overflow: visible !important;
+    }
+
+    .conteudo-dash {
+        overflow: visible !important;
+        padding-right: 0;
+    }
+
+    /* Grids dos Cards e KPIs em 1 Coluna */
+    .kpis {
+        grid-template-columns: 1fr !important;
+        gap: 12px;
+    }
+
+    .grade-dash {
+        grid-template-columns: 1fr !important;
+        gap: 16px;
+    }
+
+    .card-linha,
+    .card-lateral {
+        height: auto !important;
+        min-height: 320px;
+    }
+
+    .titulo-pagina,
+    .card-topo {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .filtro-periodo {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+/* Telas intermediárias (Tablets - 769px até 1200px) */
+@media (min-width: 769px) and (max-width: 1200px) {
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .grade-dash { grid-template-columns: 1fr; }
+    .card-lateral { height: auto; }
+    .bloco-donut { min-height: 300px; }
+}
