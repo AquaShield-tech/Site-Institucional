@@ -38,57 +38,67 @@ carregarUsuario();
 const COR_CRITICO = '#dc2626';
 const COR_ALERTA = '#f59e0b';
 
-function aleatorio(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function gerarSerie(qtd, min, max) {
-    return Array.from({ length: qtd }, () => aleatorio(min, max));
-}
-
 function doisDigitos(n) {
     return String(n).padStart(2, '0');
 }
 
-/* ---------- Dados ---------- */
+/* Estrutura dos eixos */
 
-const labels30 = [];
-for (let i = 29; i >= 0; i--) {
-    const d = new Date();
-    d.setDate(d.getDate() - i);
-    labels30.push(doisDigitos(d.getDate()) + '/' + doisDigitos(d.getMonth() + 1));
-}
-const critico30 = gerarSerie(30, 2, 18);
-const alerta30 = gerarSerie(30, 8, 40);
+function gerarEixos() {
+    const labels30 = [];
+    for (let i = 29; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        labels30.push(doisDigitos(d.getDate()) + '/' + doisDigitos(d.getMonth() + 1));
+    }
 
-// Últimas 24 horas
-const labels24 = [];
-for (let i = 23; i >= 0; i--) {
-    const d = new Date();
-    d.setHours(d.getHours() - i);
-    labels24.push(doisDigitos(d.getHours()) + 'h');
+    const labels24 = [];
+    for (let i = 23; i >= 0; i--) {
+        const d = new Date();
+        d.setHours(d.getHours() - i);
+        labels24.push(doisDigitos(d.getHours()) + 'h');
+    }
+
+    return { labels24, labels30 };
 }
-const critico24 = gerarSerie(24, 0, 5);
-const alerta24 = gerarSerie(24, 1, 12);
+
+function montarSerie(labelsBase, registrosBanco) {
+    const mapa = {};
+    for (let i = 0; i < registrosBanco.length; i++) {
+        const item = registrosBanco[i];
+        mapa[item.label] = {
+            critico: Number(item.critico) || 0,
+            alerta: Number(item.alerta) || 0
+        };
+    }
+
+    const critico = [];
+    const alerta = [];
+
+    for (let i = 0; i < labelsBase.length; i++) {
+        const lbl = labelsBase[i];
+        if (mapa[lbl]) {
+            critico.push(mapa[lbl].critico);
+            alerta.push(mapa[lbl].alerta);
+        } else {
+            critico.push(0);
+            alerta.push(0);
+        }
+    }
+
+    return { critico, alerta };
+}
+
+let periodoAtual = '7d';
+const eixos = gerarEixos();
 
 const periodos = {
-    '24h': { labels: labels24, critico: critico24, alerta: alerta24, eixoX: 'Hora' },
-    '7d': { labels: labels30.slice(-7), critico: critico30.slice(-7), alerta: alerta30.slice(-7), eixoX: 'Dia' },
-    '30d': { labels: labels30, critico: critico30, alerta: alerta30, eixoX: 'Dia' }
+    '24h': { labels: eixos.labels24, critico: Array(24).fill(0), alerta: Array(24).fill(0), eixoX: 'Hora' },
+    '7d': { labels: eixos.labels30.slice(-7), critico: Array(7).fill(0), alerta: Array(7).fill(0), eixoX: 'Dia' },
+    '30d': { labels: eixos.labels30, critico: Array(30).fill(0), alerta: Array(30).fill(0), eixoX: 'Dia' }
 };
 
-/* ---------- KPIs ---------- */
-
-function preencherKpi(idValor, min, max) {
-    document.getElementById(idValor).textContent = aleatorio(min, max);
-}
-
-preencherKpi('kpi_cpu', 3, 40);
-preencherKpi('kpi_ram', 3, 40);
-preencherKpi('kpi_disco', 10, 40);
-preencherKpi('kpi_desc', 1, 12);
-
-/* ---------- Gráfico de linha ---------- */
+/* ---------- Inicialização dos Gráficos ---------- */
 
 const inicial = periodos['7d'];
 
@@ -98,7 +108,7 @@ const espacoLegenda = {
         const fitOriginal = chart.legend.fit;
         chart.legend.fit = function () {
             fitOriginal.bind(chart.legend)();
-            this.height += 14; // maior = mais espaço
+            this.height += 14;
         };
     }
 };
@@ -161,6 +171,7 @@ const graficoLinha = new Chart(document.getElementById('grafico_linha'), {
 });
 
 function trocarPeriodo(chave) {
+    periodoAtual = chave;
     const p = periodos[chave];
     graficoLinha.data.labels = p.labels;
     graficoLinha.data.datasets[0].data = p.critico;
@@ -179,15 +190,12 @@ document.querySelectorAll('.btn-periodo').forEach(function (btn) {
     });
 });
 
-/* ---------- Gráfico de donut (soma dos 30 dias) ---------- */
-
-const somaCritico = critico30.reduce(function (a, b) { return a + b; }, 0);
-const somaAlerta = alerta30.reduce(function (a, b) { return a + b; }, 0);
-const totalAvisos = somaCritico + somaAlerta;
-
 const textoCentro = {
     id: 'textoCentro',
     afterDraw: function (chart) {
+        const dados = chart.data.datasets[0].data;
+        const totalAvisos = dados.reduce(function (a, b) { return a + Number(b || 0); }, 0);
+
         const area = chart.chartArea;
         const ctx = chart.ctx;
         const x = (area.left + area.right) / 2;
@@ -206,12 +214,12 @@ const textoCentro = {
     }
 };
 
-new Chart(document.getElementById('grafico_donut'), {
+const graficoDonut = new Chart(document.getElementById('grafico_donut'), {
     type: 'doughnut',
     data: {
         labels: ['Crítico', 'Alerta'],
         datasets: [{
-            data: [somaCritico, somaAlerta],
+            data: [0, 0],
             backgroundColor: [COR_CRITICO, COR_ALERTA],
             borderWidth: 2,
             borderColor: '#ffffff'
@@ -230,3 +238,188 @@ new Chart(document.getElementById('grafico_donut'), {
     },
     plugins: [textoCentro]
 });
+
+/* KPIs */
+
+function atualizarKpis() {
+    var idEmpresa = sessionStorage.FK_EMPRESA;
+
+    if (!idEmpresa) {
+        console.warn("FK_EMPRESA não encontrada no sessionStorage.");
+        return;
+    }
+
+    fetch(`/visaoGeral/kpis/${idEmpresa}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(function (resposta) {
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    return;
+                }
+
+                resposta.json().then(function (dados) {
+                    document.getElementById("kpi_cpu").textContent = dados.cpu_sobrecarga;
+                    document.getElementById("kpi_ram").textContent = dados.ram_sobrecarga;
+                    document.getElementById("kpi_disco").textContent = dados.discos_criticos;
+                    document.getElementById("kpi_desc").textContent = dados.maquinas_desconectadas;
+                });
+            } else {
+                console.error("Erro na resposta da API de KPIs:", resposta.status);
+            }
+        })
+        .catch(function (erro) {
+            console.error("Erro ao buscar KPIs:", erro);
+        });
+}
+
+/* Gráficos */
+
+function atualizarGraficos() {
+    var idEmpresa = sessionStorage.FK_EMPRESA;
+
+    if (!idEmpresa) {
+        return;
+    }
+
+    const eixosAtuais = gerarEixos();
+
+    // ultimas 24 horas
+    fetch(`/visaoGeral/grafico24h/${idEmpresa}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+    })
+        .then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (dados24h) {
+                    const serie24 = montarSerie(eixosAtuais.labels24, dados24h);
+                    periodos['24h'] = {
+                        labels: eixosAtuais.labels24,
+                        critico: serie24.critico,
+                        alerta: serie24.alerta,
+                        eixoX: 'Hora'
+                    };
+
+                    if (periodoAtual === '24h') {
+                        trocarPeriodo('24h');
+                    }
+                });
+            }
+        })
+        .catch(function (erro) {
+            console.error("Erro ao buscar gráfico de 24h:", erro);
+        });
+
+    // ultimos 30 dias
+    fetch(`/visaoGeral/grafico30d/${idEmpresa}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+    })
+        .then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (dados30d) {
+                    const serie30 = montarSerie(eixosAtuais.labels30, dados30d);
+
+                    periodos['7d'] = {
+                        labels: eixosAtuais.labels30.slice(-7),
+                        critico: serie30.critico.slice(-7),
+                        alerta: serie30.alerta.slice(-7),
+                        eixoX: 'Dia'
+                    };
+
+                    periodos['30d'] = {
+                        labels: eixosAtuais.labels30,
+                        critico: serie30.critico,
+                        alerta: serie30.alerta,
+                        eixoX: 'Dia'
+                    };
+
+                    if (periodoAtual === '7d' || periodoAtual === '30d') {
+                        trocarPeriodo(periodoAtual);
+                    }
+
+                    // Donut soma dos 30 dias
+                    const somaCritico = serie30.critico.reduce(function (a, b) { return a + b; }, 0);
+                    const somaAlerta = serie30.alerta.reduce(function (a, b) { return a + b; }, 0);
+
+                    graficoDonut.data.datasets[0].data = [somaCritico, somaAlerta];
+                    graficoDonut.update();
+                });
+            }
+        })
+        .catch(function (erro) {
+            console.error("Erro ao buscar gráfico de 30d:", erro);
+        });
+}
+
+
+/* Historico */
+
+function atualizarHistorico() {
+    var idEmpresa = sessionStorage.FK_EMPRESA;
+
+    if (!idEmpresa) {
+        return;
+    }
+
+    fetch(`/visaoGeral/historico/${idEmpresa}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (lista) {
+                    var tbody = document.getElementById("tbody_historico");
+                    if (!tbody) return;
+
+                    if (lista.length === 0) {
+                        tbody.innerHTML = `
+                            <tr>
+                                <td colspan="6" style="text-align: center; color: #6f8392;">
+                                    Nenhuma ocorrência registrada.
+                                </td>
+                            </tr>
+                        `;
+                        return;
+                    }
+
+                    var html = "";
+                    for (var i = 0; i < lista.length; i++) {
+                        var item = lista[i];
+                        var classeTag = item.nivel === "Crítico" ? "tag-critico" : "tag-alerta";
+
+                        html += `
+                            <tr>
+                                <td>${item.data_hora}</td>
+                                <td>${item.maquina}</td>
+                                <td>${item.componente}</td>
+                                <td>${item.ocorrencia}</td>
+                                <td><span class="tag ${classeTag}">${item.nivel}</span></td>
+                                <td>${item.status}</td>
+                            </tr>
+                        `;
+                    }
+
+                    tbody.innerHTML = html;
+                });
+            } else {
+                console.error("Erro na resposta da API de histórico:", resposta.status);
+            }
+        })
+        .catch(function (erro) {
+            console.error("Erro ao buscar histórico:", erro);
+        });
+}
+
+atualizarKpis();
+atualizarGraficos();
+atualizarHistorico();
+
+setInterval(atualizarKpis, 15000);
+setInterval(atualizarGraficos, 60000);
+setInterval(atualizarHistorico,30000)
