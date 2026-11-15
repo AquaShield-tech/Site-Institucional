@@ -98,7 +98,7 @@ const periodos = {
     '30d': { labels: eixos.labels30, critico: Array(30).fill(0), alerta: Array(30).fill(0), eixoX: 'Dia' }
 };
 
-/* ---------- Inicialização dos Gráficos ---------- */
+/* Inicialização dos Gráficos */
 
 const inicial = periodos['7d'];
 

@@ -1,4 +1,6 @@
 const dados = { cpu: [], ram: [], disco: [], rede: [] };
+const horarios = { cpu: [], ram: [], disco: [], rede: [] };
+const limites = { cpu: 75, ram: 75, disco: 90, rede: 90 };
 const graficos = {};
 
 const cores = {
@@ -8,34 +10,16 @@ const cores = {
     rede: "#8c00ff"
 };
 
-const faixas = {
-    cpu: [10, 95],
-    ram: [20, 95],
-    disco: [10, 90],
-    rede: [5, 100]
-};
-
-const PONTOS = 12;       
-const LIMITE_ALERTA = 70;
+const PONTOS = 12;
 const LIMITE_CRITICO = 90;
-
-function gerarNumero(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function gerarHistorico(nome) {
-    const [min, max] = faixas[nome];
-    return Array.from({ length: PONTOS }, () => gerarNumero(min, max));
-}
 
 function hexParaRgba(hex, alpha) {
     const n = parseInt(hex.slice(1), 16);
     return `rgba(${n >> 16}, ${(n >> 8) & 255}, ${n & 255}, ${alpha})`;
 }
 
-function rotulosTempo() {
-    
-    return dados.cpu.map((_, i, arr) => `${(arr.length - 1 - i) * 5}s atrás`);
+function rotulosTempo(nome) {
+    return horarios[nome];
 }
 
 function criarGrafico(nome) {
@@ -53,7 +37,7 @@ function criarGrafico(nome) {
     graficos[nome] = new Chart(canvas, {
         type: "line",
         data: {
-            labels: rotulosTempo(),
+            labels: rotulosTempo(nome),
             datasets: [{
                 data: dados[nome],
                 borderColor: cores[nome],
@@ -102,14 +86,18 @@ function criarGrafico(nome) {
 function atualizarGrafico(nome) {
     const grafico = graficos[nome];
     if (!grafico) return;
-    grafico.data.labels = rotulosTempo();
+
+    grafico.data.labels = rotulosTempo(nome);
     grafico.data.datasets[0].data = dados[nome];
+    // Se houver apenas 1 ponto no banco, exibe o marcador para não parecer vazio
+    grafico.data.datasets[0].pointRadius = dados[nome].length === 1 ? 4 : 0;
     grafico.update();
 }
 
-function classeNivel(valor) {
-    if (valor > LIMITE_CRITICO) return "critico";
-    if (valor > LIMITE_ALERTA) return "alerta";
+function classeNivel(nome, valor) {
+    const limiteAlerta = limites[nome] || 75;
+    if (valor >= LIMITE_CRITICO) return "critico";
+    if (valor >= limiteAlerta) return "alerta";
     return "normal";
 }
 
@@ -117,7 +105,7 @@ function atualizarStatus(nome, valor) {
     const elemento = document.getElementById(`status-${nome}`);
     if (!elemento) return;
 
-    const nivel = classeNivel(valor);
+    const nivel = classeNivel(nome, valor);
     const textos = { normal: "Normal", alerta: "Atenção", critico: "Crítico" };
 
     elemento.classList.remove("alerta", "critico");
@@ -140,8 +128,11 @@ function atualizarKpis() {
     let alertas = 0;
 
     Object.keys(dados).forEach(nome => {
-        const atual = dados[nome][dados[nome].length - 1];
-        if (atual > LIMITE_ALERTA) alertas++;
+        const lista = dados[nome];
+        const atual = lista.length > 0 ? lista[lista.length - 1] : 0;
+        if (classeNivel(nome, atual) !== "normal") {
+            alertas++;
+        }
     });
 
     const elAlerta = document.getElementById("componentes-alerta");
@@ -155,34 +146,97 @@ function atualizarKpis() {
 }
 
 function atualizarTudo(nome) {
-    const valor = dados[nome][dados[nome].length - 1];
+    const lista = dados[nome];
+    const valor = lista.length > 0 ? lista[lista.length - 1] : 0;
     atualizarValor(nome, valor);
     atualizarStatus(nome, valor);
     atualizarGrafico(nome);
 }
 
-function atualizarDados() {
-    Object.keys(dados).forEach(nome => {
-        const [min, max] = faixas[nome];
-        dados[nome].push(gerarNumero(min, max));
+function mapearComponente(tipoBanco) {
+    const tipo = String(tipoBanco).toLowerCase();
+    if (tipo.includes("cpu")) return "cpu";
+    if (tipo.includes("ram")) return "ram";
+    if (tipo.includes("disco") || tipo.includes("armazenamento")) return "disco";
+    if (tipo.includes("rede")) return "rede";
+    return null;
+}
 
-        if (dados[nome].length > PONTOS) dados[nome].shift();
+function buscarDadosTempoReal() {
+    const idMaquina = sessionStorage.ID_MAQUINA;
 
-        atualizarTudo(nome);
-    });
+    if (!idMaquina) {
+        window.location = "maquinas.html";
+        return;
+    }
 
-    atualizarKpis();
+    fetch(`/maquina/tempo-real/${idMaquina}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (lista) {
+                    const novosDados = { cpu: [], ram: [], disco: [], rede: [] };
+                    const novosHorarios = { cpu: [], ram: [], disco: [], rede: [] };
+
+                    // do mais recente para o mais antigo
+                    for (let i = 0; i < lista.length; i++) {
+                        const item = lista[i];
+                        const chave = mapearComponente(item.componente);
+
+                        if (chave && novosDados[chave].length < PONTOS) {
+                            novosDados[chave].push(Number(item.valor) || 0);
+                            novosHorarios[chave].push(item.horario);
+
+                            // Pega o limite da leitura mais recente de cada componente
+                            if (novosDados[chave].length === 1 && item.limite_alerta != null) {
+                                limites[chave] = Number(item.limite_alerta);
+                            }
+                        }
+                    }
+
+                    // gráfico da esquerda (antigo) para a direita (recente)
+                    Object.keys(dados).forEach(nome => {
+                        dados[nome] = novosDados[nome].reverse();
+                        horarios[nome] = novosHorarios[nome].reverse();
+                        atualizarTudo(nome);
+                    });
+
+                    atualizarKpis();
+                });
+            } else {
+                console.error("Erro ao buscar dados em tempo real:", resposta.status);
+            }
+        })
+        .catch(function (erro) {
+            console.error("Erro na requisição de tempo real:", erro);
+        });
 }
 
 function iniciarDashboard() {
+    const idMaquina = sessionStorage.ID_MAQUINA;
+    const hostname = sessionStorage.HOSTNAME_MAQUINA;
+
+    if (!idMaquina) {
+        alert("Selecione uma máquina primeiro.");
+        window.location = "maquinas.html";
+        return;
+    }
+
+    const titulo = document.getElementById("titulo_maquina");
+    if (titulo && hostname) {
+        titulo.textContent = `Monitoramento em tempo real — ${hostname}`;
+    }
+
     Object.keys(dados).forEach(nome => {
-        dados[nome] = gerarHistorico(nome);
         criarGrafico(nome);
-        atualizarTudo(nome);
     });
 
-    atualizarKpis();
-    setInterval(atualizarDados, 5000);
+    buscarDadosTempoReal();
+    setInterval(buscarDadosTempoReal, 5000);
 }
 
 window.addEventListener("load", function () {
