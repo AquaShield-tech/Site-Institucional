@@ -1,0 +1,317 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+/* Esconde os botões radio do filtro da tabela */
+input[type="radio"],
+#control-menu {
+    display: none;
+}
+body {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #f4f7f9;
+    overflow: hidden;
+}
+
+input[type="radio"],
+#control-menu {
+    display: none;
+}
+
+.sidebar {
+    width: 258px;
+    height: 100vh;
+    flex-shrink: 0;
+    background-color: #073442;
+    color: white;
+    padding: 20px 14px;
+    transition: width 0.3s ease;
+    z-index: 10;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar .logo {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 12px 45px;
+    color: white;
+}
+
+.sidebar .logo span {
+    display: block;
+    font-size: 7px;
+    letter-spacing: 2px;
+    color: #46bdd8;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+.sidebar ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.sidebar ul li a {
+    color: #a9c0c9;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 15px 18px;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: 0.2s;
+    margin-bottom: 8px
+}
+
+.sidebar ul li.ativo a {
+    background-color: #0d84b2;
+    color: white;
+}
+
+.sidebar ul li a:hover {
+    background-color: #0d84b2;
+    color: white;
+}
+
+.item-sair {
+    margin-top: auto; /* Empurra este elemento para o final do espaço disponível */
+    margin-bottom: 0 !important;
+}
+
+.area-direita {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.header {
+    height: 66px;
+    flex-shrink: 0;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    border-bottom: 1px solid #e0e7eb;
+}
+
+.conteudo {
+    padding: 32px;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.usuario {
+    margin-left: auto;
+    text-align: right;
+    color: #112d40;
+    font-size: 13px;
+}
+
+.usuario strong {
+    display: block;
+    font-weight: 600;
+}
+
+.usuario span {
+    display: block;
+    color: #8294a2;
+    font-size: 10px;
+    margin-top: 4px;
+}   
+
+.btn-menu {
+    display: flex;
+    align-items: center;
+    padding: 15px 18px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    color: #a9c0c9;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.2s;
+}
+
+.btn-menu i {
+    font-size: 20px;
+    line-height: 1;
+}
+
+#control-menu:checked ~ .sidebar {
+    width: 78px;
+    padding: 20px 10px;
+    overflow: hidden;
+}
+
+#control-menu:checked ~ .sidebar ul li a span {
+    display: none;
+}
+
+#control-menu:checked ~ .sidebar ul li a {
+    justify-content: center;
+    padding: 15px 0;
+    gap: 0;
+}
+
+#control-menu:checked ~ .sidebar .logo {
+    display: none;
+}  
+
+/* Menu recolhível: o checkbox #control-menu já existe no seu padrão */
+#control-menu:checked ~ .sidebar { width: 84px; }
+#control-menu:checked ~ .sidebar .btn-menu { margin-left: 0; }
+
+.btn-menu:hover { background-color: #0d84b2; color: white; }
+.sidebar ul li a i { font-size: 20px; line-height: 1; }
+
+/* Logo no cabeçalho (placeholder: troque pelo <img> do AquaShield) */
+.marca {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #073442;
+    font-weight: 700;
+    font-size: 15px;
+}
+.marca i { font-size: 30px; color: #0d84b2; line-height: 1; }
+
+.conteudo {
+    flex: 1;
+    min-height: 0;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 12px 12px;
+    color: #112d40;
+}
+
+.titulo-pagina {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #e0e7eb;
+    border-radius: 14px;
+    padding: 18px 16px;
+}
+
+/* Linha de indicadores */
+.indicadores {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 12px;
+}
+.indicador {
+    padding: 10px 18px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+    column-gap: 12px;
+}
+.indicador h3 { grid-column: 1 / -1; font-size: 12px; font-weight: 500; color: #5b707d; margin-bottom: 2px; }
+.indicador .valor { font-size: 24px; font-weight: 600; line-height: 1.1; }
+.indicador p { font-size: 12px; color: #112d40; }
+.valor.critico { color: #c9141c; }
+.valor.ok { color: #1c8a3e; }
+.valor.neutro { color: #073442; }
+
+/* Linha dos gráficos */
+.graficos {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: minmax(0, 1fr);
+    gap: 16px;
+}
+
+.card-grafico { display: flex; flex-direction: column; min-height: 0; }
+
+.card-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+.card-topo h2 { font-size: 17px; font-weight: 600; }
+
+.controles { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.filtros button:focus-visible { outline: 2px solid #46bdd8; outline-offset: 2px; }
+
+.filtros {
+    display: flex;
+    background: #eef2f5;
+    border-radius: 8px;
+    padding: 3px;
+}
+.filtros button {
+    border: 0;
+    background: transparent;
+    color: #5b707d;
+    font-size: 12px;
+    padding: 6px 11px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.filtros button.ativo { background: #0d84b2; color: white; }
+
+.area-canvas { position: relative; flex: 1; min-height: 0; overflow: hidden; }
+
+/* Previsão: gráfico + cartão de recomendação */
+.previsao-corpo { display: flex; gap: 14px; flex: 1; min-height: 0; }
+.previsao-corpo .area-canvas { flex: 1; min-width: 0; }
+
+.aviso {
+    width: 170px;
+    flex-shrink: 0;
+    align-self: flex-start;
+    background: #eef2f5;
+    border-left: 4px solid #c9141c;
+    border-radius: 6px;
+    padding: 14px;
+    font-size: 12.5px;
+    line-height: 1.45;
+}
+.aviso i { display: block; font-size: 24px; color: #c9141c; margin-bottom: 8px; line-height: 1; }
+.aviso p + p { margin-top: 8px; }
+.aviso.estavel { border-left-color: #1c8a3e; }
+.aviso.estavel i { color: #1c8a3e; }
+
+.nota-modelo { margin-top: 10px; font-size: 11px; color: #8294a2; }
+
+@media (max-width: 1100px) {
+    .conteudo { overflow-y: auto; }
+    .graficos { grid-template-columns: 1fr; grid-template-rows: none; }
+    .card-grafico { height: 460px; }
+}
+@media (max-width: 700px) {
+    .indicadores { grid-template-columns: 1fr; }
+    .previsao-corpo { flex-direction: column; }
+    .aviso { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+}

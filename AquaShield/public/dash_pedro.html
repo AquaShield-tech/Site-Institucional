@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AquaShield | Saúde do Disco e Previsões</title>
+
+    <script src="./js/script.js"></script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./css/dash_pedro.css">
+</head>
+
+<body onload="validarSessao()">
+
+    <input type="checkbox" id="control-menu">
+
+    <nav class="sidebar">
+        <label for="control-menu" class="btn-menu" title="Recolher menu"><i class="ri-menu-line"></i></label>
+        <div class="menu_icones">
+            <ul>
+                <li><a href="inicio.html"><i class="bi bi-house"></i><span>Início</span></a></li>
+                <li><a href="dash_principal.html"><i class="bi bi-grid"></i><span>Visão geral</span></a></li>
+                <li><a href="maquinas.html"><i class="bi bi-display"></i><span>Máquinas</span></a></li>
+                <li><a href="suporte.html"><i class="bi bi-question-circle"></i><span>Suporte</span></a></li>
+                <li><a href="funcionario.html"><i class="bi bi-person-plus"></i><span>Cadastro de funcionario</span></a>
+                <li><a href="cadastro_cco.html"><i class="bi-building-add"></i><span>Cadastro de CCO</span></a></li>
+                <li><a href="historico.html"><i class="bi bi-clock-history"></i><span>Histórico</span></a></li>
+                <li><a href="configuracoes.html"><i class="bi bi-gear"></i><span>Configurações</span></a></li>
+                <li class="item-sair">
+                    <a href="#" onclick="deslogar()">
+                        <i class="bi bi-box-arrow-left"></i>
+                        <span>Sair da Conta</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="area-direita">
+        <header class="header">
+            <div class="logo">
+                <img src="assets/icon/LOGO .svg">
+            </div>
+            <div class="usuario">
+                <strong id="b_usuario">Nome</strong>
+                <span id="b_cargo">Cargo</span>
+            </div>
+        </header>
+
+        <main class="conteudo">
+            <h1 class="titulo-pagina">Análise do disco</h1>
+
+            <section class="indicadores" aria-label="Resumo">
+                <article class="card indicador">
+                    <h3>Quantidade total com discos em falha</h3>
+                    <div class="valor critico" id="kpi-falha">–</div>
+                    <p>Necessitam de atenção</p>
+                </article>
+                <article class="card indicador">
+                    <h3>Discos Ativos</h3>
+                    <div class="valor ok" id="kpi-ativos">–</div>
+                    <p>Operando normalmente</p>
+                </article>
+            </section>
+
+            <section class="graficos">
+                <!-- GRÁFICO 1: ocorrências reais -->
+                <article class="card card-grafico">
+                    <div class="card-topo">
+                        <h2>Ocorrências Reais de Falhas</h2>
+                        <div class="controles">
+                            <div class="filtros" id="filtros" role="group" aria-label="Período">
+                                <button type="button" data-periodo="24h">24h</button>
+                                <button type="button" data-periodo="7d" class="ativo">7d</button>
+                                <button type="button" data-periodo="30d">30d</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="area-canvas"><canvas id="grafico-1" role="img"
+                            aria-label="Gráfico de ocorrências de falhas"></canvas></div>
+                </article>
+
+                <!-- GRÁFICO 2: regressão linear -->
+                <article class="card card-grafico">
+                    <div class="card-topo">
+                        <h2>Previsão de Falhas Futuras </h2>
+                    </div>
+                    <div class="previsao-corpo">
+                        <div class="area-canvas"><canvas id="grafico-2" role="img"
+                                aria-label="Regressão linear das falhas"></canvas></div>
+                        <aside class="aviso" id="aviso">
+                            <i class="ri-error-warning-fill"></i>
+                            <p id="aviso-previsao"></p>
+                            <p id="aviso-recomendacao"></p>
+                        </aside>
+                    </div>
+                    <p class="nota-modelo" id="nota-modelo"></p>
+                </article>
+            </section>
+        </main>
+    </div>
+
+
+    <script src="./js/sessao.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <script>
+        /* =====================================================
+           CAMADA DE DADOS
+           Hoje devolve dados simulados. Quando o banco estiver
+           pronto, troque só o corpo destas funções por fetch().
+           ===================================================== */
+        const DataService = {
+            async getResumo() {
+                // Ex. futuro: return (await fetch('/api/discos/resumo')).json();
+                return { discosEmFalha: 5, discosAtivos: 142 };
+            },
+
+            // Retorna { labels: [...], valores: [...] } para '24h' | '7d' | '30d'
+            async getFalhas(periodo) {
+                // Ex. futuro: return (await fetch(`/api/falhas?periodo=${periodo}`)).json();
+                const diario30 = [1, 0, 2, 1, 0, 0, 1, 2, 1, 0, 1, 1, 0, 2, 1, 0, 1, 1, 2, 0, 1, 1, 0, 1, 1, 0, 1, 1, 2, 3];
+                // últimos 7 dias (o 7d é sempre a base da regressão)
+                const diario7 = [1, 0, 1, 1, 2, 3, 2];
+
+                if (periodo === '24h') {
+                    const horas = Array.from({ length: 24 }, (_, h) => h + 'h');
+                    const valores = [0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0];
+                    return { labels: horas, valores };
+                }
+                if (periodo === '30d') {
+                    return { labels: diario30.map((_, i) => 'Dia ' + (i + 1)), valores: diario30 };
+                }
+                return { labels: diario7.map((_, i) => 'Dia ' + (i + 1)), valores: diario7 };
+            }
+        };
+
+        /* =====================================================
+           MATEMÁTICA: regressão linear (mínimos quadrados)
+           ===================================================== */
+        function regressaoLinear(ys) {
+            const n = ys.length;
+            const xs = ys.map((_, i) => i + 1);
+            const mx = xs.reduce((a, b) => a + b, 0) / n;
+            const my = ys.reduce((a, b) => a + b, 0) / n;
+            let num = 0, den = 0, ssTot = 0, ssRes = 0;
+            xs.forEach((x, i) => { num += (x - mx) * (ys[i] - my); den += (x - mx) ** 2; });
+            const a = den === 0 ? 0 : num / den;     // inclinação
+            const b = my - a * mx;                    // intercepto
+            ys.forEach((y, i) => { ssTot += (y - my) ** 2; ssRes += (y - (a * xs[i] + b)) ** 2; });
+            const r2 = ssTot === 0 ? 1 : 1 - ssRes / ssTot;
+            return { a, b, r2, prever: x => a * x + b };
+        }
+
+        /* =====================================================
+           ESTILO COMPARTILHADO DOS GRÁFICOS
+           ===================================================== */
+        const COR = { vermelho: '#c9141c', azul: '#2a7fa8', azulForte: '#0d84b2', grade: '#e8eef1', texto: '#5b707d' };
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.font.size = 11;
+        Chart.defaults.color = COR.texto;
+
+        // Escreve o valor acima de cada barra (inclusive o 0)
+        const rotulosBarras = {
+            id: 'rotulosBarras',
+            afterDatasetsDraw(chart) {
+                if (chart.config.type !== 'bar') return;
+                const { ctx } = chart;
+                const meta = chart.getDatasetMeta(0);
+                const poucos = meta.data.length <= 12;
+                ctx.save();
+                ctx.fillStyle = '#112d40';
+                ctx.font = "500 11px 'Inter', sans-serif";
+                ctx.textAlign = 'center';
+                meta.data.forEach((barra, i) => {
+                    if (!poucos && i % 3 !== 0) return;
+                    ctx.fillText(chart.data.datasets[0].data[i], barra.x, barra.y - 6);
+                });
+                ctx.restore();
+            }
+        };
+
+        // Área hachurada da previsão (a partir do último dia real)
+        const areaPrevisao = {
+            id: 'areaPrevisao',
+            beforeDatasetsDraw(chart, _args, opts) {
+                if (opts.inicio == null) return;
+                const { ctx, chartArea, scales } = chart;
+                const x0 = scales.x.getPixelForValue(opts.inicio);
+                const larg = chartArea.right - x0;
+                if (larg <= 0) return;
+
+                const p = document.createElement('canvas');
+                p.width = p.height = 8;
+                const pc = p.getContext('2d');
+                pc.fillStyle = 'rgba(42,127,168,0.08)';
+                pc.fillRect(0, 0, 8, 8);
+                pc.strokeStyle = 'rgba(42,127,168,0.35)';
+                pc.lineWidth = 1;
+                pc.beginPath(); pc.moveTo(0, 8); pc.lineTo(8, 0); pc.stroke();
+
+                ctx.save();
+                ctx.fillStyle = ctx.createPattern(p, 'repeat');
+                ctx.fillRect(x0, chartArea.top, larg, chartArea.bottom - chartArea.top);
+                ctx.restore();
+            }
+        };
+
+        /* =====================================================
+           GRÁFICO 1: barras de falhas
+           ===================================================== */
+        let grafico1 = null;
+        let periodoAtual = '7d';
+
+        const el = id => document.getElementById(id);
+
+        async function desenharBarras(periodo) {
+            const { labels, valores } = await DataService.getFalhas(periodo);
+            if (grafico1) { grafico1.destroy(); grafico1 = null; }
+            const topo = Math.max(3, ...valores) + 1;
+            grafico1 = new Chart(el('grafico-1'), {
+                type: 'bar',
+                data: { labels, datasets: [{ data: valores, backgroundColor: COR.vermelho, borderRadius: 3, maxBarThickness: 46 }] },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.parsed.y + (c.parsed.y === 1 ? ' falha' : ' falhas') } } },
+                    scales: {
+                        y: {
+                            beginAtZero: true, max: topo, ticks: { stepSize: 1 }, grid: { color: COR.grade },
+                            title: { display: true, text: 'Quantidade de falhas' }
+                        },
+                        x: { grid: { display: false }, ticks: { autoSkip: true, maxRotation: 0 } }
+                    }
+                },
+                plugins: [rotulosBarras]
+            });
+        }
+
+        el('filtros').addEventListener('click', e => {
+            const b = e.target.closest('button[data-periodo]');
+            if (!b) return;
+            periodoAtual = b.dataset.periodo;
+            document.querySelectorAll('#filtros button').forEach(x => x.classList.toggle('ativo', x === b));
+            desenharBarras(periodoAtual);
+        });
+
+        /* =====================================================
+           GRÁFICO 2: regressão linear (usa os dados diários dos últimos 7 dias)
+           ===================================================== */
+        const DIAS_FUTUROS = 7;
+
+        async function desenharPrevisao() {
+            const { valores } = await DataService.getFalhas('7d');
+            const n = valores.length;
+            const reg = regressaoLinear(valores);
+
+            // Previsão: próximos 7 dias (nunca abaixo de zero)
+            const futuros = [];
+            for (let x = n + 1; x <= n + DIAS_FUTUROS; x++) futuros.push({ x, y: Math.max(0, reg.prever(x)) });
+            const totalSemana = Math.round(futuros.reduce((s, p) => s + p.y, 0));
+
+            const reais = valores.map((y, i) => ({ x: i + 1, y }));
+            const reta = [{ x: 1, y: Math.max(0, reg.prever(1)) }, { x: n + DIAS_FUTUROS, y: Math.max(0, reg.prever(n + DIAS_FUTUROS)) }];
+            const topo = Math.ceil(Math.max(...valores, ...futuros.map(p => p.y))) + 1;
+
+            new Chart(el('grafico-2'), {
+                type: 'scatter',
+                data: {
+                    datasets: [
+                        { label: 'Falhas reais', data: reais, backgroundColor: COR.azul, pointRadius: 4 },
+                        { label: 'Previsão', data: futuros, backgroundColor: 'white', borderColor: COR.azul, borderWidth: 2, pointRadius: 4 },
+                        { type: 'line', label: 'Tendência', data: reta, borderColor: COR.azul, borderDash: [2, 4], borderWidth: 2, pointRadius: 0 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        areaPrevisao: { inicio: n + 0.5 },
+                        tooltip: { callbacks: { label: c => `Dia ${c.parsed.x}: ${c.parsed.y.toFixed(1)} falhas` } }
+                    },
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            min: 0,
+                            max: n + DIAS_FUTUROS + 1,
+                            grid: { display: false },
+                            ticks: {
+                                stepSize: 1,
+                                autoSkip: false,
+                                maxRotation: 0,
+                                callback: v => (v >= 1 && v <= n + DIAS_FUTUROS) ? v : ''
+                            },
+                            title: { display: true, text: 'Dias' }
+                        },
+                        y: {
+                            min: 0, max: topo, ticks: { stepSize: 1 }, grid: { color: COR.grade },
+                            title: { display: true, text: 'Número de falhas' }
+                        }
+                    }
+                },
+                plugins: [areaPrevisao]
+            });
+
+            // Cartão de previsão + recomendação (muda conforme a tendência)
+            const aviso = el('aviso');
+            const sobe = reg.a > 0.1;
+            aviso.classList.toggle('estavel', !sobe);
+            aviso.querySelector('i').className = sobe ? 'ri-error-warning-fill' : 'ri-checkbox-circle-fill';
+
+            el('aviso-previsao').innerHTML =
+                `<strong>Previsão:</strong> Estimativa de ${totalSemana} ${totalSemana === 1 ? 'falha' : 'falhas'} para a próxima semana.`;
+            el('aviso-recomendacao').innerHTML = sobe
+                ? '<strong>Recomendação:</strong> Faça backup preventivo nos discos críticos e agende manutenção.'
+                : '<strong>Recomendação:</strong> Tendência estável. Mantenha o monitoramento de rotina.';
+
+            el('nota-modelo').textContent =
+                `   `;
+
+            return valores;
+        }
+
+        /* =====================================================
+           INICIALIZAÇÃO
+           ===================================================== */
+        (async function iniciar() {
+            const resumo = await DataService.getResumo();
+            el('kpi-falha').textContent = resumo.discosEmFalha;
+            el('kpi-ativos').textContent = resumo.discosAtivos;
+
+            await desenharBarras('7d');
+            await desenharPrevisao();
+        })();
+    </script>
+</body>
+
+</html>
