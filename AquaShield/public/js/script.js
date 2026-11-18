@@ -3,8 +3,8 @@ const registerBtn = document.getElementById('registrar');
 const loginBtn = document.getElementById('login');
 
 // ids dos cargos no banco
-const CARGO_GESTOR = 1;
-const CARGO_FUNCIONARIO = 2; // ajuste se o id do funcionário for outro
+const CARGO_ID_GESTOR = 1;
+const CARGO_ID_FUNCIONARIO = 2; // ajuste se o id do funcionário for outro
 
 if (registerBtn) {
     registerBtn.addEventListener('click', () => {
@@ -52,7 +52,7 @@ function entrar() {
         if (emailVar == "suporte@aquashield.com" && senhaVar == "12345678!") {
             sessionStorage.EMAIL_USUARIO = emailVar;
             sessionStorage.NOME_USUARIO = "Equipe de Suporte";
-            sessionStorage.FK_CARGO = CARGO_GESTOR;
+            sessionStorage.FK_CARGO = CARGO_ID_GESTOR;
             window.location = "cadastro_empresa.html";
             return false;
         }
@@ -104,7 +104,7 @@ function cadastrar() {
 
     var statusVar = "Ativo";
     var fkEmpresaVar = 1;
-    var fkCargoVar = CARGO_FUNCIONARIO; // cadastro público cria apenas funcionário
+    var fkCargoVar = CARGO_ID_FUNCIONARIO; // cadastro público cria apenas funcionário
 
     let qtdNumero = 0;
     let caracterEspecial = '!@#$%&*';

@@ -52,4 +52,11 @@ function finalizarAguardar(texto) {
         divErrosLogin.innerHTML = texto;
     }
 }
+document.addEventListener("DOMContentLoaded", function () {
+  if (sessionStorage.FK_CARGO != "1") {
+    document.querySelectorAll(".somente-gestor").forEach(function (el) {
+      el.style.display = "none";
+    });
+  }
+});
 
