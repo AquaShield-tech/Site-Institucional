@@ -96,7 +96,8 @@ function atualizarGrafico(nome) {
 
 function classeNivel(nome, valor) {
     const limiteAlerta = limites[nome] || 75;
-    if (valor >= LIMITE_CRITICO) return "critico";
+    const limiteCritico = nome === "disco" ? 90 : 80;
+    if (valor > limiteCritico) return "critico";
     if (valor >= limiteAlerta) return "alerta";
     return "normal";
 }

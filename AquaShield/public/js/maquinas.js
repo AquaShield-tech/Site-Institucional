@@ -266,18 +266,101 @@ function verDashboard(idMaquina, hostname) {
     window.location = "dashboard.html";
 }
 
+let idMaquinaSelecionada = null;
+
 function abrirModalEditar(idMaquina, hostname) {
+    if (!validarSessaoMaquina()) {
+        return;
+    }
+
+    idMaquinaSelecionada = idMaquina;
     var modalEditar = document.getElementById("modal-editar");
     var inputNome = document.getElementById("cad_nome_edit");
     if (inputNome) inputNome.value = hostname;
     if (modalEditar) modalEditar.showModal();
 }
 
+function editar(event) {
+    if (event) event.preventDefault();
+
+    var novoHostname = document.getElementById("cad_nome_edit").value.trim();
+
+    if (!idMaquinaSelecionada) {
+        return false;
+    }
+
+    if (novoHostname == "") {
+        alert("Informe um hostname válido.");
+        return false;
+    }
+
+    fetch(`/maquina/editar/${idMaquinaSelecionada}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            hostnameServer: novoHostname
+        })
+    })
+        .then(function (resposta) {
+            if (resposta.ok) {
+                alert("Máquina atualizada com sucesso!");
+                document.getElementById("modal-editar").close();
+                idMaquinaSelecionada = null;
+                listarMaquinas();
+            } else {
+                alert("Houve um erro ao tentar editar a máquina!");
+            }
+        })
+        .catch(function (erro) {
+            console.log("#ERRO: ", erro);
+        });
+
+    return false;
+}
+
 function abrirModalExcluir(idMaquina, hostname) {
+    if (!validarSessaoMaquina()) {
+        return;
+    }
+
+    idMaquinaSelecionada = idMaquina;
     var modalExcluir = document.getElementById("modal-excluir");
     var spanNome = document.getElementById("excluir-nome");
     if (spanNome) spanNome.textContent = hostname;
     if (modalExcluir) modalExcluir.showModal();
+}
+
+function excluir(event) {
+    if (event) event.preventDefault();
+
+    if (!idMaquinaSelecionada) {
+        return false;
+    }
+
+    fetch(`/maquina/excluir/${idMaquinaSelecionada}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(function (resposta) {
+            if (resposta.ok) {
+                alert("Máquina excluída com sucesso!");
+                document.getElementById("modal-excluir").close();
+                idMaquinaSelecionada = null;
+                atualizarKpisMaquinas();
+                listarMaquinas();
+            } else {
+                alert("Houve um erro ao tentar excluir a máquina!");
+            }
+        })
+        .catch(function (erro) {
+            console.log("#ERRO: ", erro);
+        });
+
+    return false;
 }
 
 function listarMaquinas() {
@@ -321,14 +404,13 @@ function listarMaquinas() {
                         var ultimaLeitura = m.ultima_leitura || "Sem leituras";
                         var inativa = Number(m.is_inativa) > 0;
 
-                        // Define a classe da linha e o texto do badge (mantendo os filtros CSS)
                         var classeStatus = "normal";
                         var textoStatus = "Normal";
 
                         if (inativa) {
                             classeStatus = "critica";
                             textoStatus = "Inativa";
-                        } else if (cpu >= 90 || ram >= 90) {
+                        } else if (cpu > 80 || ram > 80) {
                             classeStatus = "critica";
                             textoStatus = "Crítica";
                         } else if (cpu >= limiteCpu || ram >= limiteRam) {

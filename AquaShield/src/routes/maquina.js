@@ -16,4 +16,11 @@ router.get("/listar/:idEmpresa", function (req, res) {
 router.get("/tempo-real/:idMaquina", function (req, res) {
     maquinaController.buscarTempoReal(req, res);
 });
+router.put("/editar/:idMaquina", function (req, res) {
+    maquinaController.editar(req, res);
+});
+
+router.delete("/excluir/:idMaquina", function (req, res) {
+    maquinaController.excluir(req, res);
+});
 module.exports = router;

@@ -75,8 +75,8 @@ function buscarKpis(idEmpresa) {
                 JOIN cco c ON e.fk_cco = c.id
                 JOIN configuracao cfg ON cfg.fk_maquina = m.id
                 JOIN status_maquina sm ON cfg.fk_statusMaquina = sm.id
-                WHERE c.fk_empresa = ${idEmpresa}
-                  AND LOWER(sm.estado) IN ('desconectada', 'inativa', 'offline')
+                WHERE c.fk_empresa = ${idEmpresa} AND m.ativo = 1
+                AND LOWER(sm.estado) IN ('desconectada', 'inativa', 'offline')
             ) AS maquinas_desconectadas;
     `;
 
