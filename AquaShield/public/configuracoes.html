@@ -72,26 +72,26 @@
 
                         <div class="linha-input">
                             <span class="label-recurso">CPU:</span>
-                            <div class="campo-porcentagem"><input type="number"></div>
-                            <div class="campo-porcentagem"><input type="number"></div>
+                            <div class="campo-porcentagem"><input type="number" id="cpu_atencao"></div>
+                            <div class="campo-porcentagem"><input type="number" id="cpu_critico"></div>
                         </div>
 
                         <div class="linha-input">
                             <span class="label-recurso">RAM:</span>
-                            <div class="campo-porcentagem"><input type="number"></div>
-                            <div class="campo-porcentagem"><input type="number"></div>
+                            <div class="campo-porcentagem"><input type="number" id="ram_atencao"></div>
+                            <div class="campo-porcentagem"><input type="number" id="ram_critico"></div>
                         </div>
 
                         <div class="linha-input">
                             <span class="label-recurso">DISCO:</span>
-                            <div class="campo-porcentagem"><input type="number"></div>
-                            <div class="campo-porcentagem"><input type="number"></div>
+                            <div class="campo-porcentagem"><input type="number" id="disco_atencao"></div>
+                            <div class="campo-porcentagem"><input type="number" id="disco_critico"></div>
                         </div>
 
                         <div class="linha-input">
                             <span class="label-recurso">REDE:</span>
-                            <div class="campo-porcentagem"><input type="number"></div>
-                            <div class="campo-porcentagem"><input type="number"></div>
+                            <div class="campo-porcentagem"><input type="number" id="rede_atencao"></div>
+                            <div class="campo-porcentagem"><input type="number" id="rede_critico"></div>
                         </div>
                     </div>
                 </div>
@@ -112,13 +112,15 @@
                     </div>
 
                     <div class="acoes-botoes">
-                        <button type="button" class="btn-aplicar">Aplicar</button>
-                        <button type="button" class="btn-cancelar">Cancelar</button>
+                        <button type="button" class="btn-aplicar" onclick="aplicarConfiguracoes()">Aplicar</button>
+                        <button type="button" class="btn-cancelar" onclick="carregarConfiguracoes()">Cancelar</button>
+                        <button type="button" class="btn-cancelar" onclick="restaurarPadroes()">Restaurar Padrões</button>
                     </div>
                 </div>
             </div>
         </div>
 </body>
 <script src="./js/sessao.js"></script>
+<script src="./js/configuracoes.js"></script>
 
 </html>
