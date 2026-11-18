@@ -2,17 +2,23 @@ const container = document.getElementById('container');
 const registerBtn = document.getElementById('registrar');
 const loginBtn = document.getElementById('login');
 
-registerBtn.addEventListener('click', () =>{
-    container.classList.add("active");
-});
+// ids dos cargos no banco
+const CARGO_GESTOR = 1;
+const CARGO_FUNCIONARIO = 2; // ajuste se o id do funcionário for outro
 
-loginBtn.addEventListener('click', () =>{
-    container.classList.remove("active");
-});
+if (registerBtn) {
+    registerBtn.addEventListener('click', () => {
+        container.classList.add("active");
+    });
+}
 
+if (loginBtn) {
+    loginBtn.addEventListener('click', () => {
+        container.classList.remove("active");
+    });
+}
 
-    function entrar() {
-        //aguardar();
+function entrar() {
     var emailVar = input_email_login.value.trim();
     var senhaVar = input_senha_login.value.trim();
 
@@ -42,15 +48,14 @@ loginBtn.addEventListener('click', () =>{
 
     if (ax_erro == false) {
 
+        // Login fixo da equipe de suporte
         if (emailVar == "suporte@aquashield.com" && senhaVar == "12345678!") {
-        sessionStorage.EMAIL_USUARIO = emailVar;
-        sessionStorage.NOME_USUARIO = "Equipe de Suporte";
-        window.location = "cadastro_empresa.html";
-        return false;
-    }
-
-        console.log("FORM LOGIN: ", emailVar);
-        console.log("FORM SENHA: ", senhaVar);
+            sessionStorage.EMAIL_USUARIO = emailVar;
+            sessionStorage.NOME_USUARIO = "Equipe de Suporte";
+            sessionStorage.FK_CARGO = CARGO_GESTOR;
+            window.location = "cadastro_empresa.html";
+            return false;
+        }
 
         fetch("/usuarios/autenticar", {
             method: "POST",
@@ -69,7 +74,7 @@ loginBtn.addEventListener('click', () =>{
                     sessionStorage.ID_USUARIO = json.id;
                     sessionStorage.FK_EMPRESA = json.fk_empresa;
                     sessionStorage.FK_CARGO = json.fk_cargo;
-                    
+
                     setTimeout(function () {
                         window.location = "../inicio.html";
                     }, 1000);
@@ -78,21 +83,20 @@ loginBtn.addEventListener('click', () =>{
                 alert("Houve um erro ao tentar realizar o login! Verifique suas credenciais.");
             }
         }).catch(function (erro) {
-            console.log(erro);
+            console.log("#ERRO: ", erro);
+            alert("Não foi possível conectar ao servidor. Tente novamente mais tarde.");
         });
     }
 
     return false;
-    
 }
 
-    function sumirMensagem() {
-        cardErro.style.display = "none"
-    }
+function sumirMensagem() {
+    cardErro.style.display = "none";
+}
 
+function cadastrar() {
 
-  function cadastrar() {
-   
     var nomeVar = input_nome.value.trim();
     var emailVar = input_email_cadastro.value.trim();
     var senhaVar = input_senha_cadastro.value.trim();
@@ -100,7 +104,7 @@ loginBtn.addEventListener('click', () =>{
 
     var statusVar = "Ativo";
     var fkEmpresaVar = 1;
-    var fkCargoVar = 1;
+    var fkCargoVar = CARGO_FUNCIONARIO; // cadastro público cria apenas funcionário
 
     let qtdNumero = 0;
     let caracterEspecial = '!@#$%&*';
@@ -222,9 +226,9 @@ loginBtn.addEventListener('click', () =>{
             }
         }).catch(function (erro) {
             console.log("#ERRO: ", erro);
+            alert("Não foi possível conectar ao servidor. Tente novamente mais tarde.");
         });
     }
 
     return false;
-    
 }

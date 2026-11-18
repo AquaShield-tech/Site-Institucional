@@ -30,11 +30,11 @@
                 <li><a href="dash_principal.html"><i class="bi bi-grid"></i><span>Visão geral</span></a></li>
                 <li><a href="maquinas.html"><i class="bi bi-display"></i><span>Máquinas</span></a></li>
                 <li><a href="suporte.html"><i class="bi bi-question-circle"></i><span>Suporte</span></a></li>
-                <li><a href="funcionario.html"><i class="bi bi-person-plus"></i><span>Cadastro de funcionario</span></a>
+                <li class="somente-gestor"><a href="funcionario.html"><i class="bi bi-person-plus"></i><span>Cadastro de funcionario</span></a>
                 </li>
-                <li><a href="cadastro_cco.html"><i class="bi-building-add"></i><span>Cadastro de CCO</span></a></li>
+                <li class="somente-gestor"><a href="cadastro_cco.html"><i class="bi-building-add"></i><span>Cadastro de CCO</span></a></li>
                 <li><a href="historico.html"><i class="bi bi-clock-history"></i><span>Histórico</span></a></li>
-                <li><a href="configuracoes.html"><i class="bi bi-gear"></i><span>Configurações</span></a></li>
+                <li class="somente-gestor"><a href="configuracoes.html"><i class="bi bi-gear"></i><span>Configurações</span></a></li>
                 <li class="item-sair">
                     <a href="#" onclick="deslogar()">
                         <i class="bi bi-box-arrow-left"></i>
@@ -125,11 +125,92 @@
                         <th>Uso de CPU</th>
                         <th>Uso de RAM</th>
                         <th>Última leitura</th>
-                        <th>Ações</th>
+                        <th class="somente-gestor">Ações</th>
                         <th>Dashboard</th>
                     </tr>
                 </thead>
                 <tbody id="tbody_maquinas">
+                <tbody>
+                    <tr class="normal">
+                        <td><strong>Máquina 312</strong></td>
+                        <td><span class="status normal">Normal</span></td>
+                        <td>58%</td>
+                        <td>40%</td>
+                        <td>20/09/2026</td>
+                        <td class="somente-gestor">
+                            <div class="action_icons">
+                                <button class="icon_btn" title="Editar" data-editar><i
+                                        class="bi bi-pencil-square"></i></button>
+                                <button class="icon_btn" title="Excluir" data-excluir><i
+                                        class="bi bi-trash3"></i></button>
+                            </div>
+                        </td>
+                        <td><a class="ver_dashboard" href="dashboard.html">Ver dashboard</a></td>
+                    </tr>
+                    <tr class="alerta">
+                        <td><strong>Máquina 394</strong></td>
+                        <td><span class="status alerta">Em alerta</span></td>
+                        <td>82%</td>
+                        <td>76%</td>
+                        <td>20/09/2026</td>
+                        <td class="somente-gestor">
+                            <div class="action_icons">
+                                <button class="icon_btn" title="Editar" data-editar><i
+                                        class="bi bi-pencil-square"></i></button>
+                                <button class="icon_btn" title="Excluir" data-excluir><i
+                                        class="bi bi-trash3"></i></button>
+                            </div>
+                        </td>
+                        <td><a class="ver_dashboard" href="dashboard.html">Ver dashboard</a></td>
+                    </tr>
+                    <tr class="normal">
+                        <td><strong>Máquina 201</strong></td>
+                        <td><span class="status normal">Normal</span></td>
+                        <td>46%</td>
+                        <td>51%</td>
+                        <td>20/09/2026</td>
+                        <td class="somente-gestor">
+                            <div class="action_icons">
+                                <button class="icon_btn" title="Editar" data-editar><i
+                                        class="bi bi-pencil-square"></i></button>
+                                <button class="icon_btn" title="Excluir" data-excluir><i
+                                        class="bi bi-trash3"></i></button>
+                            </div>
+                        </td>
+                        <td><a class="ver_dashboard" href="dashboard.html">Ver dashboard</a></td>
+                    </tr>
+                    <tr class="critica">
+                        <td><strong>Máquina 428</strong></td>
+                        <td><span class="status critica">Crítica</span></td>
+                        <td>94%</td>
+                        <td>91%</td>
+                        <td>20/09/2026</td>
+                        <td class="somente-gestor">
+                            <div class="action_icons">
+                                <button class="icon_btn" title="Editar" data-editar><i
+                                        class="bi bi-pencil-square"></i></button>
+                                <button class="icon_btn" title="Excluir" data-excluir><i
+                                        class="bi bi-trash3"></i></button>
+                            </div>
+                        </td>
+                        <td><a class="ver_dashboard" href="dashboard.html">Ver dashboard</a></td>
+                    </tr>
+                    <tr class="normal">
+                        <td><strong>Máquina 156</strong></td>
+                        <td><span class="status normal">Normal</span></td>
+                        <td>35%</td>
+                        <td>42%</td>
+                        <td>20/09/2026</td>
+                        <td class="somente-gestor">
+                            <div class="action_icons">
+                                <button class="icon_btn" title="Editar" data-editar><i
+                                        class="bi bi-pencil-square"></i></button>
+                                <button class="icon_btn" title="Excluir" data-excluir><i
+                                        class="bi bi-trash3"></i></button>
+                            </div>
+                        </td>
+                        <td><a class="ver_dashboard" href="dashboard.html">Ver dashboard</a></td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -226,6 +307,234 @@
             </div>
         </form>
     </dialog>
+
+    <script>
+        // CONTROLE DOS MODAIS (Abrir e Fechar)
+
+        // Abrir o modal de cadastro
+        const botoesAbrir = document.querySelectorAll("[data-abrir]");
+        botoesAbrir.forEach(function (botao) {
+            botao.addEventListener("click", function () {
+                const idModal = botao.getAttribute("data-abrir");
+                const modal = document.getElementById(idModal);
+                if (modal) modal.showModal();
+            });
+        });
+
+        // Seleciona todos os botões Cancelar para fechar modais
+        const botoesCancelar = document.querySelectorAll(".btn_secundario");
+        botoesCancelar.forEach(function (botao) {
+            botao.addEventListener("click", function () {
+                const modal = botao.closest("dialog");
+                if (modal) modal.close();
+            });
+        });
+
+        // Abrir o modal de edição
+        const botoesEditar = document.querySelectorAll("[data-editar]");
+        botoesEditar.forEach(function (botao) {
+            botao.addEventListener("click", function () {
+                const modalEditar = document.getElementById("modal-editar");
+                if (modalEditar) modalEditar.showModal();
+            });
+        });
+
+        // Abrir o modal de exclusão
+        const botoesExcluir = document.querySelectorAll("[data-excluir]");
+        botoesExcluir.forEach(function (botao) {
+            botao.addEventListener("click", function () {
+                const modalExcluir = document.getElementById("modal-excluir");
+                if (modalExcluir) modalExcluir.showModal();
+            });
+        });
+
+        function cadastrar(event) {
+
+            var hostnameVar = cad_hostname.value.trim();
+            var macAddressVar = cad_macaddress.value.trim();
+            var soVar = cad_so.value.trim();
+            var verSOVar = cad_verSO.value.trim();
+            var cpuTotalVar = cpu_total.value;
+            var memoriaTotalVar = memoria_total.value;
+            var discoTotalVar = disco_total.value;
+            var redeVar = cad_rede.value;
+
+            let ax_erro = false;
+
+            var validacao_hostname = document.getElementById("validacao_cad_hostname");
+            var validacao_macaddress = document.getElementById("validacao_cad_macaddress");
+            var validacao_so = document.getElementById("validacao_cad_so");
+            var validacao_verSO = document.getElementById("validacao_cad_verSO");
+            var validacao_cpu = document.getElementById("validacao_cpu_total");
+            var validacao_memoria = document.getElementById("validacao_memoria_total");
+            var validacao_disco = document.getElementById("validacao_disco_total");
+            var validacao_rede = document.getElementById("validacao_cad_rede");
+
+            if (validacao_hostname) validacao_hostname.style.display = "none";
+            if (validacao_macaddress) validacao_macaddress.style.display = "none";
+            if (validacao_so) validacao_so.style.display = "none";
+            if (validacao_verSO) validacao_verSO.style.display = "none";
+            if (validacao_cpu) validacao_cpu.style.display = "none";
+            if (validacao_memoria) validacao_memoria.style.display = "none";
+            if (validacao_disco) validacao_disco.style.display = "none";
+            if (validacao_rede) validacao_rede.style.display = "none";
+
+            if (hostnameVar == '') {
+                if (validacao_hostname) {
+                    validacao_hostname.innerHTML = "Campo Obrigatório";
+                    validacao_hostname.style.display = "block";
+                }
+                ax_erro = true;
+            }
+
+            var macValido = macAddressVar.length == 17 && macAddressVar.split(":").length == 6;;
+            if (macAddressVar == '') {
+                if (validacao_macaddress) {
+                    validacao_macaddress.innerHTML = "Campo Obrigatório";
+                    validacao_macaddress.style.display = "block";
+                }
+                ax_erro = true;
+            } else if (!macValido) {
+                if (validacao_macaddress) {
+                    validacao_macaddress.innerHTML = "Formato inválido (Ex: AA:BB:CC:DD:EE:FF)";
+                    validacao_macaddress.style.display = "block";
+                }
+                ax_erro = true;
+            }
+
+            if (soVar == '') {
+                if (validacao_so) {
+                    validacao_so.innerHTML = "Campo Obrigatório";
+                    validacao_so.style.display = "block";
+                }
+                ax_erro = true;
+            }
+
+            if (verSOVar == '') {
+                if (validacao_verSO) {
+                    validacao_verSO.innerHTML = "Campo Obrigatório";
+                    validacao_verSO.style.display = "block";
+                }
+                ax_erro = true;
+            }
+
+            if (cpuTotalVar == '' || Number(cpuTotalVar) <= 0) {
+                if (validacao_cpu) {
+                    validacao_cpu.innerHTML = "Informe um valor válido (> 0)";
+                    validacao_cpu.style.display = "block";
+                }
+                ax_erro = true;
+            }
+
+            if (memoriaTotalVar == '' || Number(memoriaTotalVar) <= 0) {
+                if (validacao_memoria) {
+                    validacao_memoria.innerHTML = "Informe um valor válido (> 0)";
+                    validacao_memoria.style.display = "block";
+                }
+                ax_erro = true;
+            }
+
+            if (discoTotalVar == '' || Number(discoTotalVar) <= 0) {
+                if (validacao_disco) {
+                    validacao_disco.innerHTML = "Informe um valor válido (> 0)";
+                    validacao_disco.style.display = "block";
+                }
+                ax_erro = true;
+            }
+
+            if (redeVar == '' || Number(redeVar) <= 0) {
+                if (validacao_rede) {
+                    validacao_rede.innerHTML = "Informe uma velocidade válida (> 0)";
+                    validacao_rede.style.display = "block";
+                }
+                ax_erro = true;
+            }
+
+            if (ax_erro == false) {
+                fetch("/maquina/cadastrar", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        hostnameServer: hostnameVar,
+                        macAddressServer: macAddressVar,
+                        soServer: soVar,
+                        verSOServer: verSOVar,
+                        cpuTotalServer: Number(cpuTotalVar),
+                        memoriaTotalServer: Number(memoriaTotalVar),
+                        discoTotalServer: Number(discoTotalVar),
+                        redeServer: Number(redeVar),
+                        fkEtaServer: 1
+                    })
+                }).then(function (resposta) {
+                    if (resposta.ok) {
+                        alert("Máquina cadastrada com sucesso!");
+
+                        // Limpa os campos após o cadastro
+                        cad_hostname.value = "";
+                        cad_macaddress.value = "";
+                        cad_so.value = "";
+                        cad_verSO.value = "";
+                        cpu_total.value = "";
+                        memoria_total.value = "";
+                        disco_total.value = "";
+                        cad_rede.value = "";
+
+                        // Fecha o modal
+                        document.getElementById("modal-cadastrar").close();
+                    } else {
+                        alert("Houve um erro ao tentar cadastrar a máquina!");
+                    }
+                }).catch(function (erro) {
+                    console.log("#ERRO: ", erro);
+                });
+            }
+
+            return false;
+        }
+
+        function deslogar() {
+
+            sessionStorage.clear();
+            alert("Sessão encerrada com sucesso.")
+            window.location = "index.html"
+        }
+
+        function validarSessao() {
+            var fkCargo = sessionStorage.FK_CARGO;
+            var nomeUsuario = sessionStorage.NOME_USUARIO;
+
+            if (!fkCargo) {
+                alert("Faça login para acessar esta página.");
+                window.location.replace("inicio.html");
+                return;
+            }
+
+            var elementUsuario = document.getElementById("b_usuario");
+            if (elementUsuario && nomeUsuario) {
+                elementUsuario.innerHTML = nomeUsuario;
+            }
+
+            var elementCargo = document.getElementById("b_cargo");
+            if (elementCargo) {
+                if (fkCargo == "1") {
+                    elementCargo.innerHTML = "Gestor";
+                } else if (fkCargo == "2") {
+                    elementCargo.innerHTML = "Analista";
+                } else if (fkCargo == "3") {
+                    elementCargo.innerHTML = "Operador";
+                }
+            }
+
+             
+            if (fkCargo != "1") {
+                document.querySelectorAll(".somente-gestor").forEach(function (el) {
+                    el.style.display = "none";
+                });
+            }
+        }
+    </script>
 </body>
 
 </html>
