@@ -30,25 +30,20 @@ function cadastrar(req, res) {
     var nomeGestor = req.body.nomeGestorServer;
     var emailGestor = req.body.emailGestorServer;
     var senhaGestor = req.body.senhaGestorServer;
-    var fkCargo = req.body.fkCargoServer;
+    var fkCargo = req.body.fkCargoServer || 1;
 
-    if (razaoSocial == undefined) {
-        res.status(400).send("A razão social está undefined!");
-    } else if (cnpj == undefined) {
-        res.status(400).send("O CNPJ está undefined!");
-    } else if (emailGestor == undefined) {
-        res.status(400).send("O e-mail do gestor está undefined!");
+    if (razaoSocial == undefined || nomeFantasia == undefined || cnpj == undefined) {
+        res.status(400).send("Dados da empresa incompletos!");
+    } else if (nomeGestor == undefined || emailGestor == undefined || senhaGestor == undefined) {
+        res.status(400).send("Dados do gestor incompletos!");
     } else {
-        // Busca CNPJ 
         empresaModel.buscarPorCnpj(cnpj).then(function (resultadoCnpj) {
             if (resultadoCnpj.length > 0) {
-                res.status(401).json({ mensagem: `A empresa com o CNPJ ${cnpj} já existe` });
+                res.status(400).json({ mensagem: `A empresa com o CNPJ ${cnpj} já existe.` });
             } else {
-                // Cadastra a Empresa
                 empresaModel.cadastrarEmpresa(razaoSocial, nomeFantasia, cnpj).then(function (resultadoEmpresa) {
                     var idEmpresa = resultadoEmpresa.insertId;
 
-                    // Cadastra o Gestor DIRETAMENTE após a empresa
                     empresaModel.cadastrarGestor(nomeGestor, emailGestor, senhaGestor, idEmpresa, fkCargo).then(function (resultadoGestor) {
                         res.status(201).json(resultadoGestor);
                     }).catch(function (erroGestor) {

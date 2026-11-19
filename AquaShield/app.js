@@ -24,6 +24,7 @@ var maquinaRounter = require("./src/routes/maquina");
 var ccoRouter = require("./src/routes/cco");
 var visaoGeralRouter = require("./src/routes/visaoGeral");
 var configuracaoRouter = require("./src/routes/configuracao");
+var historicoRouter = require("./src/routes/historico");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -41,6 +42,7 @@ app.use("/maquina", maquinaRounter);
 app.use("/cco", ccoRouter);
 app.use("/visaoGeral", visaoGeralRouter);
 app.use("/configuracao", configuracaoRouter);
+app.use("/historico", historicoRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

@@ -60,10 +60,37 @@ function excluir(idCco) {
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
+
+function listarEtas(idEmpresa) {
+    var instrucaoSql = `
+        SELECT
+            e.id,
+            c.nome AS nome_cco
+        FROM eta e
+        JOIN cco c ON e.fk_cco = c.id
+        WHERE c.fk_empresa = ${idEmpresa}
+          AND c.ativo = 1
+        ORDER BY c.nome ASC, e.id ASC;
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function cadastrarEta(pais, uf, cep, fkCco) {
+    var instrucaoSql = `
+        INSERT INTO eta (pais, uf, CEP, fk_cco)
+        VALUES ('${pais}', '${uf}', '${cep}', ${fkCco});
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     cadastrar,
     listar,
     verificarMaquinasAtivas,
     editar,
-    excluir
+    excluir,
+    listarEtas,
+    cadastrarEta
 };

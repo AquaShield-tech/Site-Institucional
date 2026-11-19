@@ -20,7 +20,10 @@ function cadastrar(req, res) {
     } else {
         ccoModel.cadastrar(nome, pais, cep, uf, fkEmpresa)
             .then(function (resultado) {
-                res.status(201).json(resultado);
+                return ccoModel.cadastrarEta(pais, uf, cep, resultado.insertId)
+                    .then(function () {
+                        res.status(201).json(resultado);
+                    });
             })
             .catch(function (erro) {
                 console.log(erro);
@@ -98,9 +101,27 @@ function excluir(req, res) {
     }
 }
 
+function listarEtas(req, res) {
+    var idEmpresa = req.params.idEmpresa;
+
+    if (idEmpresa == undefined) {
+        res.status(400).send("O idEmpresa está undefined!");
+    } else {
+        ccoModel.listarEtas(idEmpresa)
+            .then(function (resultado) {
+                res.status(200).json(resultado);
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
 module.exports = {
     cadastrar,
     listar,
     editar,
-    excluir
+    excluir,
+    listarEtas
 };

@@ -7,7 +7,9 @@ const PADROES = {
 
 function carregarConfiguracoes() {
     var idEmpresa = sessionStorage.FK_EMPRESA;
-
+    var autoUpdateSalvo = localStorage.getItem("AUTO_UPDATE");
+    var intervaloSalvo = localStorage.getItem("INTERVALO_ATUALIZACAO");
+    
     document.getElementById("cpu_atencao").value = PADROES.cpu.atencao;
     document.getElementById("cpu_critico").value = PADROES.cpu.critico;
     document.getElementById("ram_atencao").value = PADROES.ram.atencao;
@@ -16,6 +18,8 @@ function carregarConfiguracoes() {
     document.getElementById("disco_critico").value = PADROES.disco.critico;
     document.getElementById("rede_atencao").value = PADROES.rede.atencao;
     document.getElementById("rede_critico").value = PADROES.rede.critico;
+    document.getElementById("auto-update").checked = sessionStorage.AUTO_UPDATE !== "false";
+    document.getElementById("intervalo").value = sessionStorage.INTERVALO_ATUALIZACAO || 5;
 
     if (!idEmpresa) {
         return;
@@ -64,7 +68,15 @@ function aplicarConfiguracoes() {
     var discoCritico = Number(document.getElementById("disco_critico").value);
     var redeAtencao = Number(document.getElementById("rede_atencao").value);
     var redeCritico = Number(document.getElementById("rede_critico").value);
-
+    var autoUpdate = document.getElementById("auto-update").checked;
+    var intervalo = Number(document.getElementById("intervalo").value);
+    
+    if (intervalo <= 0) {
+      alert("O intervalo de atualização deve ser maior que 0 segundos.");
+      return;
+    }
+    sessionStorage.AUTO_UPDATE = autoUpdate;
+    sessionStorage.INTERVALO_ATUALIZACAO = intervalo;
     if (
         cpuAtencao <= 0 || cpuCritico <= cpuAtencao ||
         ramAtencao <= 0 || ramCritico <= ramAtencao ||

@@ -17,4 +17,7 @@ router.put("/editar/:idCco", function (req, res) {
 router.delete("/excluir/:idCco", function (req, res) {
     ccoController.excluir(req, res);
 });
+router.get("/etas/:idEmpresa", function (req, res) {
+    ccoController.listarEtas(req, res);
+});
 module.exports = router;

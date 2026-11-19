@@ -15,6 +15,7 @@ function buscarAtuais(idEmpresa) {
         JOIN cco c ON e.fk_cco = c.id
         WHERE c.fk_empresa = ${idEmpresa}
           AND m.ativo = 1
+          AND c.ativo = 1
         GROUP BY tc.id, tc.tipo
         ORDER BY tc.id ASC;
     `;

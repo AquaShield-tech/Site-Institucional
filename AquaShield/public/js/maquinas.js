@@ -5,10 +5,13 @@ const botoesAbrir = document.querySelectorAll("[data-abrir]");
 botoesAbrir.forEach(function (botao) {
     botao.addEventListener("click", function () {
         if (!validarSessaoMaquina()) {
-            return; // não é gestor, não abre o modal
+            return;
         }
 
         const idModal = botao.getAttribute("data-abrir");
+        if (idModal === "modal-cadastrar") {
+            carregarEtas();
+        }
         const modal = document.getElementById(idModal);
         if (modal) modal.showModal();
     });
@@ -32,6 +35,8 @@ function cadastrar(event) {
     var memoriaTotalVar = memoria_total.value;
     var discoTotalVar = disco_total.value;
     var redeVar = cad_rede.value;
+    var fkEtaVar = cad_eta.value;
+    var validacao_eta = document.getElementById("validacao_cad_eta");
 
     let ax_erro = false;
 
@@ -52,6 +57,15 @@ function cadastrar(event) {
     if (validacao_memoria) validacao_memoria.style.display = "none";
     if (validacao_disco) validacao_disco.style.display = "none";
     if (validacao_rede) validacao_rede.style.display = "none";
+    if (validacao_eta) validacao_eta.style.display = "none";
+
+    if (fkEtaVar == "") {
+        if (validacao_eta) {
+            validacao_eta.innerHTML = "Selecione um CCO / ETA";
+            validacao_eta.style.display = "block";
+        }
+        ax_erro = true;
+    }
 
     if (hostnameVar == '') {
         if (validacao_hostname) {
@@ -139,7 +153,7 @@ function cadastrar(event) {
                 memoriaTotalServer: Number(memoriaTotalVar),
                 discoTotalServer: Number(discoTotalVar),
                 redeServer: Number(redeVar),
-                fkEtaServer: 1
+                fkEtaServer: Number(fkEtaVar)
             })
         }).then(function (resposta) {
             if (resposta.ok) {
@@ -300,7 +314,9 @@ function editar(event) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            hostnameServer: novoHostname
+            hostnameServer: novoHostname,
+            idUsuarioServer: sessionStorage.ID_USUARIO,
+            descricaoServer: `Hostname alterado para ${novoHostname}`
         })
     })
         .then(function (resposta) {
@@ -343,7 +359,11 @@ function excluir(event) {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"
-        }
+        },
+        body: JSON.stringify({
+            idUsuarioServer: sessionStorage.ID_USUARIO,
+            descricaoServer: "Exclusão de máquina"
+        })
     })
         .then(function (resposta) {
             if (resposta.ok) {
@@ -452,6 +472,45 @@ function listarMaquinas() {
         })
         .catch(function (erro) {
             console.error("Erro na requisição de máquinas:", erro);
+        });
+}
+
+function carregarEtas() {
+    var idEmpresa = sessionStorage.FK_EMPRESA;
+    var selectEta = document.getElementById("cad_eta");
+
+    if (!idEmpresa || !selectEta) return;
+
+    fetch(`/cco/etas/${idEmpresa}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (lista) {
+                    selectEta.innerHTML = "";
+
+                    var optPadrao = document.createElement("option");
+                    optPadrao.value = "";
+                    optPadrao.disabled = true;
+                    optPadrao.selected = true;
+                    optPadrao.textContent = lista.length > 0 ? "Selecione o CCO / ETA" : "Nenhuma ETA ativa cadastrada";
+                    selectEta.appendChild(optPadrao);
+
+                    for (var i = 0; i < lista.length; i++) {
+                        var item = lista[i];
+                        var opt = document.createElement("option");
+                        opt.value = item.id;
+                        opt.textContent = `${item.nome_cco} - ETA #${item.id}`;
+                        selectEta.appendChild(opt);
+                    }
+                });
+            }
+        })
+        .catch(function (erro) {
+            console.error("Erro ao carregar ETAs:", erro);
         });
 }
 

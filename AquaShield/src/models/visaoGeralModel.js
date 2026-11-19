@@ -17,6 +17,8 @@ function buscarKpis(idEmpresa) {
                     JOIN eta e ON m.fk_eta = e.id
                     JOIN cco c ON e.fk_cco = c.id
                     WHERE c.fk_empresa = ${idEmpresa}
+                      AND m.ativo = 1
+                      AND c.ativo = 1
                       AND UPPER(tc.tipo) LIKE '%CPU%'
                       AND l.data_hora >= NOW() - INTERVAL 30 MINUTE
                       AND l.valor >= da.valor_limite
@@ -40,6 +42,8 @@ function buscarKpis(idEmpresa) {
                     JOIN eta e ON m.fk_eta = e.id
                     JOIN cco c ON e.fk_cco = c.id
                     WHERE c.fk_empresa = ${idEmpresa}
+                      AND m.ativo = 1
+                      AND c.ativo = 1
                       AND UPPER(tc.tipo) LIKE '%RAM%'
                       AND l.data_hora >= NOW() - INTERVAL 30 MINUTE
                       AND l.valor >= da.valor_limite
@@ -62,6 +66,8 @@ function buscarKpis(idEmpresa) {
                 JOIN eta e ON m.fk_eta = e.id
                 JOIN cco c ON e.fk_cco = c.id
                 WHERE c.fk_empresa = ${idEmpresa}
+                  AND m.ativo = 1
+                  AND c.ativo = 1
                   AND UPPER(tc.tipo) LIKE '%DISCO%'
                   AND l.data_hora >= NOW() - INTERVAL 10 MINUTE
                   AND l.valor >= da.valor_limite
@@ -75,8 +81,10 @@ function buscarKpis(idEmpresa) {
                 JOIN cco c ON e.fk_cco = c.id
                 JOIN configuracao cfg ON cfg.fk_maquina = m.id
                 JOIN status_maquina sm ON cfg.fk_statusMaquina = sm.id
-                WHERE c.fk_empresa = ${idEmpresa} AND m.ativo = 1
-                AND LOWER(sm.estado) IN ('desconectada', 'inativa', 'offline')
+                WHERE c.fk_empresa = ${idEmpresa}
+                  AND m.ativo = 1
+                  AND c.ativo = 1
+                  AND LOWER(sm.estado) IN ('desconectada', 'inativa', 'offline')
             ) AS maquinas_desconectadas;
     `;
 
@@ -98,6 +106,8 @@ function buscarGrafico24h(idEmpresa) {
         JOIN eta e ON m.fk_eta = e.id
         JOIN cco c ON e.fk_cco = c.id
         WHERE c.fk_empresa = ${idEmpresa}
+          AND m.ativo = 1
+          AND c.ativo = 1
           AND l.data_hora >= NOW() - INTERVAL 24 HOUR
         GROUP BY DATE_FORMAT(l.data_hora, '%Y-%m-%d %H'), DATE_FORMAT(l.data_hora, '%Hh')
         ORDER BY DATE_FORMAT(l.data_hora, '%Y-%m-%d %H') ASC;
@@ -121,6 +131,8 @@ function buscarGrafico30d(idEmpresa) {
         JOIN eta e ON m.fk_eta = e.id
         JOIN cco c ON e.fk_cco = c.id
         WHERE c.fk_empresa = ${idEmpresa}
+          AND m.ativo = 1
+          AND c.ativo = 1
           AND l.data_hora >= CURDATE() - INTERVAL 29 DAY
         GROUP BY DATE(l.data_hora), DATE_FORMAT(l.data_hora, '%d/%m')
         ORDER BY DATE(l.data_hora) ASC;
@@ -155,6 +167,8 @@ function buscarHistorico(idEmpresa) {
         JOIN eta e ON m.fk_eta = e.id
         JOIN cco c ON e.fk_cco = c.id
         WHERE c.fk_empresa = ${idEmpresa}
+          AND m.ativo = 1
+          AND c.ativo = 1
         ORDER BY l.data_hora DESC
         LIMIT 10;
     `;

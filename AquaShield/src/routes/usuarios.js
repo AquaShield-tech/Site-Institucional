@@ -15,5 +15,15 @@ router.post("/autenticar", function (req, res) {
 router.post("/cadastrarFuncionario", function (req, res) {
     usuarioController.cadastrarFuncionario(req, res);
 });
+router.get("/listar/:idEmpresa", function (req, res) {
+    usuarioController.listarPorEmpresa(req, res);
+});
 
+router.put("/editar/:idUsuario", function (req, res) {
+    usuarioController.editarFuncionario(req, res);
+});
+
+router.delete("/excluir/:idUsuario", function (req, res) {
+    usuarioController.excluirFuncionario(req, res);
+});
 module.exports = router;
