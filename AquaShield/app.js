@@ -23,6 +23,7 @@ var empresasRouter = require("./src/routes/empresas");
 var maquinaRounter = require("./src/routes/maquina");
 var ccoRouter = require("./src/routes/cco");
 var visaoGeralRouter = require("./src/routes/visaoGeral");
+var pedroDashRouter = require("./src/routes/pedroDashRoutes");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -39,6 +40,7 @@ app.use("/empresas", empresasRouter);
 app.use("/maquina", maquinaRounter);
 app.use("/cco", ccoRouter);
 app.use("/visaoGeral", visaoGeralRouter);
+app.use("/pedroDash", pedroDashRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`
