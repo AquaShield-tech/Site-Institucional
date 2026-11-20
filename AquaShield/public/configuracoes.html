@@ -7,6 +7,8 @@
     <title>Configurações | AquaShield</title>
     <link rel="stylesheet" href="./css/configuracoes.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./css/popup.css">
+    <script src="./js/popup.js" defer></script>
 </head>
 
 <body onload="validarSessao()">
@@ -25,7 +27,8 @@
                 <li><a href="dash_principal.html"><i class="bi bi-grid"></i><span>Visão geral</span></a></li>
                 <li><a href="maquinas.html"><i class="bi bi-display"></i><span>Máquinas</span></a></li>
                 <li><a href="suporte.html"><i class="bi bi-question-circle"></i><span>Suporte</span></a></li>
-                <li><a href="funcionario.html"><i class="bi bi-person-plus"></i><span>Cadastro de funcionario</span></a></li>
+                <li><a href="funcionario.html"><i class="bi bi-person-plus"></i><span>Cadastro de funcionario</span></a>
+                </li>
                 <li><a href="cadastro_cco.html"><i class="bi bi-building-add"></i><span>Cadastro de CCO</span></a></li>
                 <li><a href="historico.html"><i class="bi bi-clock-history"></i><span>Histórico</span></a></li>
                 <li><a href="configuracoes.html"><i class="bi bi-gear"></i><span>Configurações</span></a></li>
@@ -114,7 +117,8 @@
                     <div class="acoes-botoes">
                         <button type="button" class="btn-aplicar" onclick="aplicarConfiguracoes()">Aplicar</button>
                         <button type="button" class="btn-cancelar" onclick="carregarConfiguracoes()">Cancelar</button>
-                        <button type="button" class="btn-cancelar" onclick="restaurarPadroes()">Restaurar Padrões</button>
+                        <button type="button" class="btn-cancelar" onclick="restaurarPadroes()">Restaurar
+                            Padrões</button>
                     </div>
                 </div>
             </div>

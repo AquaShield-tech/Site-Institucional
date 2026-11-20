@@ -155,30 +155,23 @@ function cadastrar(event) {
                 redeServer: Number(redeVar),
                 fkEtaServer: Number(fkEtaVar)
             })
-        }).then(function (resposta) {
-            if (resposta.ok) {
-                alert("Máquina cadastrada com sucesso!");
-
-                // Limpa os campos após o cadastro
-                cad_hostname.value = "";
-                cad_macaddress.value = "";
-                cad_so.value = "";
-                cad_verSO.value = "";
-                cpu_total.value = "";
-                memoria_total.value = "";
-                disco_total.value = "";
-                cad_rede.value = "";
-
-                // Fecha o modal e atualiza os cards e a tabela
-                document.getElementById("modal-cadastrar").close();
-                atualizarKpisMaquinas();
-                listarMaquinas();
-            } else {
-                alert("Houve um erro ao tentar cadastrar a máquina!");
-            }
-        }).catch(function (erro) {
-            console.log("#ERRO: ", erro);
-        });
+        })
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    document.getElementById("modal-cadastrar").close();
+                    document.getElementById("form-cadastrar").reset();
+                    exibirToast("Máquina cadastrada com sucesso!", "sucesso");
+                    listarMaquinas();
+                    atualizarKpisMaquinas();
+                } else {
+                    document.getElementById("modal-cadastrar").close();
+                    exibirToast("Erro ao cadastrar a máquina.", "erro");
+                }
+            })
+            .catch(function (erro) {
+                console.error("#ERRO:", erro);
+                exibirToast("Falha de comunicação com o servidor.", "erro");
+            });
     }
 
     return false;
@@ -186,7 +179,7 @@ function cadastrar(event) {
 
 function deslogar() {
     sessionStorage.clear();
-    alert("Sessão encerrada com sucesso.");
+    agendarToast("Sessão encerrada com sucesso.", "sucesso");
     window.location = "index.html";
 }
 
@@ -195,8 +188,8 @@ function validarSessao() {
     var nomeUsuario = sessionStorage.NOME_USUARIO;
 
     if (!fkCargo) {
-        alert("Permissão negada! Apenas gestores podem cadastrar uma maquina.");
-        window.location.replace("inicio.html");
+        agendarToast("Sessão expirada. Faça login novamente.", "alerta");
+        window.location.replace("index.html");
     } else {
         var elementUsuario = document.getElementById("b_usuario");
         if (elementUsuario && nomeUsuario) {
@@ -220,7 +213,7 @@ function validarSessaoMaquina() {
     var fkCargo = sessionStorage.FK_CARGO;
 
     if (fkCargo != "1") {
-        alert("Permissão negada! Apenas gestores podem cadastrar uma máquina.");
+        exibirToast("Permissão negada! Apenas gestores podem realizar esta ação.", "alerta");
         return false;
     }
 
@@ -304,7 +297,7 @@ function editar(event) {
     }
 
     if (novoHostname == "") {
-        alert("Informe um hostname válido.");
+        exibirToast("Informe um hostname válido.", "alerta");
         return false;
     }
 
@@ -321,66 +314,59 @@ function editar(event) {
     })
         .then(function (resposta) {
             if (resposta.ok) {
-                alert("Máquina atualizada com sucesso!");
                 document.getElementById("modal-editar").close();
-                idMaquinaSelecionada = null;
+                exibirToast("Hostname atualizado com sucesso!", "sucesso");
                 listarMaquinas();
             } else {
-                alert("Houve um erro ao tentar editar a máquina!");
+                document.getElementById("modal-editar").close();
+                exibirToast("Erro ao atualizar a máquina.", "erro");
             }
         })
         .catch(function (erro) {
-            console.log("#ERRO: ", erro);
+            console.error("Erro ao editar máquina:", erro);
+            exibirToast("Falha de comunicação com o servidor.", "erro");
         });
 
     return false;
 }
 
-function abrirModalExcluir(idMaquina, hostname) {
+function solicitarExclusaoMaquina(idMaquina, hostname) {
     if (!validarSessaoMaquina()) {
         return;
     }
 
-    idMaquinaSelecionada = idMaquina;
-    var modalExcluir = document.getElementById("modal-excluir");
-    var spanNome = document.getElementById("excluir-nome");
-    if (spanNome) spanNome.textContent = hostname;
-    if (modalExcluir) modalExcluir.showModal();
-}
+    confirmarAcao(
+        "Tem certeza?",
+        `Deseja realmente excluir a máquina "${hostname}"?`,
+        function () {
+            var idUsuario = sessionStorage.ID_USUARIO;
 
-function excluir(event) {
-    if (event) event.preventDefault();
-
-    if (!idMaquinaSelecionada) {
-        return false;
-    }
-
-    fetch(`/maquina/excluir/${idMaquinaSelecionada}`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json"
+            fetch(`/maquina/excluir/${idMaquina}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idUsuarioServer: idUsuario,
+                    descricaoServer: "Exclusão de máquina"
+                })
+            })
+                .then(function (resposta) {
+                    if (resposta.ok) {
+                        exibirToast("Máquina excluída com sucesso!", "sucesso");
+                        listarMaquinas();
+                        atualizarKpisMaquinas();
+                    } else {
+                        exibirToast("Não foi possível excluir a máquina.", "erro");
+                    }
+                })
+                .catch(function (erro) {
+                    console.error("Erro ao excluir máquina:", erro);
+                    exibirToast("Erro ao conectar com o servidor.", "erro");
+                });
         },
-        body: JSON.stringify({
-            idUsuarioServer: sessionStorage.ID_USUARIO,
-            descricaoServer: "Exclusão de máquina"
-        })
-    })
-        .then(function (resposta) {
-            if (resposta.ok) {
-                alert("Máquina excluída com sucesso!");
-                document.getElementById("modal-excluir").close();
-                idMaquinaSelecionada = null;
-                atualizarKpisMaquinas();
-                listarMaquinas();
-            } else {
-                alert("Houve um erro ao tentar excluir a máquina!");
-            }
-        })
-        .catch(function (erro) {
-            console.log("#ERRO: ", erro);
-        });
-
-    return false;
+        "Excluir"
+    );
 }
 
 function listarMaquinas() {
@@ -450,7 +436,7 @@ function listarMaquinas() {
                                         <button class="icon_btn" title="Editar" onclick="abrirModalEditar(${m.id}, '${m.hostname}')">
                                             <i class="bi bi-pencil-square"></i>
                                         </button>
-                                        <button class="icon_btn" title="Excluir" onclick="abrirModalExcluir(${m.id}, '${m.hostname}')">
+                                        <button class="icon_btn" title="Excluir" onclick="solicitarExclusaoMaquina(${m.id}, '${m.hostname}')">
                                             <i class="bi bi-trash3"></i>
                                         </button>
                                     </div>

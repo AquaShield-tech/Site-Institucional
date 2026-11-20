@@ -5,9 +5,8 @@ function validarSessao() {
     var nomeUsuario = sessionStorage.NOME_USUARIO;
 
     if (!fkCargo || fkCargo != "1") {
-        abrirAviso("Acesso Negado", "Apenas gestores podem cadastrar um CCO.", "erro", function () {
-            window.location.replace("inicio.html");
-        });
+        agendarToast("Acesso negado! Apenas gestores podem cadastrar um CCO.", "erro");
+        window.location.replace("inicio.html");
     } else {
         var elementUsuario = document.getElementById("b_usuario");
         if (elementUsuario && nomeUsuario) {
@@ -30,9 +29,8 @@ function validarSessao() {
 
 function deslogar() {
     sessionStorage.clear();
-    abrirAviso("Sessão Encerrada", "Você saiu da sua conta com sucesso.", "sucesso", function () {
-        window.location = "index.html";
-    });
+    agendarToast("Sessão encerrada com sucesso.", "sucesso");
+    window.location = "index.html";
 }
 
 function cadastrarCco() {
@@ -85,14 +83,14 @@ function cadastrarCco() {
             })
         }).then(function (resposta) {
             if (resposta.ok) {
-                abrirAviso("CCO Cadastrado", "O CCO foi cadastrado com sucesso!", "sucesso", function () {
-                    window.location.reload();
-                });
+                agendarToast("CCO cadastrado com sucesso!", "sucesso");
+                window.location.reload();
             } else {
-                abrirAviso("Erro no Cadastro", "Houve um erro ao cadastrar o CCO.", "erro");
+                exibirToast("Houve um erro ao cadastrar o CCO.", "erro");
             }
         }).catch(function (erro) {
             console.log("#ERRO: ", erro);
+            exibirToast("Falha de comunicação com o servidor.", "erro");
         });
     }
 }
@@ -161,7 +159,7 @@ function salvarEdicao() {
     var ufVar = input_uf.value.trim().toUpperCase();
 
     if (nomeVar == "" || paisVar == "" || cepVar.length != 8 || ufVar == "") {
-        abrirAviso("Campos Inválidos", "Preencha todos os campos corretamente (CEP com 8 dígitos).", "erro");
+        exibirToast("Preencha todos os campos corretamente (CEP com 8 dígitos).", "alerta");
         return;
     }
 
@@ -178,32 +176,39 @@ function salvarEdicao() {
         })
     }).then(function (resposta) {
         if (resposta.ok) {
-            abrirAviso("CCO Atualizado", "As alterações foram salvas com sucesso!", "sucesso");
+            exibirToast("Alterações do CCO salvas com sucesso!", "sucesso");
             cancelarEdicao();
             listarCcos();
         } else {
-            abrirAviso("Erro ao Atualizar", "Houve um erro ao atualizar o CCO.", "erro");
+            exibirToast("Houve um erro ao atualizar o CCO.", "erro");
         }
+    }).catch(function (erro) {
+        console.log("#ERRO: ", erro);
+        exibirToast("Falha de comunicação com o servidor.", "erro");
     });
 }
 
 function excluirCco(id, nome) {
-    abrirConfirmacao(
-        "Excluir CCO",
-        `Tem certeza que deseja excluir o CCO "${nome}"?`,
+    confirmarAcao(
+        "Tem certeza?",
+        `Deseja realmente excluir o CCO "${nome}"?`,
         function () {
             fetch(`/cco/excluir/${id}`, {
                 method: "DELETE"
             }).then(function (resposta) {
                 if (resposta.ok) {
-                    abrirAviso("CCO Excluído", "O CCO foi removido com sucesso!", "sucesso");
+                    exibirToast("CCO removido com sucesso!", "sucesso");
                     listarCcos();
                 } else {
                     resposta.text().then(function (mensagem) {
-                        abrirAviso("Exclusão Bloqueada", mensagem || "Não foi possível excluir o CCO.", "erro");
+                        exibirToast(mensagem || "Não foi possível excluir o CCO.", "erro");
                     });
                 }
+            }).catch(function (erro) {
+                console.log("#ERRO: ", erro);
+                exibirToast("Falha de comunicação com o servidor.", "erro");
             });
-        }
+        },
+        "Excluir"
     );
 }

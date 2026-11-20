@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +8,12 @@
     <link rel="stylesheet" href="./css/cadastro_suporte.css">
     <link rel="icon" href="./assets/icon/favicon2.ico">
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="./css/popup.css">
+    <script src="./js/popup.js" defer></script>
 </head>
+
 <body>
-    
+
     <div class="header">
         <div class="container">
             <h1 class="titulo"><img src="./assets/icon/LOGO .svg" alt="Logo"></h1>
@@ -23,11 +27,12 @@
 
     <main class="conteudo">
         <div class="container-cadastro">
-            
-             
+
+
             <div class="cabecalho-etapas">
                 <div class="indicador-etapa" id="indicador_etapa_1">
-                    <div class="circulo-etapa" id="circulo_etapa_1" style="background-color: #1f99ac; color: #fff;">1</div>
+                    <div class="circulo-etapa" id="circulo_etapa_1" style="background-color: #1f99ac; color: #fff;">1
+                    </div>
                     <span id="texto_etapa_1" style="color: #1f99ac;">Empresa</span>
                 </div>
                 <div class="linha-etapa"></div>
@@ -39,12 +44,12 @@
 
             <div class="container-formulario">
                 <form id="form_cadastro_empresa">
-                    
+
                     <!-- Cadastro Empresa -->
                     <div class="bloco-etapa" id="etapa_empresa">
                         <h1>Dados da Empresa</h1>
                         <span>Insira os dados jurídicos da Empresa</span>
-                        
+
                         <input type="text" id="input_razao_social" placeholder="Razão Social">
                         <span id="validacao_razao" class="msg_validacao"></span>
 
@@ -63,7 +68,7 @@
                     <div class="bloco-etapa" id="etapa_gestor" style="display: none;">
                         <h1>Gestor Responsável</h1>
                         <span>Credenciais para o primeiro acesso à plataforma</span>
-                        
+
                         <input type="text" id="input_nome_gestor" placeholder="Nome Completo do Gestor">
                         <span id="validacao_nome_gestor" class="msg_validacao"></span>
 
@@ -87,4 +92,5 @@
 
     <script src="./js/cadastro_empresa.js"></script>
 </body>
+
 </html>

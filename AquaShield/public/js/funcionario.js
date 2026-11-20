@@ -5,7 +5,7 @@ function validarSessao() {
     var nomeUsuario = sessionStorage.NOME_USUARIO;
 
     if (!fkCargo || fkCargo != "1") {
-        alert("Permissão negada! Apenas gestores podem acessar esta sessão.");
+        agendarToast("Permissão negada! Apenas gestores podem acessar esta página.", "erro");
         window.location.replace("inicio.html");
     } else {
         var elementUsuario = document.getElementById("b_usuario");
@@ -29,7 +29,7 @@ function validarSessao() {
 
 function deslogar() {
     sessionStorage.clear();
-    alert("Sessão encerrada com sucesso.");
+    agendarToast("Sessão encerrada com sucesso.", "sucesso");
     window.location = "index.html";
 }
 
@@ -95,13 +95,14 @@ function cadastrarFuncionario() {
             })
         }).then(function (resposta) {
             if (resposta.ok) {
-                alert("Funcionário cadastrado com sucesso!");
+                agendarToast("Funcionário cadastrado com sucesso!", "sucesso");
                 window.location.reload();
             } else {
-                alert("Houve um erro ao cadastrar o funcionário!");
+                exibirToast("Houve um erro ao cadastrar o funcionário!", "erro");
             }
         }).catch(function (erro) {
             console.log("#ERRO: ", erro);
+            exibirToast("Falha de comunicação com o servidor.", "erro");
         });
     }
 }
@@ -175,7 +176,7 @@ function salvarEdicao() {
     var cargoVar = select_cargo.value;
 
     if (nomeVar == "" || emailVar == "" || telefoneVar == "" || cargoVar == "") {
-        alert("Preencha todos os campos corretamente.");
+        exibirToast("Preencha todos os campos corretamente.", "alerta");
         return;
     }
 
@@ -192,31 +193,42 @@ function salvarEdicao() {
         })
     }).then(function (resposta) {
         if (resposta.ok) {
-            alert("Funcionário atualizado com sucesso!");
+            exibirToast("Funcionário atualizado com sucesso!", "sucesso");
             cancelarEdicao();
             listarFuncionarios();
         } else {
-            alert("Houve um erro ao atualizar o funcionário.");
+            exibirToast("Houve um erro ao atualizar o funcionário.", "erro");
         }
+    }).catch(function (erro) {
+        console.log("#ERRO: ", erro);
+        exibirToast("Falha de comunicação com o servidor.", "erro");
     });
 }
 
 function excluirFuncionario(id, nome) {
     if (id == sessionStorage.ID_USUARIO) {
-        alert("Você não pode desativar a sua própria conta enquanto estiver logado.");
+        exibirToast("Você não pode desativar a sua própria conta enquanto estiver logado.", "alerta");
         return;
     }
 
-    if (confirm(`Tem certeza que deseja remover o funcionário "${nome}"?`)) {
-        fetch(`/usuarios/excluir/${id}`, {
-            method: "DELETE"
-        }).then(function (resposta) {
-            if (resposta.ok) {
-                alert("Funcionário removido com sucesso!");
-                listarFuncionarios();
-            } else {
-                alert("Não foi possível remover o funcionário.");
-            }
-        });
-    }
+    confirmarAcao(
+        "Tem certeza?",
+        `Deseja realmente remover o funcionário "${nome}"?`,
+        function () {
+            fetch(`/usuarios/excluir/${id}`, {
+                method: "DELETE"
+            }).then(function (resposta) {
+                if (resposta.ok) {
+                    exibirToast("Funcionário removido com sucesso!", "sucesso");
+                    listarFuncionarios();
+                } else {
+                    exibirToast("Não foi possível remover o funcionário.", "erro");
+                }
+            }).catch(function (erro) {
+                console.log("#ERRO: ", erro);
+                exibirToast("Falha de comunicação com o servidor.", "erro");
+            });
+        },
+        "Excluir"
+    );
 }

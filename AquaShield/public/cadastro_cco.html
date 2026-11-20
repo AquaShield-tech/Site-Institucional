@@ -10,6 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="./css/popup.css">
+    <script src="./js/popup.js" defer></script>
+    <script src="./js/cadastro_cco.js"></script>
 </head>
 
 <body onload="validarSessao()">
@@ -96,33 +98,6 @@
             </template>
         </div>
     </div>
-    <!--Pop Up Aviso-->
-    <div id="popup_aviso" class="fundo-popup">
-        <div class="caixa-popup">
-            <i id="icone_popup_aviso" class="bi bi-check-circle-fill icone-sucesso"></i>
-            <h2 id="titulo_popup_aviso">Aviso</h2>
-            <p id="texto_popup_aviso"></p>
-            <div class="botoes-popup">
-                <button type="button" class="btn-popup-confirmar" onclick="fecharAviso()">OK</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Pop Up confimacao -->
-    <div id="popup_confirmacao" class="fundo-popup">
-        <div class="caixa-popup">
-            <i class="bi bi-trash3-fill icone-alerta"></i>
-            <h2 id="titulo_popup_confirmacao">Confirmar exclusão</h2>
-            <p id="texto_popup_confirmacao"></p>
-            <div class="botoes-popup">
-                <button type="button" class="btn-popup-cancelar" onclick="fecharConfirmacao()">Cancelar</button>
-                <button type="button" id="btn_sim_confirmacao" class="btn-popup-excluir">Excluir</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="./js/cadastro_cco.js"></script>
-    <script src="./js/popup.js"></script>
 </body>
 
 </html>

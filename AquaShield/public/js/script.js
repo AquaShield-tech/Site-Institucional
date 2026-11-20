@@ -2,17 +2,15 @@ const container = document.getElementById('container');
 const registerBtn = document.getElementById('registrar');
 const loginBtn = document.getElementById('login');
 
-registerBtn.addEventListener('click', () =>{
+registerBtn.addEventListener('click', () => {
     container.classList.add("active");
 });
 
-loginBtn.addEventListener('click', () =>{
+loginBtn.addEventListener('click', () => {
     container.classList.remove("active");
 });
 
-
-    function entrar() {
-        //aguardar();
+function entrar() {
     var emailVar = input_email_login.value.trim();
     var senhaVar = input_senha_login.value.trim();
 
@@ -41,16 +39,13 @@ loginBtn.addEventListener('click', () =>{
     }
 
     if (ax_erro == false) {
-
         if (emailVar == "suporte@aquashield.com" && senhaVar == "12345678!") {
-        sessionStorage.EMAIL_USUARIO = emailVar;
-        sessionStorage.NOME_USUARIO = "Equipe de Suporte";
-        window.location = "cadastro_empresa.html";
-        return false;
-    }
-
-        console.log("FORM LOGIN: ", emailVar);
-        console.log("FORM SENHA: ", senhaVar);
+            sessionStorage.EMAIL_USUARIO = emailVar;
+            sessionStorage.NOME_USUARIO = "Equipe de Suporte";
+            agendarToast("Acesso de suporte autorizado!", "sucesso");
+            window.location = "cadastro_empresa.html";
+            return false;
+        }
 
         fetch("/usuarios/autenticar", {
             method: "POST",
@@ -69,30 +64,27 @@ loginBtn.addEventListener('click', () =>{
                     sessionStorage.ID_USUARIO = json.id;
                     sessionStorage.FK_EMPRESA = json.fk_empresa;
                     sessionStorage.FK_CARGO = json.fk_cargo;
-                    
-                    setTimeout(function () {
-                        window.location = "../inicio.html";
-                    }, 1000);
+
+                    agendarToast(`Bem-vindo(a), ${json.nome}!`, "sucesso");
+                    window.location = "../inicio.html";
                 });
             } else {
-                alert("Houve um erro ao tentar realizar o login! Verifique suas credenciais.");
+                exibirToast("E-mail ou senha inválidos! Verifique suas credenciais.", "erro");
             }
         }).catch(function (erro) {
             console.log(erro);
+            exibirToast("Falha de comunicação com o servidor.", "erro");
         });
     }
 
     return false;
-    
 }
 
-    function sumirMensagem() {
-        cardErro.style.display = "none"
-    }
+function sumirMensagem() {
+    cardErro.style.display = "none";
+}
 
-
-  function cadastrar() {
-   
+function cadastrar() {
     var nomeVar = input_nome.value.trim();
     var emailVar = input_email_cadastro.value.trim();
     var senhaVar = input_senha_cadastro.value.trim();
@@ -107,7 +99,6 @@ loginBtn.addEventListener('click', () =>{
     let possuiCaracEspecial = false;
     let ax_erro = false;
 
-    // Elementos de validação
     var validacao_nome = document.getElementById("validacao_nome");
     var validacao_email = document.getElementById("validacao_email");
     var validacao_senha = document.getElementById("validacao_senha");
@@ -118,7 +109,6 @@ loginBtn.addEventListener('click', () =>{
     if (validacao_senha) validacao_senha.style.display = "none";
     if (validacao_confSenha) validacao_confSenha.style.display = "none";
 
-    // Validação Nome
     if (nomeVar == '') {
         if (validacao_nome) {
             validacao_nome.innerHTML = "Campo Obrigatório";
@@ -127,7 +117,6 @@ loginBtn.addEventListener('click', () =>{
         ax_erro = true;
     }
 
-    // Validação Email
     if (emailVar == '') {
         if (validacao_email) {
             validacao_email.innerHTML = "Campo Obrigatório";
@@ -142,7 +131,6 @@ loginBtn.addEventListener('click', () =>{
         ax_erro = true;
     }
 
-    // Validação Senha
     for (let ind = 0; ind < senhaVar.length; ind++) {
         let caracAtual = senhaVar[ind];
 
@@ -179,7 +167,6 @@ loginBtn.addEventListener('click', () =>{
         ax_erro = true;
     }
 
-    // Validação Confirmação de Senha
     if (confSenhaVar == '') {
         if (validacao_confSenha) {
             validacao_confSenha.innerHTML = "Campo Obrigatório";
@@ -194,7 +181,6 @@ loginBtn.addEventListener('click', () =>{
         ax_erro = true;
     }
 
-    // Envio para API caso não existam erros
     if (ax_erro == false) {
         fetch("/usuarios/cadastrar", {
             method: "POST",
@@ -211,20 +197,20 @@ loginBtn.addEventListener('click', () =>{
             })
         }).then(function (resposta) {
             if (resposta.ok) {
-                alert("Cadastro realizado com sucesso! Faça seu login.");
+                exibirToast("Cadastro realizado com sucesso! Faça seu login.", "sucesso");
                 input_nome.value = "";
                 input_email_cadastro.value = "";
                 input_senha_cadastro.value = "";
                 input_senha_confirmada.value = "";
                 container.classList.remove("active");
             } else {
-                alert("Houve um erro ao tentar realizar o cadastro!");
+                exibirToast("Houve um erro ao tentar realizar o cadastro!", "erro");
             }
         }).catch(function (erro) {
             console.log("#ERRO: ", erro);
+            exibirToast("Falha de comunicação com o servidor.", "erro");
         });
     }
 
     return false;
-    
 }

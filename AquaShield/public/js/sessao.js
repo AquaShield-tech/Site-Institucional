@@ -4,8 +4,8 @@ function validarSessao() {
     var nomeUsuario = sessionStorage.NOME_USUARIO;
 
     if (!fkCargo) {
-        alert("Permissão negada!");
-        window.location.replace("inicio.html");
+        agendarToast("Sessão expirada ou acesso negado! Faça login.", "alerta");
+        window.location.replace("login.html");
     } else {
         var elementUsuario = document.getElementById("b_usuario");
         if (elementUsuario && nomeUsuario) {
@@ -19,7 +19,7 @@ function validarSessao() {
             elementCargo.innerHTML = "Gestor";
         } else if (fkCargo == "2") {
             elementCargo.innerHTML = "Analista";
-        } else if(fkCargo == "3"){
+        } else if (fkCargo == "3") {
             elementCargo.innerHTML = "Operador";
         }
     }
@@ -27,29 +27,29 @@ function validarSessao() {
 
 function limparSessao() {
     sessionStorage.clear();
+    agendarToast("Sessão encerrada.", "sucesso");
     window.location = "../login.html";
 }
 
 function deslogar() {
     sessionStorage.clear();
-    alert("Sessão encerrada com sucesso.");
+    agendarToast("Sessão encerrada com sucesso.", "sucesso");
     window.location = "index.html";
 }
 
 // carregamento (loading)
 function aguardar() {
     var divAguardar = document.getElementById("div_aguardar");
-    divAguardar.style.display = "flex";
+    if (divAguardar) divAguardar.style.display = "flex";
 }
 
 function finalizarAguardar(texto) {
     var divAguardar = document.getElementById("div_aguardar");
-    divAguardar.style.display = "none";
+    if (divAguardar) divAguardar.style.display = "none";
 
     var divErrosLogin = document.getElementById("div_erros_login");
-    if (texto) {
+    if (divErrosLogin && texto) {
         divErrosLogin.style.display = "flex";
         divErrosLogin.innerHTML = texto;
     }
 }
-

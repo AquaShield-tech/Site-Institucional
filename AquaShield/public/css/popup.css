@@ -1,91 +1,203 @@
-.fundo-popup {
-    display: none;
+/*toast de notificacao*/
+.aqua-toast-container {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(8, 38, 58, 0.55);
-    justify-content: center;
-    align-items: center;
+    bottom: 24px;
+    right: 24px;
     z-index: 9999;
-    font-family: 'Montserrat', 'Poppins', sans-serif;
-}
-
-.caixa-popup {
-    background-color: #ffffff;
-    border-radius: 16px;
-    padding: 32px 28px;
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
-}
-
-.caixa-popup i {
-    font-size: 46px;
-    display: block;
-    margin-bottom: 12px;
-}
-
-.icone-sucesso {
-    color: #0088a9;
-}
-
-.icone-erro {
-    color: #d64545;
-}
-
-.icone-alerta {
-    color: #d64545;
-}
-
-.caixa-popup h2 {
-    color: #08263a;
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 8px;
-}
-
-.caixa-popup p {
-    color: #6b7c8c;
-    font-size: 14px;
-    line-height: 1.5;
-    margin-bottom: 24px;
-}
-
-.botoes-popup {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     gap: 12px;
+    pointer-events: none;
 }
 
-.botoes-popup button {
-    padding: 10px 24px;
-    border: none;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    cursor: pointer;
+.aqua-toast {
+    pointer-events: auto;
+    position: relative;
+    overflow: hidden;
+    min-width: 310px;
+    max-width: 420px;
+    background-color: #ffffff;
+    border-radius: 6px;
+    padding: 16px 22px 20px 18px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: 'Inter', sans-serif;
+    animation: toastEntrarEsquerda 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.aqua-toast.saindo {
+    animation: toastSair 0.3s ease forwards;
+}
+
+.aqua-toast-icone {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #ffffff;
+}
+
+.aqua-toast.sucesso .aqua-toast-icone {
+    background-color: #1b7a1e;
+}
+
+.aqua-toast.erro .aqua-toast-icone {
+    background-color: #dc2626;
+}
+
+.aqua-toast.alerta .aqua-toast-icone {
+    background-color: #f59e0b;
+}
+
+.aqua-toast-texto {
+    color: #1e293b;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.aqua-toast-barra {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 5px;
+    width: 100%;
+    animation: diminuirBarra 3.5s linear forwards;
+}
+
+.aqua-toast.sucesso .aqua-toast-barra {
+    background-color: #1b7a1e;
+}
+
+.aqua-toast.erro .aqua-toast-barra {
+    background-color: #dc2626;
+}
+
+.aqua-toast.alerta .aqua-toast-barra {
+    background-color: #f59e0b;
+}
+
+@keyframes toastEntrarEsquerda {
+    from {
+        opacity: 0;
+        transform: translateX(-45px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes toastSair {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(25px);
+    }
+}
+
+@keyframes diminuirBarra {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0%;
+    }
+}
+
+/*toast de confirmacao*/
+.aqua-modal-fundo {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background-color: rgba(15, 23, 42, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
     transition: opacity 0.2s ease;
 }
 
-.botoes-popup button:hover {
-    opacity: 0.9;
+.aqua-modal-fundo.ativo {
+    opacity: 1;
 }
 
-.btn-popup-confirmar {
-    background-color: #0088a9;
+.aqua-modal-caixa {
+    background-color: #ffffff;
+    width: 90%;
+    max-width: 420px;
+    border-radius: 8px;
+    padding: 26px 28px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+    font-family: 'Inter', sans-serif;
+    transform: scale(0.7);
+    opacity: 0;
+    transition: transform 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.15), opacity 0.2s ease;
+}
+
+.aqua-modal-fundo.ativo .aqua-modal-caixa {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.aqua-modal-titulo {
+    margin: 0 0 12px 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 22px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.aqua-modal-desc {
+    margin: 0 0 24px 0;
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.5;
+}
+
+.aqua-modal-botoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.aqua-btn-cancelar {
+    background-color: #333333;
     color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-.btn-popup-excluir {
-    background-color: #d64545;
+.aqua-btn-cancelar:hover {
+    background-color: #1f1f1f;
+}
+
+.aqua-btn-confirmar {
+    background-color: #dc2626;
     color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-.btn-popup-cancelar {
-    background-color: #e6edf3;
-    color: #08263a;
+.aqua-btn-confirmar:hover {
+    background-color: #b91c1c;
 }
