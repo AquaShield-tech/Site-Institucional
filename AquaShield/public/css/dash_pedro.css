@@ -312,6 +312,9 @@ input[type="radio"],
     .previsao-corpo { flex-direction: column; }
     .aviso { width: 100%; }
 }
+
+/* responsividade */
+
 @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; }
-}
+} 
