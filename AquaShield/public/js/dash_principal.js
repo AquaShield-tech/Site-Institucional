@@ -28,7 +28,7 @@ function carregarUsuario() {
 
 function deslogar() {
     sessionStorage.clear();
-    alert("Sessão encerrada com sucesso.");
+    agendarToast("Sessão encerrada com sucesso.", "sucesso");
     window.location = "index.html";
 }
 
