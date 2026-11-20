@@ -1,35 +1,37 @@
 var database = require("../database/config");
 
-// Altere aqui quando mudar de teste (RAM) para produção (Armazenamento)
-const LIMITE_FALHA = 80;
-const TIPO_MONITORADO = 'Memoria RAM';
+// Altere aqui quando mudar de teste ('RAM') para produção ('Disco')
+const LIMITE_FALHA = 75;
+const TIPO_MONITORADO = 'RAM';
 
 function buscarKpis(idEmpresa) {
     var instrucaoSql = `
         SELECT
             (
                 SELECT COUNT(DISTINCT l.configuracao_fk_maquina)
-                FROM Leitura l
-                JOIN Componente comp     ON comp.id = l.configuracao_fk_componente
-                JOIN Tipo_Componente tc  ON tc.id   = comp.fk_tipoComponente
-                JOIN Maquina m           ON m.id    = l.configuracao_fk_maquina
-                JOIN ETA e               ON e.id    = m.fk_eta
-                JOIN CCO c               ON c.id    = e.fk_cco
+                FROM leitura l
+                JOIN componente comp     ON comp.id = l.configuracao_fk_componente
+                JOIN tipo_componente tc  ON tc.id   = comp.fk_tipoComponente
+                JOIN maquina m           ON m.id    = l.configuracao_fk_maquina
+                JOIN eta e               ON e.id    = m.fk_eta
+                JOIN cco c               ON c.id    = e.fk_cco
                 WHERE c.fk_empresa = ${idEmpresa}
+                  AND m.ativo = 1
                   AND tc.tipo = '${TIPO_MONITORADO}'
                   AND l.valor > ${LIMITE_FALHA}
                   AND l.data_hora >= NOW() - INTERVAL 24 HOUR
             ) AS em_falha,
             (
                 SELECT COUNT(*)
-                FROM Configuracao cfg
-                JOIN Componente comp     ON comp.id = cfg.fk_componente
-                JOIN Tipo_Componente tc  ON tc.id   = comp.fk_tipoComponente
-                JOIN Status_Maquina s    ON s.id    = cfg.fk_statusMaquina
-                JOIN Maquina m           ON m.id    = cfg.fk_maquina
-                JOIN ETA e               ON e.id    = m.fk_eta
-                JOIN CCO c               ON c.id    = e.fk_cco
+                FROM configuracao cfg
+                JOIN componente comp     ON comp.id = cfg.fk_componente
+                JOIN tipo_componente tc  ON tc.id   = comp.fk_tipoComponente
+                JOIN status_maquina s    ON s.id    = cfg.fk_statusMaquina
+                JOIN maquina m           ON m.id    = cfg.fk_maquina
+                JOIN eta e               ON e.id    = m.fk_eta
+                JOIN cco c               ON c.id    = e.fk_cco
                 WHERE c.fk_empresa = ${idEmpresa}
+                  AND m.ativo = 1
                   AND tc.tipo = '${TIPO_MONITORADO}'
                   AND s.estado = 'Ativo'
             ) AS total_ativos;
@@ -47,13 +49,14 @@ function buscarFalhas24h(idEmpresa) {
                        PARTITION BY l.configuracao_fk_maquina, l.configuracao_fk_componente
                        ORDER BY l.data_hora
                    ) AS valor_anterior
-            FROM Leitura l
-            JOIN Componente comp     ON comp.id = l.configuracao_fk_componente
-            JOIN Tipo_Componente tc  ON tc.id   = comp.fk_tipoComponente
-            JOIN Maquina m           ON m.id    = l.configuracao_fk_maquina
-            JOIN ETA e               ON e.id    = m.fk_eta
-            JOIN CCO c               ON c.id    = e.fk_cco
+            FROM leitura l
+            JOIN componente comp     ON comp.id = l.configuracao_fk_componente
+            JOIN tipo_componente tc  ON tc.id   = comp.fk_tipoComponente
+            JOIN maquina m           ON m.id    = l.configuracao_fk_maquina
+            JOIN eta e               ON e.id    = m.fk_eta
+            JOIN cco c               ON c.id    = e.fk_cco
             WHERE c.fk_empresa = ${idEmpresa}
+              AND m.ativo = 1
               AND tc.tipo = '${TIPO_MONITORADO}'
         )
         SELECT DATE_FORMAT(data_hora, '%Hh') AS label, COUNT(*) AS falhas
@@ -78,13 +81,14 @@ function buscarFalhasDias(idEmpresa, dias) {
                        PARTITION BY l.configuracao_fk_maquina, l.configuracao_fk_componente
                        ORDER BY l.data_hora
                    ) AS valor_anterior
-            FROM Leitura l
-            JOIN Componente comp     ON comp.id = l.configuracao_fk_componente
-            JOIN Tipo_Componente tc  ON tc.id   = comp.fk_tipoComponente
-            JOIN Maquina m           ON m.id    = l.configuracao_fk_maquina
-            JOIN ETA e               ON e.id    = m.fk_eta
-            JOIN CCO c               ON c.id    = e.fk_cco
+            FROM leitura l
+            JOIN componente comp     ON comp.id = l.configuracao_fk_componente
+            JOIN tipo_componente tc  ON tc.id   = comp.fk_tipoComponente
+            JOIN maquina m           ON m.id    = l.configuracao_fk_maquina
+            JOIN eta e               ON e.id    = m.fk_eta
+            JOIN cco c               ON c.id    = e.fk_cco
             WHERE c.fk_empresa = ${idEmpresa}
+              AND m.ativo = 1
               AND tc.tipo = '${TIPO_MONITORADO}'
         )
         SELECT DATE_FORMAT(data_hora, '%d/%m') AS label, COUNT(*) AS falhas
