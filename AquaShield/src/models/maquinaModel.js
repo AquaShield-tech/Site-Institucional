@@ -14,8 +14,8 @@ function cadastrar(hostname, macAddress, so, verSO, fkEta) {
 function cadastrarComponente(valorMaximo, fkTipoComponente, valorLimitePadrao) {
     var instrucaoSql = `
         INSERT INTO componente (valor_maximo, fk_tipoComponente, fk_definicaoAlerta)
-        VALUES (${valorMaximo},${fkTipoComponente},
-            (SELECT id FROM definicao_alerta WHERE valor_limite = ${valorLimitePadrao} LIMIT 1)
+        VALUES (${valorMaximo}, ${fkTipoComponente},
+            (SELECT id FROM definicao_alerta WHERE valor_limite = ${valorLimitePadrao} AND fk_alerta_descricao = 1 LIMIT 1)
         );
     `;
 
@@ -33,11 +33,10 @@ function cadastrarConfiguracao(fkMaquina, fkComponente, fkStatusMaquina) {
     return database.executar(instrucaoSql);
 }
 
-
 function buscarKpis(idEmpresa) {
     var instrucaoSql = `
         SELECT
-        -- Total de maquinas
+            -- Total de maquinas
             (
                 SELECT COUNT(DISTINCT m.id)
                 FROM maquina m
@@ -45,6 +44,7 @@ function buscarKpis(idEmpresa) {
                 JOIN cco c ON e.fk_cco = c.id
                 WHERE c.fk_empresa = ${idEmpresa}
                   AND m.ativo = 1
+                  AND c.ativo = 1
             ) AS total_maquinas,
             -- Maquinas ativas 
             (
@@ -56,6 +56,7 @@ function buscarKpis(idEmpresa) {
                 JOIN status_maquina sm ON cfg.fk_statusMaquina = sm.id
                 WHERE c.fk_empresa = ${idEmpresa}
                   AND m.ativo = 1
+                  AND c.ativo = 1
                   AND LOWER(sm.estado) NOT IN ('desconectada', 'inativa', 'offline')
             ) AS maquinas_ativas,
             -- Pico CPU 
@@ -69,6 +70,7 @@ function buscarKpis(idEmpresa) {
                 JOIN cco c ON e.fk_cco = c.id
                 WHERE c.fk_empresa = ${idEmpresa}
                   AND m.ativo = 1
+                  AND c.ativo = 1
                   AND UPPER(tc.tipo) LIKE '%CPU%'
                   AND l.data_hora >= NOW() - INTERVAL 30 DAY
             ) AS pico_cpu,
@@ -83,6 +85,7 @@ function buscarKpis(idEmpresa) {
                 JOIN cco c ON e.fk_cco = c.id
                 WHERE c.fk_empresa = ${idEmpresa}
                   AND m.ativo = 1
+                  AND c.ativo = 1
                   AND UPPER(tc.tipo) LIKE '%RAM%'
                   AND l.data_hora >= NOW() - INTERVAL 30 DAY
             ) AS pico_ram;
@@ -108,7 +111,7 @@ function listar(idEmpresa) {
                 ORDER BY l.data_hora DESC
                 LIMIT 1
             ) AS uso_cpu,
-            -- Limiete para cpu  
+            -- Limite para cpu  
             (
                 SELECT da.valor_limite
                 FROM configuracao cfg
@@ -160,6 +163,7 @@ function listar(idEmpresa) {
         JOIN cco c ON e.fk_cco = c.id
         WHERE c.fk_empresa = ${idEmpresa}
           AND m.ativo = 1
+          AND c.ativo = 1
         ORDER BY m.id ASC;
     `;
 
@@ -209,8 +213,8 @@ function buscarTempoReal(idMaquina) {
     return database.executar(instrucaoSql);
 }
 
-module.exports = { 
-    cadastrar, 
+module.exports = {
+    cadastrar,
     cadastrarComponente,
     cadastrarConfiguracao,
     listar,

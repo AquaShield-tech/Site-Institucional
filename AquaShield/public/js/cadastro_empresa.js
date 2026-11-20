@@ -108,7 +108,6 @@ function cadastrarEmpresa() {
         ax_erro = true;
     }
 
-    // Requisição Fetch para o Backend (Apenas dados de Empresa e Gestor)
     if (ax_erro == false) {
         fetch("/empresas/cadastrar", {
             method: "POST",
@@ -126,15 +125,18 @@ function cadastrarEmpresa() {
             })
         }).then(function (resposta) {
             if (resposta.ok) {
-                alert("Empresa e Gestor cadastrados com sucesso!");
-                setTimeout(function () {
-                    window.location = "login.html";
-                }, 1000);
+                agendarToast("Empresa e Gestor cadastrados com sucesso!", "sucesso");
+                window.location = "login.html";
             } else {
-                alert("Houve um erro ao realizar o cadastro!");
+                resposta.json().then(function (erroJson) {
+                    exibirToast(erroJson.mensagem || "Houve um erro ao realizar o cadastro!", "erro");
+                }).catch(function () {
+                    exibirToast("Houve um erro ao realizar o cadastro!", "erro");
+                });
             }
         }).catch(function (erro) {
             console.log("#ERRO: ", erro);
+            exibirToast("Falha de comunicação com o servidor.", "erro");
         });
     }
 }

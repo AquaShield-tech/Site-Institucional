@@ -75,16 +75,15 @@ function entrar() {
                     sessionStorage.FK_EMPRESA = json.fk_empresa;
                     sessionStorage.FK_CARGO = json.fk_cargo;
 
-                    setTimeout(function () {
-                        window.location = "../inicio.html";
-                    }, 1000);
+                    agendarToast(`Bem-vindo(a), ${json.nome}!`, "sucesso");
+                    window.location = "../inicio.html";
                 });
             } else {
-                alert("Houve um erro ao tentar realizar o login! Verifique suas credenciais.");
+                exibirToast("E-mail ou senha inválidos! Verifique suas credenciais.", "erro");
             }
         }).catch(function (erro) {
-            console.log("#ERRO: ", erro);
-            alert("Não foi possível conectar ao servidor. Tente novamente mais tarde.");
+            console.log(erro);
+            exibirToast("Falha de comunicação com o servidor.", "erro");
         });
     }
 
@@ -96,7 +95,6 @@ function sumirMensagem() {
 }
 
 function cadastrar() {
-
     var nomeVar = input_nome.value.trim();
     var emailVar = input_email_cadastro.value.trim();
     var senhaVar = input_senha_cadastro.value.trim();
@@ -111,7 +109,6 @@ function cadastrar() {
     let possuiCaracEspecial = false;
     let ax_erro = false;
 
-    // Elementos de validação
     var validacao_nome = document.getElementById("validacao_nome");
     var validacao_email = document.getElementById("validacao_email");
     var validacao_senha = document.getElementById("validacao_senha");
@@ -122,7 +119,6 @@ function cadastrar() {
     if (validacao_senha) validacao_senha.style.display = "none";
     if (validacao_confSenha) validacao_confSenha.style.display = "none";
 
-    // Validação Nome
     if (nomeVar == '') {
         if (validacao_nome) {
             validacao_nome.innerHTML = "Campo Obrigatório";
@@ -131,7 +127,6 @@ function cadastrar() {
         ax_erro = true;
     }
 
-    // Validação Email
     if (emailVar == '') {
         if (validacao_email) {
             validacao_email.innerHTML = "Campo Obrigatório";
@@ -146,7 +141,6 @@ function cadastrar() {
         ax_erro = true;
     }
 
-    // Validação Senha
     for (let ind = 0; ind < senhaVar.length; ind++) {
         let caracAtual = senhaVar[ind];
 
@@ -183,7 +177,6 @@ function cadastrar() {
         ax_erro = true;
     }
 
-    // Validação Confirmação de Senha
     if (confSenhaVar == '') {
         if (validacao_confSenha) {
             validacao_confSenha.innerHTML = "Campo Obrigatório";
@@ -198,7 +191,6 @@ function cadastrar() {
         ax_erro = true;
     }
 
-    // Envio para API caso não existam erros
     if (ax_erro == false) {
         fetch("/usuarios/cadastrar", {
             method: "POST",
@@ -215,18 +207,18 @@ function cadastrar() {
             })
         }).then(function (resposta) {
             if (resposta.ok) {
-                alert("Cadastro realizado com sucesso! Faça seu login.");
+                exibirToast("Cadastro realizado com sucesso! Faça seu login.", "sucesso");
                 input_nome.value = "";
                 input_email_cadastro.value = "";
                 input_senha_cadastro.value = "";
                 input_senha_confirmada.value = "";
                 container.classList.remove("active");
             } else {
-                alert("Houve um erro ao tentar realizar o cadastro!");
+                exibirToast("Houve um erro ao tentar realizar o cadastro!", "erro");
             }
         }).catch(function (erro) {
             console.log("#ERRO: ", erro);
-            alert("Não foi possível conectar ao servidor. Tente novamente mais tarde.");
+            exibirToast("Falha de comunicação com o servidor.", "erro");
         });
     }
 

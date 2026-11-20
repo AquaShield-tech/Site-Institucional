@@ -46,6 +46,8 @@ function cadastrarGestor(nome, email, senha, fkEmpresa, fkCargo) {
 }
 
 module.exports = {
+    buscarPorId,
+    listar,
     buscarPorCnpj,
     cadastrarEmpresa,
     cadastrarCco,

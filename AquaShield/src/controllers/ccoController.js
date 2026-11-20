@@ -20,7 +20,96 @@ function cadastrar(req, res) {
     } else {
         ccoModel.cadastrar(nome, pais, cep, uf, fkEmpresa)
             .then(function (resultado) {
-                res.status(201).json(resultado);
+                return ccoModel.cadastrarEta(pais, uf, cep, resultado.insertId)
+                    .then(function () {
+                        res.status(201).json(resultado);
+                    });
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
+function listar(req, res) {
+    var idEmpresa = req.params.idEmpresa;
+
+    if (idEmpresa == undefined) {
+        res.status(400).send("O idEmpresa está undefined!");
+    } else {
+        ccoModel.listar(idEmpresa)
+            .then(function (resultado) {
+                res.status(200).json(resultado);
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
+function editar(req, res) {
+    var idCco = req.params.idCco;
+    var nome = req.body.nomeServer;
+    var pais = req.body.paisServer;
+    var cep = req.body.cepServer;
+    var uf = req.body.ufServer;
+
+    if (idCco == undefined) {
+        res.status(400).send("O idCco está undefined!");
+    } else if (nome == undefined || pais == undefined || cep == undefined || uf == undefined) {
+        res.status(400).send("Campos obrigatórios estão undefined!");
+    } else {
+        ccoModel.editar(idCco, nome, pais, cep, uf)
+            .then(function (resultado) {
+                res.status(200).json(resultado);
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
+function excluir(req, res) {
+    var idCco = req.params.idCco;
+
+    if (idCco == undefined) {
+        res.status(400).send("O idCco está undefined!");
+    } else {
+        ccoModel.verificarMaquinasAtivas(idCco)
+            .then(function (resultado) {
+                var qtdMaquinas = resultado[0].qtd_maquinas;
+
+                if (qtdMaquinas > 0) {
+                    res.status(400).send("Não é possível excluir este CCO pois existem máquinas ativas vinculadas a ele.");
+                    return null;
+                }
+
+                return ccoModel.excluir(idCco);
+            })
+            .then(function (resultadoExclusao) {
+                if (resultadoExclusao) {
+                    res.status(200).json(resultadoExclusao);
+                }
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
+function listarEtas(req, res) {
+    var idEmpresa = req.params.idEmpresa;
+
+    if (idEmpresa == undefined) {
+        res.status(400).send("O idEmpresa está undefined!");
+    } else {
+        ccoModel.listarEtas(idEmpresa)
+            .then(function (resultado) {
+                res.status(200).json(resultado);
             })
             .catch(function (erro) {
                 console.log(erro);
@@ -30,5 +119,9 @@ function cadastrar(req, res) {
 }
 
 module.exports = {
-    cadastrar
+    cadastrar,
+    listar,
+    editar,
+    excluir,
+    listarEtas
 };

@@ -1,4 +1,5 @@
 var maquinaModel = require("../models/maquinaModel");
+var historicoModel = require("../models/historicoModel");
 
 function cadastrar(req, res) {
     var hostname = req.body.hostnameServer;
@@ -121,6 +122,9 @@ function buscarTempoReal(req, res) {
 function editar(req, res) {
     var idMaquina = req.params.idMaquina;
     var hostname = req.body.hostnameServer;
+    var idUsuario = req.body.idUsuarioServer;
+    var descricao = req.body.descricaoServer || "Atualização de dados da máquina";
+    var componente = req.body.componenteServer || "-";
 
     if (idMaquina == undefined) {
         res.status(400).send("Seu idMaquina está undefined!");
@@ -129,6 +133,12 @@ function editar(req, res) {
     } else {
         maquinaModel.editar(idMaquina, hostname.trim())
             .then(function (resultado) {
+                if (idUsuario) {
+                    return historicoModel.registrar("ATUALIZAÇÃO", descricao, componente, idMaquina, idUsuario)
+                        .then(function () {
+                            res.status(200).json(resultado);
+                        });
+                }
                 res.status(200).json(resultado);
             })
             .catch(function (erro) {
@@ -141,12 +151,20 @@ function editar(req, res) {
 
 function excluir(req, res) {
     var idMaquina = req.params.idMaquina;
+    var idUsuario = req.body.idUsuarioServer;
+    var descricao = req.body.descricaoServer || "Exclusão da máquina";
 
     if (idMaquina == undefined) {
         res.status(400).send("Seu idMaquina está undefined!");
     } else {
         maquinaModel.excluir(idMaquina)
             .then(function (resultado) {
+                if (idUsuario) {
+                    return historicoModel.registrar("EXCLUSÃO", descricao, "-", idMaquina, idUsuario)
+                        .then(function () {
+                            res.status(200).json(resultado);
+                        });
+                }
                 res.status(200).json(resultado);
             })
             .catch(function (erro) {

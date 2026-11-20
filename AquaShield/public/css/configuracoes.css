@@ -355,6 +355,18 @@ input[type="radio"],
     background-color: #d4eaf0;
 }
 
+.campo-porcentagem input {
+    padding: 0 4px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.campo-porcentagem input::-webkit-outer-spin-button,
+.campo-porcentagem input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 /* Resposividade para telas até 768px */
 @media (max-width: 768px) {
     body {
