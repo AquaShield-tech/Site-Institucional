@@ -47,39 +47,43 @@ function aplicar(req, res) {
         return;
     }
 
+    // cpu
     obterOuCriarDefinicao(cpuAtencao, 1)
-        .then(function (idDefCpu) {
-            return configuracaoModel.aplicarGlobalComponente(idEmpresa, 1, idDefCpu);
+        .then(function (idCpuAtencao) {
+            return obterOuCriarDefinicao(cpuCritico, 2)
+                .then(function (idCpuCritico) {
+                    return configuracaoModel.aplicarGlobalComponente(idEmpresa, 1, idCpuAtencao, idCpuCritico);
+                });
         })
+    // ram
         .then(function () {
-            return obterOuCriarDefinicao(cpuCritico, 2);
+            return obterOuCriarDefinicao(ramAtencao, 1)
+                .then(function (idRamAtencao) {
+                    return obterOuCriarDefinicao(ramCritico, 2)
+                        .then(function (idRamCritico) {
+                            return configuracaoModel.aplicarGlobalComponente(idEmpresa, 2, idRamAtencao, idRamCritico);
+                        });
+                });
         })
+    // disco
         .then(function () {
-            return obterOuCriarDefinicao(ramAtencao, 1);
+            return obterOuCriarDefinicao(discoAtencao, 1)
+                .then(function (idDiscoAtencao) {
+                    return obterOuCriarDefinicao(discoCritico, 2)
+                        .then(function (idDiscoCritico) {
+                            return configuracaoModel.aplicarGlobalComponente(idEmpresa, 3, idDiscoAtencao, idDiscoCritico);
+                        });
+                });
         })
-        .then(function (idDefRam) {
-            return configuracaoModel.aplicarGlobalComponente(idEmpresa, 2, idDefRam);
-        })
+    // rede
         .then(function () {
-            return obterOuCriarDefinicao(ramCritico, 2);
-        })
-        .then(function () {
-            return obterOuCriarDefinicao(discoAtencao, 1);
-        })
-        .then(function (idDefDisco) {
-            return configuracaoModel.aplicarGlobalComponente(idEmpresa, 3, idDefDisco);
-        })
-        .then(function () {
-            return obterOuCriarDefinicao(discoCritico, 2);
-        })
-        .then(function () {
-            return obterOuCriarDefinicao(redeAtencao, 1);
-        })
-        .then(function (idDefRede) {
-            return configuracaoModel.aplicarGlobalComponente(idEmpresa, 4, idDefRede);
-        })
-        .then(function () {
-            return obterOuCriarDefinicao(redeCritico, 2);
+            return obterOuCriarDefinicao(redeAtencao, 1)
+                .then(function (idRedeAtencao) {
+                    return obterOuCriarDefinicao(redeCritico, 2)
+                        .then(function (idRedeCritico) {
+                            return configuracaoModel.aplicarGlobalComponente(idEmpresa, 4, idRedeAtencao, idRedeCritico);
+                        });
+                });
         })
         .then(function () {
             res.status(200).send("Configurações aplicadas com sucesso!");

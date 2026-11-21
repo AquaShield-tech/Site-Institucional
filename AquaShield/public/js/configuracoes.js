@@ -35,13 +35,21 @@ function carregarConfiguracoes() {
                 resposta.json().then(function (atuais) {
                     for (var i = 0; i < atuais.length; i++) {
                         var item = atuais[i];
-                        var valor = Number(item.limite_atencao);
+                        var valorAtencao = Number(item.limite_atencao);
+                        var valorCritico = Number(item.limite_critico);
 
-                        if (valor > 0) {
-                            if (item.fk_tipo == 1) document.getElementById("cpu_atencao").value = valor;
-                            if (item.fk_tipo == 2) document.getElementById("ram_atencao").value = valor;
-                            if (item.fk_tipo == 3) document.getElementById("disco_atencao").value = valor;
-                            if (item.fk_tipo == 4) document.getElementById("rede_atencao").value = valor;
+                        if (valorAtencao > 0) {
+                            if (item.fk_tipo == 1) document.getElementById("cpu_atencao").value = valorAtencao;
+                            if (item.fk_tipo == 2) document.getElementById("ram_atencao").value = valorAtencao;
+                            if (item.fk_tipo == 3) document.getElementById("disco_atencao").value = valorAtencao;
+                            if (item.fk_tipo == 4) document.getElementById("rede_atencao").value = valorAtencao;
+                        }
+
+                        if (valorCritico > 0) {
+                            if (item.fk_tipo == 1) document.getElementById("cpu_critico").value = valorCritico;
+                            if (item.fk_tipo == 2) document.getElementById("ram_critico").value = valorCritico;
+                            if (item.fk_tipo == 3) document.getElementById("disco_critico").value = valorCritico;
+                            if (item.fk_tipo == 4) document.getElementById("rede_critico").value = valorCritico;
                         }
                     }
                 });
