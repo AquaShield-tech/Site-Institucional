@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saúde da Conexão | AquaShield</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./css/popup.css">
+    <link rel="stylesheet" href="./css/dash_rede.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js" defer></script>
+    <script src="./js/popup.js" defer></script>
+    <script src="./js/sessao.js" defer></script>
+    <script src="./js/dash_rede.js" defer></script>
+</head>
+
+<body onload="validarSessao()">
+    <input type="checkbox" id="control-menu">
+
+    <nav class="sidebar">
+        <label for="control-menu" class="btn-menu"><i class="bi bi-list"></i></label>
+        <div class="menu_icones">
+            <ul>
+                <li><a href="inicio.html"><i class="bi bi-house"></i><span>Início</span></a></li>
+                <li><a href="dash_principal.html"><i class="bi bi-grid"></i><span>Visão geral</span></a></li>
+                <li><a href="maquinas.html"><i class="bi bi-display"></i><span>Máquinas</span></a></li>
+                <li class="ativo"><a href="especificacoes.html"><i class="bi bi-motherboard"></i><span>Especificações</span></a></li>
+                <li><a href="suporte.html"><i class="bi bi-question-circle"></i><span>Suporte</span></a></li>
+                <li class="somente-gestor"><a href="funcionario.html"><i class="bi bi-person-plus"></i><span>Cadastro de funcionário</span></a></li>
+                <li class="somente-gestor"><a href="cadastro_cco.html"><i class="bi bi-building-add"></i><span>Cadastro de CCO</span></a></li>
+                <li><a href="historico.html"><i class="bi bi-clock-history"></i><span>Histórico</span></a></li>
+                <li class="somente-gestor"><a href="configuracoes.html"><i class="bi bi-gear"></i><span>Configurações</span></a></li>
+                <li class="item-sair">
+                    <a href="#" onclick="deslogar()">
+                        <i class="bi bi-box-arrow-left"></i>
+                        <span>Sair da Conta</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="area-direita">
+        <header class="header">
+            <div class="logo"><img src="assets/icon/LOGO .svg" alt="AquaShield"></div>
+            <div class="usuario">
+                <strong id="b_usuario">Nome</strong>
+                <span id="b_cargo">Cargo</span>
+            </div>
+        </header>
+
+        <main class="area-monitoramento">
+            <!-- Cabeçalho da Página -->
+            <div class="titulo-pagina">
+                <div>
+                    <div class="breadcrumb-topo">
+                        <a href="especificacoes.html">Especificações</a>
+                        <i class="bi bi-chevron-right"></i>
+                        <span>INFRAESTRUTURA DE REDE</span>
+                    </div>
+                    <h1>Saúde da conexão</h1>
+                    <p id="subtitulo_maquina">Acompanhe o tráfego, a estabilidade e o comportamento preditivo dos links da estação.</p>
+                </div>
+
+                <div class="seletor-estacao-card">
+                    <div class="seletor-estacao-icone">
+                        <i class="bi bi-hdd-network"></i>
+                    </div>
+                    <div class="seletor-estacao-conteudo">
+                        <span class="seletor-label">Estação monitorada</span>
+                        <select id="select_maquina" class="select-filtro" aria-label="Selecionar estação monitorada">
+                            <option value="1">ETA-SP01 &bull; SCADA01</option>
+                            <option value="2">ETA-SP01 &bull; IHM02</option>
+                            <option value="3">ETA-SP02 &bull; SRV01</option>
+                        </select>
+                    </div>
+                    <i class="bi bi-chevron-down seta-select"></i>
+                </div>
+            </div>
+
+            <div class="conteudo-dash">
+                <!-- Linha 1: 4 KPIs -->
+                <section class="kpis">
+                    <!-- KPI 1 (Hero): Utilização do Link / Uso Atual da Banda -->
+                    <article class="kpi kpi-hero">
+                        <div class="kpi-topo">
+                            <h3>Utilização do link</h3>
+                            <span class="kpi-icone"><i class="bi bi-speedometer2"></i></span>
+                        </div>
+
+                        <div class="kpi-valor-hero">
+                            <strong id="kpi_uso_percentual">72<span class="kpi-simbolo">%</span></strong>
+                        </div>
+
+                        <div class="kpi-meta-hero">
+                            <span id="kpi_uso_mbps"><strong>720 Mbps</strong> de 1 Gbps</span>
+                            <span class="kpi-taxas-hero" id="kpi_taxas_dir">&darr; 510 &bull; &uarr; 210 Mbps</span>
+                        </div>
+
+                        <div class="barra-progresso-hero" aria-hidden="true">
+                            <div class="barra-progresso-fill" id="barra_uso_link" style="width: 72%;"></div>
+                            <span class="marcador-limite" style="left: 85%;" title="Limite recomendado: 85%"></span>
+                        </div>
+
+                        <div class="kpi-escala-hero">
+                            <span>0 Mbps</span>
+                            <span>Limite recomendado: 85%</span>
+                            <span id="kpi_capacidade_label">1 Gbps</span>
+                        </div>
+                    </article>
+
+                    <!-- KPI 2: Latência P95 -->
+                    <article class="kpi">
+                        <div class="kpi-topo">
+                            <h3>Latência P95</h3>
+                            <span class="kpi-icone icone-azul"><i class="bi bi-stopwatch"></i></span>
+                        </div>
+
+                        <div class="kpi-valor">
+                            <strong id="kpi_latencia_p95">18 <span class="kpi-unidade">ms</span></strong>
+                        </div>
+
+                        <div class="kpi-rodape">
+                            <span class="badge-status badge-verde" id="kpi_latencia_status">
+                                <i class="bi bi-check-circle-fill"></i> Dentro do esperado
+                            </span>
+                            <div class="mini-equalizador" title="Pico registrado: 142 ms" aria-hidden="true">
+                                <span style="height: 35%"></span>
+                                <span style="height: 55%"></span>
+                                <span style="height: 45%"></span>
+                                <span style="height: 95%" class="destaque"></span>
+                                <span style="height: 75%" class="destaque"></span>
+                                <span style="height: 50%"></span>
+                                <span style="height: 38%"></span>
+                                <span style="height: 48%"></span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- KPI 3: Perda de Pacotes -->
+                    <article class="kpi">
+                        <div class="kpi-topo">
+                            <h3>Perda de pacotes</h3>
+                            <span class="kpi-icone icone-verde"><i class="bi bi-box-seam"></i></span>
+                        </div>
+
+                        <div class="kpi-valor">
+                            <strong id="kpi_perda_pacotes">0,02 <span class="kpi-unidade">%</span></strong>
+                        </div>
+
+                        <div class="kpi-rodape">
+                            <span class="kpi-subtexto">Meta operacional &lt; 0,5%</span>
+                            <span class="tendencia-ok" id="kpi_perda_status">&searr; Estável</span>
+                        </div>
+                    </article>
+
+                    <!-- KPI 4: Previsão de Saturação do Link -->
+                    <article class="kpi">
+                        <div class="kpi-topo">
+                            <h3>Previsão de saturação</h3>
+                            <span class="kpi-icone icone-amber" title="Tempo estimado para o consumo atingir 100% da capacidade do link com base na regressão linear"><i class="bi bi-hourglass-split"></i></span>
+                        </div>
+
+                        <div class="kpi-valor">
+                            <strong id="kpi_saturacao_dias">19 <span class="kpi-unidade">dias</span></strong>
+                        </div>
+
+                        <div class="kpi-rodape">
+                            <span class="kpi-subtexto" id="kpi_saturacao_taxa">+14,2 Mbps/dia</span>
+                            <span class="tendencia-info" id="kpi_saturacao_r2">&nearr; R² 92,4%</span>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- Linha 2 (2/3 + 1/3): Tráfego de Rede + Integridade do Link -->
+                <section class="grade-assimetrica">
+                    <!-- Esquerda (2/3): Tráfego de Rede -->
+                    <article class="card card-principal">
+                        <header class="card-topo">
+                            <div>
+                                <div class="titulo-com-badge">
+                                    <h2>Tráfego de rede</h2>
+                                    <span class="status-ao-vivo"><span class="ponto-verde"></span> Atualizando</span>
+                                </div>
+                                <p>Vazão de entrada e saída ao longo do tempo</p>
+                            </div>
+
+                            <div class="filtro-periodo" role="group" aria-label="Janela de tempo do tráfego">
+                                <button type="button" class="btn-periodo ativo" data-janela="1h">1h</button>
+                                <button type="button" class="btn-periodo" data-janela="6h">6h</button>
+                                <button type="button" class="btn-periodo" data-janela="24h">24h</button>
+                            </div>
+                        </header>
+
+                        <div class="sub-barra-grafico">
+                            <div class="legenda-inline">
+                                <span><i class="dot dot-entrada"></i> Entrada (Download)</span>
+                                <span><i class="dot dot-saida"></i> Saída (Upload)</span>
+                            </div>
+                            <span class="info-pico">Pico de entrada <strong id="pico_entrada_valor">824 Mbps</strong></span>
+                        </div>
+
+                        <div class="grafico-wrap">
+                            <canvas id="grafico_trafego_rede"></canvas>
+                        </div>
+
+                        <footer class="card-rodape-info">
+                            <span><i class="bi bi-clock"></i> Atualizado agora</span>
+                            <span>Unidade: Mbps</span>
+                        </footer>
+                    </article>
+
+                    <!-- Direita (1/3): Integridade do Link (Donut + Specs da Interface) -->
+                    <article class="card card-lateral">
+                        <header class="card-topo">
+                            <div>
+                                <h2>Integridade do link</h2>
+                                <p>Indicadores de conectividade</p>
+                            </div>
+                            <span class="badge-icone-neutro"><i class="bi bi-shield-check"></i></span>
+                        </header>
+
+                        <div class="bloco-donut-horizontal">
+                            <div class="donut-box">
+                                <canvas id="grafico_integridade_link"></canvas>
+                            </div>
+                            <div class="donut-legenda-lateral">
+                                <div class="status-integridade" id="integridade_status_label">
+                                    <span class="ponto-verde"></span> Excelente
+                                </div>
+                                <p id="integridade_descricao">Conexão estável e dentro dos parâmetros operacionais da ETA.</p>
+                            </div>
+                        </div>
+
+                        <div class="lista-specs-rede">
+                            <div class="spec-linha">
+                                <span class="spec-chave"><i class="bi bi-ethernet"></i> Interface</span>
+                                <strong class="spec-valor" id="spec_interface">Ethernet 1</strong>
+                            </div>
+                            <div class="spec-linha">
+                                <span class="spec-chave"><i class="bi bi-arrow-down-up"></i> Velocidade negociada</span>
+                                <strong class="spec-valor" id="spec_velocidade">1 Gbps</strong>
+                            </div>
+                            <div class="spec-linha">
+                                <span class="spec-chave"><i class="bi bi-activity"></i> Estado do link</span>
+                                <strong class="spec-valor status-conectado" id="spec_estado"><span class="ponto-verde"></span> Conectado</strong>
+                            </div>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- Linha 3 (2/3 + 1/3): Dispersão Latência vs. Carga + Eventos Recentes -->
+                <section class="grade-assimetrica">
+                    <!-- Esquerda (2/3): Opção B — Dispersão Latência (ms) vs. Carga de Rede -->
+                    <article class="card card-principal">
+                        <header class="card-topo">
+                            <div>
+                                <div class="titulo-com-badge">
+                                    <h2>Latência (ms) vs. Carga de rede</h2>
+                                    <span class="badge-sensibilidade" id="badge_sensibilidade">+2,4 ms / 100 Mbps</span>
+                                </div>
+                                <p>Dispersão das medições simultâneas com reta de tendência linear</p>
+                            </div>
+
+                            <div class="filtro-periodo" role="group" aria-label="Alternar variável do eixo X">
+                                <button type="button" class="btn-eixo ativo" data-eixo="vazao">Vazão (Mbps)</button>
+                                <button type="button" class="btn-eixo" data-eixo="pacote">Pacote (KB)</button>
+                            </div>
+                        </header>
+
+                        <div class="grafico-wrap grafico-wrap-inferior">
+                            <canvas id="grafico_dispersao_latencia"></canvas>
+                        </div>
+
+                        <footer class="card-rodape-info">
+                            <span><i class="bi bi-info-circle"></i> A reta tracejada indica a sensibilidade da latência conforme o aumento da carga.</span>
+                            <span id="pico_latencia_dispersao">Pico: 142 ms</span>
+                        </footer>
+                    </article>
+
+                    <!-- Direita (1/3): Eventos Recentes -->
+                    <article class="card card-lateral">
+                        <header class="card-topo">
+                            <div>
+                                <h2>Eventos recentes</h2>
+                                <p>Atividade registrada nesta estação</p>
+                            </div>
+                            <a href="historico.html" class="link-ver-historico">Ver histórico <i class="bi bi-arrow-up-right"></i></a>
+                        </header>
+
+                        <div class="lista-eventos" id="lista_eventos_rede">
+                            <div class="evento-item">
+                                <div class="evento-icone ok"><i class="bi bi-check-lg"></i></div>
+                                <div class="evento-info">
+                                    <strong>Link estável</strong>
+                                    <span>Conectividade normalizada</span>
+                                </div>
+                                <span class="evento-tempo">Agora</span>
+                            </div>
+
+                            <div class="evento-item">
+                                <div class="evento-icone alerta"><i class="bi bi-arrow-left-right"></i></div>
+                                <div class="evento-info">
+                                    <strong>Tráfego elevado</strong>
+                                    <span>Pico de 824 Mbps detectado</span>
+                                </div>
+                                <span class="evento-tempo">Há 18 min</span>
+                            </div>
+
+                            <div class="evento-item">
+                                <div class="evento-icone ok"><i class="bi bi-check-lg"></i></div>
+                                <div class="evento-info">
+                                    <strong>Verificação concluída</strong>
+                                    <span>Perda de pacotes dentro da meta</span>
+                                </div>
+                                <span class="evento-tempo">Há 42 min</span>
+                            </div>
+                        </div>
+                    </article>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
