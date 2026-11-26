@@ -25,12 +25,16 @@
                 <li><a href="inicio.html"><i class="bi bi-house"></i><span>Início</span></a></li>
                 <li><a href="dash_principal.html"><i class="bi bi-grid"></i><span>Visão geral</span></a></li>
                 <li><a href="maquinas.html"><i class="bi bi-display"></i><span>Máquinas</span></a></li>
-                <li class="ativo"><a href="especificacoes.html"><i class="bi bi-motherboard"></i><span>Especificações</span></a></li>
+                <li class="ativo"><a href="especificacoes.html"><i
+                            class="bi bi-motherboard"></i><span>Especificações</span></a></li>
                 <li><a href="suporte.html"><i class="bi bi-question-circle"></i><span>Suporte</span></a></li>
-                <li class="somente-gestor"><a href="funcionario.html"><i class="bi bi-person-plus"></i><span>Cadastro de funcionário</span></a></li>
-                <li class="somente-gestor"><a href="cadastro_cco.html"><i class="bi bi-building-add"></i><span>Cadastro de CCO</span></a></li>
+                <li class="somente-gestor"><a href="funcionario.html"><i class="bi bi-person-plus"></i><span>Cadastro de
+                            funcionário</span></a></li>
+                <li class="somente-gestor"><a href="cadastro_cco.html"><i class="bi bi-building-add"></i><span>Cadastro
+                            de CCO</span></a></li>
                 <li><a href="historico.html"><i class="bi bi-clock-history"></i><span>Histórico</span></a></li>
-                <li class="somente-gestor"><a href="configuracoes.html"><i class="bi bi-gear"></i><span>Configurações</span></a></li>
+                <li class="somente-gestor"><a href="configuracoes.html"><i
+                            class="bi bi-gear"></i><span>Configurações</span></a></li>
                 <li class="item-sair">
                     <a href="#" onclick="deslogar()">
                         <i class="bi bi-box-arrow-left"></i>
@@ -60,7 +64,8 @@
                         <span>INFRAESTRUTURA DE REDE</span>
                     </div>
                     <h1>Saúde da conexão</h1>
-                    <p id="subtitulo_maquina">Acompanhe o tráfego, a estabilidade e o comportamento preditivo dos links da estação.</p>
+                    <p id="subtitulo_maquina">Acompanhe o tráfego, a estabilidade e o comportamento preditivo dos links
+                        da estação.</p>
                 </div>
 
                 <div class="seletor-estacao-card">
@@ -70,9 +75,7 @@
                     <div class="seletor-estacao-conteudo">
                         <span class="seletor-label">Estação monitorada</span>
                         <select id="select_maquina" class="select-filtro" aria-label="Selecionar estação monitorada">
-                            <option value="1">ETA-SP01 &bull; SCADA01</option>
-                            <option value="2">ETA-SP01 &bull; IHM02</option>
-                            <option value="3">ETA-SP02 &bull; SRV01</option>
+                            <option value="">Carregando estações...</option>
                         </select>
                     </div>
                     <i class="bi bi-chevron-down seta-select"></i>
@@ -159,7 +162,9 @@
                     <article class="kpi">
                         <div class="kpi-topo">
                             <h3>Previsão de saturação</h3>
-                            <span class="kpi-icone icone-amber" title="Tempo estimado para o consumo atingir 100% da capacidade do link com base na regressão linear"><i class="bi bi-hourglass-split"></i></span>
+                            <span class="kpi-icone icone-amber"
+                                title="Tempo estimado para o consumo atingir 100% da capacidade do link com base na regressão linear"><i
+                                    class="bi bi-hourglass-split"></i></span>
                         </div>
 
                         <div class="kpi-valor">
@@ -198,7 +203,8 @@
                                 <span><i class="dot dot-entrada"></i> Entrada (Download)</span>
                                 <span><i class="dot dot-saida"></i> Saída (Upload)</span>
                             </div>
-                            <span class="info-pico">Pico de entrada <strong id="pico_entrada_valor">824 Mbps</strong></span>
+                            <span class="info-pico">Pico de entrada <strong id="pico_entrada_valor">824
+                                    Mbps</strong></span>
                         </div>
 
                         <div class="grafico-wrap">
@@ -229,7 +235,8 @@
                                 <div class="status-integridade" id="integridade_status_label">
                                     <span class="ponto-verde"></span> Excelente
                                 </div>
-                                <p id="integridade_descricao">Conexão estável e dentro dos parâmetros operacionais da ETA.</p>
+                                <p id="integridade_descricao">Conexão estável e dentro dos parâmetros operacionais da
+                                    ETA.</p>
                             </div>
                         </div>
 
@@ -244,7 +251,8 @@
                             </div>
                             <div class="spec-linha">
                                 <span class="spec-chave"><i class="bi bi-activity"></i> Estado do link</span>
-                                <strong class="spec-valor status-conectado" id="spec_estado"><span class="ponto-verde"></span> Conectado</strong>
+                                <strong class="spec-valor status-conectado" id="spec_estado"><span
+                                        class="ponto-verde"></span> Conectado</strong>
                             </div>
                         </div>
                     </article>
@@ -274,7 +282,8 @@
                         </div>
 
                         <footer class="card-rodape-info">
-                            <span><i class="bi bi-info-circle"></i> A reta tracejada indica a sensibilidade da latência conforme o aumento da carga.</span>
+                            <span><i class="bi bi-info-circle"></i> A reta tracejada indica a sensibilidade da latência
+                                conforme o aumento da carga.</span>
                             <span id="pico_latencia_dispersao">Pico: 142 ms</span>
                         </footer>
                     </article>
@@ -286,7 +295,8 @@
                                 <h2>Eventos recentes</h2>
                                 <p>Atividade registrada nesta estação</p>
                             </div>
-                            <a href="historico.html" class="link-ver-historico">Ver histórico <i class="bi bi-arrow-up-right"></i></a>
+                            <a href="historico.html" class="link-ver-historico">Ver histórico <i
+                                    class="bi bi-arrow-up-right"></i></a>
                         </header>
 
                         <div class="lista-eventos" id="lista_eventos_rede">

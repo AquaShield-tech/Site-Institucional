@@ -25,6 +25,7 @@ var ccoRouter = require("./src/routes/cco");
 var visaoGeralRouter = require("./src/routes/visaoGeral");
 var configuracaoRouter = require("./src/routes/configuracao");
 var historicoRouter = require("./src/routes/historico");
+var redeRouter = require("./src/routes/rede");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -43,6 +44,7 @@ app.use("/cco", ccoRouter);
 app.use("/visaoGeral", visaoGeralRouter);
 app.use("/configuracao", configuracaoRouter);
 app.use("/historico", historicoRouter);
+app.use("/rede", redeRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`
