@@ -176,7 +176,7 @@ function buscarAmostrasDispersao(idMaquina) {
 function buscarEventosRede(idMaquina) {
     var instrucaoSql = `
         SELECT 
-            la.id AS id_alerta,
+            l.id AS id_leitura,
             l.valor AS valor_medido,
             da.valor_limite AS valor_limite,
             med.unidade_medida,
