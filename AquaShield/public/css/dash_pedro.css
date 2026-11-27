@@ -1,26 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Inter', sans-serif;
 }
-/* Esconde os botões radio do filtro da tabela */
+
 input[type="radio"],
 #control-menu {
     display: none;
 }
+
 body {
     display: flex;
     min-height: 100vh;
     width: 100%;
     background-color: #f4f7f9;
     overflow: hidden;
-}
-
-input[type="radio"],
-#control-menu {
-    display: none;
 }
 
 .sidebar {
@@ -72,22 +69,66 @@ input[type="radio"],
     border-radius: 8px;
     font-size: 15px;
     transition: 0.2s;
-    margin-bottom: 8px
+    margin-bottom: 8px;
 }
 
-.sidebar ul li.ativo a {
-    background-color: #0d84b2;
-    color: white;
-}
-
+.sidebar ul li.ativo a,
 .sidebar ul li a:hover {
     background-color: #0d84b2;
     color: white;
 }
 
+.sidebar ul li a i {
+    font-size: 20px;
+    line-height: 1;
+}
+
 .item-sair {
-    margin-top: auto; /* Empurra este elemento para o final do espaço disponível */
+    margin-top: auto;
     margin-bottom: 0 !important;
+}
+
+.btn-menu {
+    display: flex;
+    align-items: center;
+    padding: 15px 18px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    color: #a9c0c9;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.2s;
+}
+
+.btn-menu:hover {
+    background-color: #0d84b2;
+    color: white;
+}
+
+.btn-menu i {
+    font-size: 20px;
+    line-height: 1;
+}
+
+#control-menu:checked ~ .sidebar {
+    width: 84px;
+    padding: 20px 10px;
+    overflow: hidden;
+}
+
+#control-menu:checked ~ .sidebar ul li a span,
+#control-menu:checked ~ .sidebar .logo {
+    display: none;
+}
+
+#control-menu:checked ~ .sidebar ul li a {
+    justify-content: center;
+    padding: 15px 0;
+    gap: 0;
+}
+
+#control-menu:checked ~ .sidebar .btn-menu {
+    margin-left: 0;
 }
 
 .area-direita {
@@ -108,14 +149,6 @@ input[type="radio"],
     border-bottom: 1px solid #e0e7eb;
 }
 
-.conteudo {
-    padding: 32px;
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
 .usuario {
     margin-left: auto;
     text-align: right;
@@ -133,77 +166,23 @@ input[type="radio"],
     color: #8294a2;
     font-size: 10px;
     margin-top: 4px;
-}   
-
-.btn-menu {
-    display: flex;
-    align-items: center;
-    padding: 15px 18px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    color: #a9c0c9;
-    cursor: pointer;
-    user-select: none;
-    transition: 0.2s;
 }
-
-.btn-menu i {
-    font-size: 20px;
-    line-height: 1;
-}
-
-#control-menu:checked ~ .sidebar {
-    width: 78px;
-    padding: 20px 10px;
-    overflow: hidden;
-}
-
-#control-menu:checked ~ .sidebar ul li a span {
-    display: none;
-}
-
-#control-menu:checked ~ .sidebar ul li a {
-    justify-content: center;
-    padding: 15px 0;
-    gap: 0;
-}
-
-#control-menu:checked ~ .sidebar .logo {
-    display: none;
-}  
-
-/* Menu recolhível: o checkbox #control-menu já existe no seu padrão */
-#control-menu:checked ~ .sidebar { width: 84px; }
-#control-menu:checked ~ .sidebar .btn-menu { margin-left: 0; }
-
-.btn-menu:hover { background-color: #0d84b2; color: white; }
-.sidebar ul li a i { font-size: 20px; line-height: 1; }
-
-/* Logo no cabeçalho (placeholder: troque pelo <img> do AquaShield) */
-.marca {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #073442;
-    font-weight: 700;
-    font-size: 15px;
-}
-.marca i { font-size: 30px; color: #0d84b2; line-height: 1; }
 
 .conteudo {
     flex: 1;
     min-height: 0;
-    overflow-y: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
-    padding: 12px 12px 12px;
+    gap: 16px;
+    padding: 20px;
     color: #112d40;
 }
 
 .titulo-pagina {
     font-size: 18px;
     font-weight: 600;
-    margin-bottom: 8px;
 }
 
 .card {
@@ -218,33 +197,52 @@ input[type="radio"],
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
-    margin-bottom: 12px;
 }
+
 .indicador {
-    padding: 10px 18px;
+    padding: 12px 18px;
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: baseline;
     column-gap: 12px;
 }
-.indicador h3 { grid-column: 1 / -1; font-size: 12px; font-weight: 500; color: #5b707d; margin-bottom: 2px; }
-.indicador .valor { font-size: 24px; font-weight: 600; line-height: 1.1; }
-.indicador p { font-size: 12px; color: #112d40; }
+
+.indicador h3 {
+    grid-column: 1 / -1;
+    font-size: 12px;
+    font-weight: 500;
+    color: #5b707d;
+    margin-bottom: 4px;
+}
+
+.indicador .valor {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.indicador p {
+    font-size: 12px;
+    color: #112d40;
+}
+
 .valor.critico { color: #c9141c; }
 .valor.ok { color: #1c8a3e; }
 .valor.neutro { color: #073442; }
 
 /* Linha dos gráficos */
 .graficos {
-    flex: 1;
-    min-height: 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: minmax(0, 1fr);
     gap: 16px;
+    min-height: 360px;
 }
 
-.card-grafico { display: flex; flex-direction: column; min-height: 0; }
+.card-grafico {
+    display: flex;
+    flex-direction: column;
+    min-height: 360px;
+}
 
 .card-topo {
     display: flex;
@@ -254,11 +252,18 @@ input[type="radio"],
     gap: 10px;
     margin-bottom: 14px;
 }
-.card-topo h2 { font-size: 17px; font-weight: 600; }
 
-.controles { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.card-topo h2 {
+    font-size: 17px;
+    font-weight: 600;
+}
 
-.filtros button:focus-visible { outline: 2px solid #46bdd8; outline-offset: 2px; }
+.controles {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
 
 .filtros {
     display: flex;
@@ -266,6 +271,7 @@ input[type="radio"],
     border-radius: 8px;
     padding: 3px;
 }
+
 .filtros button {
     border: 0;
     background: transparent;
@@ -276,13 +282,36 @@ input[type="radio"],
     cursor: pointer;
     transition: 0.2s;
 }
-.filtros button.ativo { background: #0d84b2; color: white; }
 
-.area-canvas { position: relative; flex: 1; min-height: 0; overflow: hidden; }
+.filtros button:focus-visible {
+    outline: 2px solid #46bdd8;
+    outline-offset: 2px;
+}
+
+.filtros button.ativo {
+    background: #0d84b2;
+    color: white;
+}
+
+.area-canvas {
+    position: relative;
+    flex: 1;
+    min-height: 240px;
+    overflow: hidden;
+}
 
 /* Previsão: gráfico + cartão de recomendação */
-.previsao-corpo { display: flex; gap: 14px; flex: 1; min-height: 0; }
-.previsao-corpo .area-canvas { flex: 1; min-width: 0; }
+.previsao-corpo {
+    display: flex;
+    gap: 14px;
+    flex: 1;
+    min-height: 0;
+}
+
+.previsao-corpo .area-canvas {
+    flex: 1;
+    min-width: 0;
+}
 
 .aviso {
     width: 170px;
@@ -295,13 +324,34 @@ input[type="radio"],
     font-size: 12.5px;
     line-height: 1.45;
 }
-.aviso i { display: block; font-size: 24px; color: #c9141c; margin-bottom: 8px; line-height: 1; }
-.aviso p + p { margin-top: 8px; }
-.aviso.estavel { border-left-color: #1c8a3e; }
-.aviso.estavel i { color: #1c8a3e; }
 
-.nota-modelo { margin-top: 10px; font-size: 11px; color: #8294a2; }
+.aviso i {
+    display: block;
+    font-size: 24px;
+    color: #c9141c;
+    margin-bottom: 8px;
+    line-height: 1;
+}
 
+.aviso p + p {
+    margin-top: 8px;
+}
+
+.aviso.estavel {
+    border-left-color: #1c8a3e;
+}
+
+.aviso.estavel i {
+    color: #1c8a3e;
+}
+
+.nota-modelo {
+    margin-top: 10px;
+    font-size: 11px;
+    color: #8294a2;
+}
+
+/* Responsividade (Tablet e Mobile) */
 @media (min-width: 1101px) and (min-height: 640px) {
     .conteudo {
         overflow-y: hidden;
@@ -319,18 +369,45 @@ input[type="radio"],
 }
 
 @media (max-width: 1100px) {
-    .conteudo { overflow-y: auto; }
-    .graficos { grid-template-columns: 1fr; grid-template-rows: none; }
-    .card-grafico { height: 460px; }
-}
-@media (max-width: 700px) {
-    .indicadores { grid-template-columns: 1fr; }
-    .previsao-corpo { flex-direction: column; }
-    .aviso { width: 100%; }
+    .graficos {
+        grid-template-columns: 1fr;
+    }
+    .card-grafico {
+        height: 400px;
+    }
 }
 
-/* responsividade */
+@media (max-width: 700px) {
+    .sidebar {
+        width: 68px;
+        padding: 16px 8px;
+    }
+    .sidebar ul li a span {
+        display: none;
+    }
+    .sidebar ul li a {
+        justify-content: center;
+        padding: 12px 0;
+    }
+    .header {
+        padding: 0 16px;
+    }
+    .conteudo {
+        padding: 14px;
+    }
+    .indicadores {
+        grid-template-columns: 1fr;
+    }
+    .previsao-corpo {
+        flex-direction: column;
+    }
+    .aviso {
+        width: 100%;
+    }
+}
 
 @media (prefers-reduced-motion: reduce) {
-    * { transition: none !important; }
-} 
+    * {
+        transition: none !important;
+    }
+}
