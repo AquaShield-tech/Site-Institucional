@@ -302,6 +302,22 @@ input[type="radio"],
 
 .nota-modelo { margin-top: 10px; font-size: 11px; color: #8294a2; }
 
+@media (min-width: 1101px) and (min-height: 640px) {
+    .conteudo {
+        overflow-y: hidden;
+    }
+
+    .graficos {
+        flex: 1;
+        min-height: 0;
+    }
+
+    .card-grafico,
+    .area-canvas {
+        min-height: 0;
+    }
+}
+
 @media (max-width: 1100px) {
     .conteudo { overflow-y: auto; }
     .graficos { grid-template-columns: 1fr; grid-template-rows: none; }
