@@ -25,10 +25,13 @@
                 <li><a href="dash_principal.html"><i class="bi bi-grid"></i><span>Visão geral</span></a></li>
                 <li><a href="maquinas.html"><i class="bi bi-display"></i><span>Máquinas</span></a></li>
                 <li><a href="suporte.html"><i class="bi bi-question-circle"></i><span>Suporte</span></a></li>
-                <li class="somente-gestor"><a href="funcionario.html"><i class="bi bi-person-plus"></i><span>Cadastro de funcionario</span></a></li>
-                <li class="somente-gestor"><a href="cadastro_cco.html"><i class="bi-building-add"></i><span>Cadastro de CCO</span></a></li>
+                <li class="somente-gestor"><a href="funcionario.html"><i class="bi bi-person-plus"></i><span>Cadastro de
+                            funcionario</span></a></li>
+                <li class="somente-gestor"><a href="cadastro_cco.html"><i class="bi-building-add"></i><span>Cadastro de
+                            CCO</span></a></li>
                 <li><a href="historico.html"><i class="bi bi-clock-history"></i><span>Histórico</span></a></li>
-                <li class="somente-gestor"><a href="configuracoes.html"><i class="bi bi-gear"></i><span>Configurações</span></a></li>
+                <li class="somente-gestor"><a href="configuracoes.html"><i
+                            class="bi bi-gear"></i><span>Configurações</span></a></li>
                 <li class="item-sair">
                     <a href="#" onclick="deslogar()">
                         <i class="bi bi-box-arrow-left"></i>
@@ -54,24 +57,28 @@
             </div>
         </header>
 
-        <div class="conteudo_suporte" style="display: flex !important; justify-content: center !important; align-items: center !important; flex: 1 !important; height: calc(100vh - 66px) !important;">
+        <div class="conteudo_suporte"
+            style="display: flex !important; justify-content: center !important; align-items: center !important; flex: 1 !important; height: calc(100vh - 66px) !important;">
             <div class="card_suporte">
 
                 <div class="pessoa-headset">
                     <i class="bi bi-headset"></i>
                 </div>
-                    
+
                 <h2>Suporte AquaShield</h2>
                 <span>O acompanhamento de solicitações e chamados é realizado no Jira.
                     Ao continuar, você será redirecionado para o ambiente de suporte do Jira.</span>
 
-                <button>Ir para o suporte no Jira <i class="bi bi-arrow-up-right-square"></i></button>
+                <button onclick="window.open('https://aquashield.atlassian.net/jira/software/form/6b26fb65-48ed-4986-84a4-eb734571e6dc?atlOrigin=eyJpIjoiNWQ0ZmY5NjBlN2Q2NDAzMDg4MjE2Mjc5YjI5ZWFjMzkiLCJwIjoiaiJ9', 'noopener,noreferrer')">
+                    Ir para o suporte no Jira <i class="bi bi-arrow-up-right-square"></i>
+                </button>
 
                 <p>Você sairá do AquaShield e será redirecionado para outro ambiente.</p>
             </div>
         </div>
     </div>
-            
+
 </body>
 <script src="./js/sessao.js"></script>
+
 </html>
